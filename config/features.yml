@@ -1,0 +1,3 @@
+reference:
+    dna: resources/reference/2R.fa.gz
+    annotation: resources/reference/2R.gff3.gz
