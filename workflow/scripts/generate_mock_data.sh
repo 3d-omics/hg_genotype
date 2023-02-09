@@ -27,7 +27,6 @@ bcftools index ggal.vcf.gz
 # Slice the 1st Mbp from chromosome 1
 samtools faidx ggal.fa.gz 1:1-1000000 | sed "s/1:1-1000000/1/g" | bgzip --threads 8 > ggal.mock.fa.gz
 bcftools view ggal.vcf.gz 1:1-1000000 | bgzip --threads 8 > ggal.mock.vcf.gz
-bcftools view -H ggal.vcf.gz | sed 's/\<ID=1>/<ID=1:1-1000000>/g'
 
 
 popd
