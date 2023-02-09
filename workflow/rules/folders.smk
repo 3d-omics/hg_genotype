@@ -1,6 +1,7 @@
-CONDA = "workflow/envs"
-
-READS = "results/reads"
-FASTP = "results/fastp"
-BOWTIE2 = "results/bowtie2"
-GATK = "results/gatk"
+READS = "results/reads/"
+REFERENCE = "results/reference/"
+FASTP = "results/fastp/"
+BOWTIE2 = "results/bowtie2/"
+PICARD = "results/picard/"
+GATK = "results/gatk/"
+SNPEFF = "results/snpeff/"
