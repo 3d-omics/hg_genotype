@@ -3,21 +3,21 @@ rule gatk4_base_recalibrator:
     TODO: add known sites
     """
     input:
-        bam=PICARD + "{sample}.{library}.bam",
-        bai=PICARD + "{sample}.{library}.bam.bai",
-        reference=REFERENCE + "genome.fa.gz",
-        dict_=REFERENCE + "genome.dict",
-        known_sites=REFERENCE + "known_variants.vcf.gz",
-        csi=REFERENCE + "known_variants.vcf.gz.tbi",
+        bam=PICARD / "{sample}.{library}.bam",
+        bai=PICARD / "{sample}.{library}.bam.bai",
+        reference=REFERENCE / "genome.fa.gz",
+        dict_=REFERENCE / "genome.dict",
+        known_sites=REFERENCE / "known_variants.vcf.gz",
+        csi=REFERENCE / "known_variants.vcf.gz.tbi",
     output:
-        table=GATK + "{sample}.{library}.base_recalibrator.txt",
+        table=GATK / "{sample}.{library}.base_recalibrator.txt",
     log:
-        GATK + "{sample}.{library}.base_recalibrator.log",
+        GATK / "{sample}.{library}.base_recalibrator.log",
     conda:
         "../envs/gatk4.yml"
-    params:
-        extra="",  # TODO: get from params.yaml
-        java_options="",  # TODO: get from params.yaml
+    params:  # TODO: get from params.yaml
+        extra="",
+        java_options="",
     threads: 1
     shell:
         """
@@ -34,20 +34,20 @@ rule gatk4_base_recalibrator_all:
     """Collect fasqtc reports from the results of fastp"""
     input:
         [
-            GATK + f"{sample}.{library}.base_recalibrator.txt"
+            GATK / f"{sample}.{library}.base_recalibrator.txt"
             for sample, library in SAMPLE_LIB
         ],
 
 
 rule gatk4_apply_bqsr:
     input:
-        bam=PICARD + "{sample}.{library}.bam",
-        reference=REFERENCE + "genome.fa.gz",
-        table=GATK + "{sample}.{library}.base_recalibrator.txt",
+        bam=PICARD / "{sample}.{library}.bam",
+        reference=REFERENCE / "genome.fa.gz",
+        table=GATK / "{sample}.{library}.base_recalibrator.txt",
     output:
-        bam=GATK + "{sample}.{library}.bqsr.bam",
+        bam=GATK / "{sample}.{library}.bqsr.bam",
     log:
-        GATK + "{sample}.{library}.apply_bqsr.log",
+        GATK / "{sample}.{library}.apply_bqsr.log",
     conda:
         "../envs/gatk4.yml"
     params:
@@ -66,7 +66,7 @@ rule gatk4_apply_bqsr:
 rule gatk4_apply_bqsr_all:
     """Collect fasqtc reports from the results of fastp"""
     input:
-        [GATK + f"{sample}.{library}.bqsr.bam" for sample, library in SAMPLE_LIB],
+        [GATK / f"{sample}.{library}.bqsr.bam" for sample, library in SAMPLE_LIB],
 
 
 # rule gatk4_analyze_covariates:  # TODO
@@ -76,12 +76,12 @@ rule gatk4_apply_bqsr_all:
 
 rule gatk4_haplotype_caller:  # TODO: parallelize this?
     input:
-        reference=REFERENCE + "genome.fa.gz",
-        bam=GATK + "{sample}.{library}.bqsr.bam",
+        reference=REFERENCE / "genome.fa.gz",
+        bam=GATK / "{sample}.{library}.bqsr.bam",
     output:
-        gvcf_gz=GATK + "{sample}.{library}.haplotype_caller.gvcf.gz",
+        gvcf_gz=GATK / "{sample}.{library}.haplotype_caller.gvcf.gz",
     log:
-        GATK + "{sample}.{library}.haplotype_caller.log",
+        GATK / "{sample}.{library}.haplotype_caller.log",
     conda:
         "../envs/gatk4.yml"
     shell:
@@ -98,24 +98,9 @@ rule gatk4_haplotype_caller:  # TODO: parallelize this?
 rule gatk4_haplotype_caller_all:
     input:
         [
-            GATK + f"{sample}.{library}.haplotype_caller.gvcf.gz"
+            GATK / f"{sample}.{library}.haplotype_caller.gvcf.gz"
             for sample, library in SAMPLE_LIB
         ],
-
-
-def get_files_to_genotype(wildcards):
-    return [
-        GATK + f"{sample}.{library}.haplotype_caller.gvcf.gz"
-        for sample, library in SAMPLE_LIB
-    ]
-
-
-def compose_v_line(wildcards):
-    files = [
-        GATK + f"{sample}.{library}.haplotype_caller.gvcf.gz"
-        for sample, library in SAMPLE_LIB
-    ]
-    return " --variant " + " --variant ".join(files)
 
 
 # TODO: I think here comes the GenomicsDBImport step
@@ -124,11 +109,11 @@ def compose_v_line(wildcards):
 rule gatk4_combine_gvcfs:
     input:
         vcf_gzs=get_files_to_genotype,
-        reference=REFERENCE + "genome.fa.gz",
+        reference=REFERENCE / "genome.fa.gz",
     output:
-        vcf_gz=GATK + "joint_variants.vcf.gz",
+        vcf_gz=GATK / "joint_variants.vcf.gz",
     log:
-        GATK + "joint_variants.log",
+        GATK / "joint_variants.log",
     conda:
         "../envs/gatk4.yml"
     params:
@@ -145,12 +130,12 @@ rule gatk4_combine_gvcfs:
 
 rule gatk4_genotype_gvcfs:
     input:
-        vcf_gz=GATK + "joint_variants.vcf.gz",
-        reference=REFERENCE + "genome.fa.gz",
+        vcf_gz=GATK / "joint_variants.vcf.gz",
+        reference=REFERENCE / "genome.fa.gz",
     output:
-        vcf_gz=GATK + "genotyped_variants.vcf.gz",
+        vcf_gz=GATK / "genotyped_variants.vcf.gz",
     log:
-        GATK + "genotyped_variants.log",
+        GATK / "genotyped_variants.log",
     conda:
         "../envs/gatk4.yml"
     shell:
@@ -175,12 +160,12 @@ rule gatk4_genotype_gvcfs:
 
 rule gatk4_calculate_genotype_posteriors:
     input:
-        vcf=GATK + "genotyped_variants.vcf.gz",
-        reference=REFERENCE + "genome.fa.gz",
+        vcf=GATK / "genotyped_variants.vcf.gz",
+        reference=REFERENCE / "genome.fa.gz",
     output:
-        vcf=GATK + "variants_posteriors.vcf.gz",
+        vcf=GATK / "variants_posteriors.vcf.gz",
     log:
-        GATK + "variants_posteriors.log",
+        GATK / "variants_posteriors.log",
     conda:
         "../envs/gatk4.yml"
     shell:
@@ -195,12 +180,12 @@ rule gatk4_calculate_genotype_posteriors:
 
 rule gatk4_variant_filtration:
     input:
-        reference=REFERENCE + "genome.fa.gz",
-        vcf=GATK + "variants_posteriors.vcf.gz",
+        reference=REFERENCE / "genome.fa.gz",
+        vcf=GATK / "variants_posteriors.vcf.gz",
     output:
-        vcf=GATK + "variants_filtered.vcf.gz",
+        vcf=GATK / "variants_filtered.vcf.gz",
     log:
-        GATK + "variants_filtered.log",
+        GATK / "variants_filtered.log",
     conda:
         "../envs/gatk4.yml"
     params:
@@ -218,12 +203,6 @@ rule gatk4_variant_filtration:
         """
 
 
-def compose_input_bqsr_bams(wildcards):
-    bams = [GATK + f"{sample}.{library}.bqsr.bam" for sample, library in SAMPLE_LIB]
-    result = "".join(f"--input {bam} " for bam in bams)
-    return result
-
-
 rule gatk4_variant_annotator:
     """
     Right now this step is useless
@@ -232,22 +211,21 @@ rule gatk4_variant_annotator:
     TODO: add to params the annotations we want
     """
     input:
-        bams=[GATK + f"{sample}.{library}.bqsr.bam" for sample, library in SAMPLE_LIB],
+        bams=[GATK / f"{sample}.{library}.bqsr.bam" for sample, library in SAMPLE_LIB],
         bais=[
-            GATK + f"{sample}.{library}.bqsr.bam.bai" for sample, library in SAMPLE_LIB
+            GATK / f"{sample}.{library}.bqsr.bam.bai" for sample, library in SAMPLE_LIB
         ],
-        vcf=GATK + "variants_filtered.vcf.gz",
-        reference=REFERENCE + "genome.fa.gz",
-        reference_vcf=REFERENCE + "known_variants.vcf.gz",
+        vcf=GATK / "variants_filtered.vcf.gz",
+        reference=REFERENCE / "genome.fa.gz",
+        reference_vcf=REFERENCE / "known_variants.vcf.gz",
     output:
-        vcf=GATK + "variants_annotated.vcf.gz",
+        vcf=GATK / "variants_annotated.vcf.gz",
     log:
-        GATK + "variants_annotated.log",
+        GATK / "variants_annotated.log",
     conda:
         "../envs/gatk4.yml"
-    params:
+    params:  # TODO: add annotations that we want
         input_bam=compose_input_bqsr_bams,
-        # annotations =  # TODO: add annotations that we want
     shell:
         """
         gatk VariantAnnotator \
@@ -265,27 +243,18 @@ rule gatk4_variant_annotator:
 # rule gatk4_funcotator
 
 
-# def compose_cnn_input_bams(wildcards):
-#     bams = [
-#         GATK + f"{sample}.{library}.bqsr.bam"
-#         for sample, library in SAMPLE_LIB
-#     ]
-#     result = "".join(f"--input {bam} " for bam in bams)
-#     return result
-
-
 # rule gatk_cnn_score_variants:
 #     input:
 #         bams = [
-#             GATK + f"{sample}.{library}.bqsr.bam"
+#             GATK / f"{sample}.{library}.bqsr.bam"
 #             for sample, library in SAMPLE_LIB
 #         ],
 #         # TODO: add .bais here
-#         reference = REFERENCE + "genome.fa.gz",
-#         vcf =  GATK + "genotyped_variants.vcf.gz"
+#         reference = REFERENCE / "genome.fa.gz",
+#         vcf =  GATK / "genotyped_variants.vcf.gz"
 #     output:
-#         vcf =  GATK + "annotated_variants.vcf.gz"
-#     log:   GATK + "annotated_variants.log"
+#         vcf =  GATK / "annotated_variants.vcf.gz"
+#     log:   GATK / "annotated_variants.log"
 #     conda: "../envs/gatk4.yml"
 #     params:
 #         input_bams = compose_cnn_input_bams
@@ -308,7 +277,7 @@ rule gatk4_all:
         # rules.gatk4_haplotype_caller_all.input,
         # rules.gatk4_combine_gvcfs.output,
         # rules.gatk4_genotype_gvcfs.output,
-        # GATK + "genotyped_variants.vcf.gz",
-        # GATK + "variants_posteriors.vcf.gz",
-        # GATK + "variants_filtered.vcf.gz",
-        GATK + "variants_annotated.vcf.gz",
+        # GATK / "genotyped_variants.vcf.gz",
+        # GATK / "variants_posteriors.vcf.gz",
+        # GATK / "variants_filtered.vcf.gz",
+        GATK / "variants_annotated.vcf.gz",

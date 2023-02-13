@@ -55,6 +55,8 @@ rule vcf_gz_tbi:
         "{prefix}.vcf.gz",
     output:
         "{prefix}.vcf.gz.tbi",
+    log:
+        "{prefix}.vcf.gz.tbi.log",
     conda:
         "../envs/samtools.yml"
     shell:
@@ -66,6 +68,8 @@ rule vcf_gz:
         "{prefix}.vcf",
     output:
         "{prefix}.vcf.gz",
+    log:
+        "{prefix}.vcf.gz.log",
     conda:
         "../envs/samtools.yml"
     shell:

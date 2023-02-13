@@ -1,17 +1,17 @@
 rule fastp:
     """Run fastp in default mode"""
     input:
-        forward_=READS + "{sample}.{library}_1.fq.gz",
-        reverse_=READS + "{sample}.{library}_2.fq.gz",
+        forward_=READS / "{sample}.{library}_1.fq.gz",
+        reverse_=READS / "{sample}.{library}_2.fq.gz",
     output:
-        forward_=FASTP + "{sample}.{library}_1.fq.gz",
-        reverse_=FASTP + "{sample}.{library}_2.fq.gz",
-        unpaired1=FASTP + "{sample}.{library}_u1.fq.gz",
-        unpaired2=FASTP + "{sample}.{library}_u2.fq.gz",
-        html=FASTP + "{sample}.{library}.html",
-        json=FASTP + "{sample}.{library}.json",
+        forward_=FASTP / "{sample}.{library}_1.fq.gz",
+        reverse_=FASTP / "{sample}.{library}_2.fq.gz",
+        unpaired1=FASTP / "{sample}.{library}_u1.fq.gz",
+        unpaired2=FASTP / "{sample}.{library}_u2.fq.gz",
+        html=FASTP / "{sample}.{library}.html",
+        json=FASTP / "{sample}.{library}.json",
     log:
-        FASTP + "{sample}.{library}.log",
+        FASTP / "{sample}.{library}.log",
     params:
         adapter_forward="ACGGCTAGCTA",  # TODO: get from samples.tsv
         adapter_reverse="AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",  # TODO: get from samples.tsv
@@ -44,7 +44,7 @@ rule fastp_all_samples:
     """Collect fastp files"""
     input:
         [
-            FASTP + f"{sample}.{library}_{end}.fq.gz"
+            FASTP / f"{sample}.{library}_{end}.fq.gz"
             for sample, library in SAMPLE_LIB
             for end in "1 2 u1 u2".split(" ")
         ],
@@ -54,7 +54,7 @@ rule fastp_fastqc:
     """Collect fasqtc reports from the results of fastp"""
     input:
         [
-            FASTP + f"{sample}.{library}_{end}_fastqc.html"
+            FASTP / f"{sample}.{library}_{end}_fastqc.html"
             for sample, library in SAMPLE_LIB
             for end in "1 2 u1 u2".split(" ")
         ],

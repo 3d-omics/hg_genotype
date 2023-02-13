@@ -3,9 +3,9 @@ rule reference_recompress_genome:
     input:
         fa_gz=features["reference"]["dna"],
     output:
-        fa_gz=REFERENCE + "genome.fa.gz",
+        fa_gz=REFERENCE / "genome.fa.gz",
     log:
-        REFERENCE + "genome.log",
+        REFERENCE / "genome.log",
     conda:
         "../envs/samtools.yml"
     threads: 8
@@ -28,9 +28,9 @@ rule reference_recompress_vcf:
     input:
         vcf_gz=features["reference"]["known_vcf"],
     output:
-        vcf_gz=REFERENCE + "known_variants.vcf.gz",
+        vcf_gz=REFERENCE / "known_variants.vcf.gz",
     log:
-        REFERENCE + "known_variants.log",
+        REFERENCE / "known_variants.log",
     conda:
         "../envs/samtools.yml"
     threads: 8

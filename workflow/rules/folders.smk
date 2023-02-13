@@ -1,7 +1,7 @@
-READS = "results/reads/"
-REFERENCE = "results/reference/"
-FASTP = "results/fastp/"
-BOWTIE2 = "results/bowtie2/"
-PICARD = "results/picard/"
-GATK = "results/gatk/"
-SNPEFF = "results/snpeff/"
+READS = Path("results/reads/")
+REFERENCE = Path("results/reference/")
+FASTP = Path("results/fastp/")
+BOWTIE2 = Path("results/bowtie2/")
+PICARD = Path("results/picard/")
+GATK = Path("results/gatk/")
+SNPEFF = Path("results/snpeff/")
