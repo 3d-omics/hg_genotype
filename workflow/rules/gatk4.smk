@@ -44,6 +44,7 @@ rule gatk4_apply_bqsr:
         bam=PICARD / "{sample}.{library}.bam",
         reference=REFERENCE / "genome.fa.gz",
         table=GATK / "{sample}.{library}.base_recalibrator.txt",
+        dict_=REFERENCE / "genome.dict",
     output:
         bam=GATK / "{sample}.{library}.bqsr.bam",
     log:
