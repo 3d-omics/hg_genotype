@@ -79,6 +79,7 @@ rule gatk4_haplotype_caller:  # TODO: parallelize this?
     input:
         reference=REFERENCE / "genome.fa.gz",
         bam=GATK / "{sample}.{library}.bqsr.bam",
+        dict_=REFERENCE / "genome.dict",
     output:
         gvcf_gz=GATK / "{sample}.{library}.haplotype_caller.gvcf.gz",
     log:
