@@ -49,6 +49,6 @@ jobs:
     - name: Test report
       uses: snakemake/snakemake-github-action@v1.24.0
       with:
-        directory: .test
+        directory: .
         snakefile: workflow/Snakefile
         args: "--report report.zip"
