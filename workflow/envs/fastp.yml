@@ -1,0 +1,8 @@
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - fastp =0.23.2
+  - fastqc =0.11.9
+  - multiqc =1.14
