@@ -112,6 +112,7 @@ rule gatk4_combine_gvcfs:
     input:
         vcf_gzs=get_files_to_genotype,
         reference=REFERENCE / "genome.fa.gz",
+        dict_=REFERENCE / "genome.dict",
     output:
         vcf_gz=GATK / "joint_variants.vcf.gz",
     log:
@@ -134,6 +135,7 @@ rule gatk4_genotype_gvcfs:
     input:
         vcf_gz=GATK / "joint_variants.vcf.gz",
         reference=REFERENCE / "genome.fa.gz",
+        dict_=REFERENCE / "genome.dict",
     output:
         vcf_gz=GATK / "genotyped_variants.vcf.gz",
     log:
@@ -164,6 +166,7 @@ rule gatk4_calculate_genotype_posteriors:
     input:
         vcf=GATK / "genotyped_variants.vcf.gz",
         reference=REFERENCE / "genome.fa.gz",
+        dict_=REFERENCE / "genome.dict",
     output:
         vcf=GATK / "variants_posteriors.vcf.gz",
     log:
@@ -183,6 +186,7 @@ rule gatk4_calculate_genotype_posteriors:
 rule gatk4_variant_filtration:
     input:
         reference=REFERENCE / "genome.fa.gz",
+        dict_=REFERENCE / "genome.dict",
         vcf=GATK / "variants_posteriors.vcf.gz",
     output:
         vcf=GATK / "variants_filtered.vcf.gz",
@@ -219,6 +223,7 @@ rule gatk4_variant_annotator:
         ],
         vcf=GATK / "variants_filtered.vcf.gz",
         reference=REFERENCE / "genome.fa.gz",
+        dict_=REFERENCE / "genome.dict",
         reference_vcf=REFERENCE / "known_variants.vcf.gz",
     output:
         vcf=GATK / "variants_annotated.vcf.gz",
