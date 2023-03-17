@@ -21,23 +21,39 @@ wget \
 
 
 # Recompress with bgzip
-gzip --decompress --stdout Gallus_gallus.bGalGal1.mat.broiler.GRCg7b.dna.primary_assembly.1.fa.gz | bgzip --threads 8 > ggal.fa.gz
-gzip --decompress --stdout gallus_gallus.vcf.gz | bgzip --threads 8 > ggal.vcf.gz
+gzip \
+    --decompress \
+    --stdout \
+    Gallus_gallus.bGalGal1.mat.broiler.GRCg7b.dna.primary_assembly.1.fa.gz \
+| bgzip --threads 8 \
+> ggal.fa.gz
+
+gzip \
+    --decompress \
+    --stdout \
+    gallus_gallus.vcf.gz \
+| bgzip --threads 8 \
+> ggal.vcf.gz
 
 # Index
 samtools faidx ggal.fa.gz
 bcftools index ggal.vcf.gz
 
 # Slice the 1st Mbp from chromosome 1
-samtools faidx ggal.fa.gz "$genome_region" | sed "s/$genome_region/1/g" | bgzip --threads 8 > ggal.mock.fa.gz
-bcftools view ggal.vcf.gz "$genome_region" | bgzip --threads 8 > ggal.mock.vcf.gz
+samtools faidx ggal.fa.gz "$genome_region" \
+| sed "s/$genome_region/1/g" \
+| bgzip --threads 8 \
+> ggal.mock.fa.gz
+
+bcftools view ggal.vcf.gz "$genome_region" \
+| bgzip --threads 8 \
+> ggal.mock.vcf.gz
 
 
 popd
 
 
 # Simulate reads with wgsim. Different seed means different individuals
-
 for individual in sample{1..2}; do
 
     wgsim \
