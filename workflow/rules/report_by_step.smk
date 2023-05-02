@@ -86,9 +86,31 @@ rule reports_step_picard:
         """
 
 
+rule reports_step_gatk4_baserecalibrator:
+    input:
+        rules.gatk4_base_recalibrator_all.input,
+    output:
+        html=REPORTS_BY_STEP / "gatk4.html",
+    log:
+        REPORTS_BY_STEP / "gatk4.log",
+    conda:
+        "../envs/report.yml"
+    params:
+        dir=REPORTS_BY_STEP,
+    shell:
+        """
+        multiqc \
+            --filename gatk4 \
+            --outdir {params.dir} \
+            {input} \
+        2> {log} 1>&2
+        """
+
+
 rule reports_step:
     input:
         rules.reports_step_reads.output,
         rules.reports_step_fastp.output,
         rules.reports_step_bowtie2.output,
         rules.reports_step_picard.output,
+        rules.reports_step_gatk4_baserecalibrator.output,
