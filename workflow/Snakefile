@@ -47,5 +47,10 @@ rule all:
         # rules.picard.input,
         # rules.gatk4_all.input,
         rules.snpeff.input,
-        # rules.report_by_sample.input,
         rules.reports_step.input,
+        # rules.report_by_sample.input,
+
+
+rule clean:
+    shell:
+        "rm -rf results reports"
