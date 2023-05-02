@@ -3,4 +3,5 @@ reference:
     known_vcf: resources/reference/ggal.mock.vcf.gz
 
 snpeff:
-    genome: GRCg6a.105  # check yours with snpEff databases
+    genome:
+        - GRCg6a.105  # check yours with snpEff databases

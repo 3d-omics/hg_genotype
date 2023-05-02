@@ -1,6 +1,6 @@
 rule bowtie2_build:
     input:
-        ref=REFERENCE / "genome.fa.gz",
+        reference=REFERENCE / "genome.fa.gz",
     output:
         multiext(
             f"{REFERENCE}/genome",
@@ -13,11 +13,21 @@ rule bowtie2_build:
         ),
     log:
         BOWTIE2 / "build.log",
+    conda:
+        "../envs/bowtie2.yml"
     params:
+        output_path=REFERENCE / "genome",
         extra="",  # optional parameters
     threads: 8
-    wrapper:
-        "v1.23.1/bio/bowtie2/build"
+    shell:
+        """
+        bowtie2-build \
+            --threads {threads} \
+            {params.extra} \
+            {input.reference} \
+            {params.output_path} \
+        2> {log} 1>&2
+        """
 
 
 rule bowtie2_map:

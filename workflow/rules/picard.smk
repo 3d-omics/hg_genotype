@@ -4,7 +4,7 @@ rule picard_markduplicates:
         reference=REFERENCE / "genome.fa.gz",
     output:
         bam=PICARD / "{sample}.{library}.bam",
-        metrics=PICARD / "{sample}.{library}.txt",
+        metrics=PICARD / "{sample}.{library}.metrics.tsv",
     log:
         PICARD / "{sample}.{library}.log",
     conda:
@@ -28,3 +28,12 @@ rule picard_markduplicates:
 rule picard:
     input:
         [PICARD / f"{sample}.{library}.bam" for sample, library in SAMPLE_LIB],
+
+
+rule picard_reports:
+    input:
+        [
+            PICARD / f"{sample}.{library}.{report}"
+            for sample, library in SAMPLE_LIB
+            for report in "stats.tsv flagstats.txt idxstats.tsv metrics.tsv".split()
+        ],
