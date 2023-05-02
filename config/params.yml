@@ -1,12 +1,43 @@
 max_threads: 96
 
 fastp:
-  extra_args: ""
+  extra: ""
 
 bowtie2:
+  extra: ""
+  samtools:
+    mem_per_thread: 1G
 
 picard:
 
 gatk4:
+  base_recalibrator:
+    java_mem: ""
+    extra: ""
+  apply_bqsr:
+    java_mem: ""
+    extra: ""
+  haplotype_caller:
+    java_mem: ""
+    extra: ""
+  combine_gvcfs:
+    java_mem: ""
+    extra: ""
+  genotype_gvcfs:
+    java_mem: ""
+    extra: ""
+  calculate_genotype_posteriors:
+    java_mem: ""
+    extra: ""
+  variant_filtration:
+    java_mem: ""
+    extra: ""
+    filter_name: "HardFilter"
+    filter_expression:
+      "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0"
+  variant_annotation:
+    java_mem: ""
+    extra: ""
+    annotations: Coverage
 
 snpeff:

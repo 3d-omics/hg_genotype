@@ -46,13 +46,11 @@ rule gatk4_apply_bqsr:
         table=GATK / "{sample}.{library}.base_recalibrator.txt",
         dict_=REFERENCE / "genome.dict",
     output:
-        bam=GATK / "{sample}.{library}.bqsr.bam",
+        bam=protected(GATK / "{sample}.{library}.bqsr.bam"),
     log:
-        GATK / "{sample}.{library}.apply_bqsr.log",
+        GATK / "{sample}.{library}.bqsr.log",
     conda:
         "../envs/gatk4.yml"
-    params:
-        None,
     shell:
         """
         gatk ApplyBQSR \
@@ -195,8 +193,8 @@ rule gatk4_variant_filtration:
     conda:
         "../envs/gatk4.yml"
     params:
-        filter_name="HardFilter",
-        filter_expression="QD < 2.0 || FS > 60.0 || MQ < 40.0 || MappingQualityRankSum < -12.5 || ReadPosRankSum < -8.0",
+        filter_name=params["gatk4"]["variant_filtration"]["filter_name"],
+        filter_expression=params["gatk4"]["variant_filtration"]["filter_expression"],
     shell:
         """
         gatk VariantFiltration \
@@ -231,7 +229,8 @@ rule gatk4_variant_annotator:
         GATK / "variants_annotated.log",
     conda:
         "../envs/gatk4.yml"
-    params:  # TODO: add annotations that we want
+    params:
+        annotations=params["gatk4"]["variant_annotation"]["annotations"],
         input_bam=compose_input_bqsr_bams,
     shell:
         """
@@ -240,7 +239,7 @@ rule gatk4_variant_annotator:
             {params.input_bam} \
             --variant {input.vcf} \
             --output {output.vcf} \
-            --annotation Coverage \
+            --annotation {params.annotations} \
         2> {log}
         """
 

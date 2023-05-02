@@ -3,15 +3,12 @@ rule picard_markduplicates:
         cram=BOWTIE2 / "{sample}.{library}.cram",
         reference=REFERENCE / "genome.fa.gz",
     output:
-        bam=PICARD / "{sample}.{library}.bam",
+        bam=temp(PICARD / "{sample}.{library}.bam"),
         metrics=PICARD / "{sample}.{library}.metrics.tsv",
     log:
         PICARD / "{sample}.{library}.log",
     conda:
         "../envs/picard.yml"
-    threads: 1  # TODO: tune it
-    params:
-        None,
     shell:
         """
         picard MarkDuplicates \

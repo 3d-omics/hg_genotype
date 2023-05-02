@@ -17,7 +17,7 @@ rule bowtie2_build:
         "../envs/bowtie2.yml"
     params:
         output_path=REFERENCE / "genome",
-        extra="",  # optional parameters
+        extra=params["bowtie2"]["extra"],  # optional parameters
     threads: 8
     shell:
         """
@@ -48,13 +48,13 @@ rule bowtie2_map:
         ),
         reference=REFERENCE / "genome.fa.gz",
     output:
-        cram=BOWTIE2 / "{sample}.{library}.cram",
+        cram=protected(BOWTIE2 / "{sample}.{library}.cram"),
     log:
         BOWTIE2 / "{sample}.{library}.log",
     params:
         index_prefix=REFERENCE / "genome",
         extra="",  # optional parameters
-        samtools_mem_per_thread="1G",
+        samtools_mem=params["bowtie2"]["samtools"]["mem_per_thread"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
     threads: MAX_THREADS
@@ -73,7 +73,7 @@ rule bowtie2_map:
             {params.extra} \
         | samtools sort \
             -l 9 \
-            -m {params.samtools_mem_per_thread} \
+            -m {params.samtools_mem} \
             -o {output.cram} \
             --reference {input.reference} \
             --threads {threads} \

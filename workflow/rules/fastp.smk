@@ -4,10 +4,10 @@ rule fastp:
         forward_=READS / "{sample}.{library}_1.fq.gz",
         reverse_=READS / "{sample}.{library}_2.fq.gz",
     output:
-        forward_=FASTP / "{sample}.{library}_1.fq.gz",
-        reverse_=FASTP / "{sample}.{library}_2.fq.gz",
-        unpaired1=FASTP / "{sample}.{library}_u1.fq.gz",
-        unpaired2=FASTP / "{sample}.{library}_u2.fq.gz",
+        forward_=temp(FASTP / "{sample}.{library}_1.fq.gz"),
+        reverse_=temp(FASTP / "{sample}.{library}_2.fq.gz"),
+        unpaired1=temp(FASTP / "{sample}.{library}_u1.fq.gz"),
+        unpaired2=temp(FASTP / "{sample}.{library}_u2.fq.gz"),
         html=FASTP / "{sample}.{library}.html",
         json=FASTP / "{sample}.{library}.json",
     log:
@@ -15,7 +15,7 @@ rule fastp:
     params:
         adapter_forward=get_forward_adapter,
         adapter_reverse=get_reverse_adapter,
-        extra_args=params["fastp"]["extra_args"],
+        extra=params["fastp"]["extra"],
     threads: MAX_THREADS
     conda:
         "../envs/fastp.yml"
@@ -34,8 +34,8 @@ rule fastp:
             --verbose \
             --adapter_sequence {params.adapter_forward} \
             --adapter_sequence_r2 {params.adapter_reverse} \
-            {params.extra_args} \
             --thread {threads} \
+            {params.extra} \
         2> {log} 1>&2
         """
 
