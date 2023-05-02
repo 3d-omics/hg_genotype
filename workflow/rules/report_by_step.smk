@@ -65,8 +65,30 @@ rule reports_step_bowtie2:
         """
 
 
+rule reports_step_picard:
+    input:
+        rules.picard_reports.input,
+    output:
+        html=REPORTS_BY_STEP / "picard.html",
+    log:
+        REPORTS_BY_STEP / "picard.log",
+    conda:
+        "../envs/report.yml"
+    params:
+        dir=REPORTS_BY_STEP,
+    shell:
+        """
+        multiqc \
+            --filename picard \
+            --outdir {params.dir} \
+            {input} \
+        2> {log} 1>&2
+        """
+
+
 rule reports_step:
     input:
         rules.reports_step_reads.output,
         rules.reports_step_fastp.output,
         rules.reports_step_bowtie2.output,
+        rules.reports_step_picard.output,
