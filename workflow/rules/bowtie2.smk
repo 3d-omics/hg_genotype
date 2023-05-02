@@ -76,4 +76,10 @@ rule bowtie2:
         [BOWTIE2 / f"{sample}.{library}.cram" for sample, library in SAMPLE_LIB],
 
 
-# TODO: create all reports from samtools
+rule bowtie2_reports:
+    input:
+        [
+            BOWTIE2 / f"{sample}.{library}.{report}"
+            for sample, library in SAMPLE_LIB
+            for report in "stats.tsv flagstats.txt idxstats.tsv".split()
+        ],

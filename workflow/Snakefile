@@ -33,6 +33,8 @@ include: "rules/bowtie2.smk"
 include: "rules/picard.smk"
 include: "rules/gatk4.smk"
 include: "rules/snpeff.smk"
+include: "rules/report_by_sample.smk"
+include: "rules/report_by_step.smk"
 
 
 rule all:
@@ -45,3 +47,5 @@ rule all:
         # rules.picard.input,
         # rules.gatk4_all.input,
         rules.snpeff.input,
+        # rules.report_by_sample.input,
+        rules.reports_step.input,

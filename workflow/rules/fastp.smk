@@ -52,11 +52,12 @@ rule fastp_all_samples:
 
 rule fastp_fastqc:
     """Collect fasqtc reports from the results of fastp"""
+    # for end in "1 2 u1 u2".split(" ")  # u1 and u2 can be empty!
     input:
         [
-            FASTP / f"{sample}.{library}_{end}_fastqc.html"
+            FASTP / f"{sample}.{library}_{end}_fastqc.zip"
             for sample, library in SAMPLE_LIB
-            for end in "1 2 u1 u2".split(" ")
+            for end in "1 2".split(" ")
         ],
 
 
