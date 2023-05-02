@@ -3,6 +3,5 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - samtools
-  - bowtie2
-  - multiqc
+  - samtools=1.17
+  - bowtie2=2.5.1

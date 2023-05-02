@@ -3,5 +3,5 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - snpeff
-  - samtools  # just for bgzip
+  - snpeff=5.1
+  - samtools=1.17  # just for bgzip
