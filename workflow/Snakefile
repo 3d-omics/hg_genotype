@@ -16,6 +16,7 @@ samples = pd.read_table("config/samples.tsv", comment="#", dtype="str")
 SAMPLES = samples["sample"].drop_duplicates().values.tolist()
 SAMPLE_LIB = samples[["sample", "library"]].values.tolist()
 MAX_THREADS = params["max_threads"]
+SNPEFF_DBS = features["snpeff"]["genome"]
 
 # shell.prefix("set -euxo pipefail;")
 
