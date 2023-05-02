@@ -1,1 +1,12 @@
 max_threads: 96
+
+fastp:
+  extra_args: ""
+
+bowtie2:
+
+picard:
+
+gatk4:
+
+snpeff:

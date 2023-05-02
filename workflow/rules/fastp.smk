@@ -13,9 +13,9 @@ rule fastp:
     log:
         FASTP / "{sample}.{library}.log",
     params:
-        adapter_forward="ACGGCTAGCTA",  # TODO: get from samples.tsv
-        adapter_reverse="AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",  # TODO: get from samples.tsv
-        extra_args="",  # TODO: fill with arguments from params.yml
+        adapter_forward=get_forward_adapter,
+        adapter_reverse=get_reverse_adapter,
+        extra_args=params["fastp"]["extra_args"],
     threads: MAX_THREADS
     conda:
         "../envs/fastp.yml"
