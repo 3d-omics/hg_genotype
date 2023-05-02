@@ -1,5 +1,5 @@
 rule reference_recompress_genome:
-    """Extract the fasta.gz on config.yaml into genome.fa"""
+    """Extract the fasta.gz on config.yaml into genome.fa,gz with bgzip"""
     input:
         fa_gz=features["reference"]["dna"],
     output:
@@ -35,7 +35,12 @@ rule reference_recompress_vcf:
         "../envs/samtools.yml"
     threads: 8
     shell:
-        "gzip -dc {input.vcf_gz} | bgzip --threads {threads} > {output.vcf_gz} 2> {log}"
+        """
+        (gzip -dc {input.vcf_gz} \
+        | bgzip --threads {threads} \
+        > {output.vcf_gz}) \
+        2> {log}
+        """
 
 
 rule reference:

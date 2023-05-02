@@ -54,8 +54,8 @@ rule all:
 
 rule clean:
     conda:
-        "workflow/envs/empty.yaml"
+        "envs/empty.yml"
     log:
         "clean.log",
     shell:
-        "rm -rf results reports"
+        "rm -rfv results reports 2> {log} 1>&2"
