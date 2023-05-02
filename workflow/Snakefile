@@ -50,12 +50,3 @@ rule all:
         rules.snpeff.input,
         rules.report_steps.input,
         rules.report_samples.input,
-
-
-rule clean:
-    conda:
-        "envs/empty.yml"
-    log:
-        "clean.log",
-    shell:
-        "rm -rfv results reports 2> {log} 1>&2"
