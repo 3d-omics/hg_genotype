@@ -1,10 +1,6 @@
-rule reports_step_reads:
+rule report_step_reads:
     input:
-        [
-            READS / f"{sample}.{library}_{end}_fastqc.zip"
-            for sample, library in SAMPLE_LIB
-            for end in ["1", "2"]
-        ],
+        rules.reads_fastqc.input,
     output:
         html=REPORTS_BY_STEP / "raw.html",
     log:
@@ -23,7 +19,7 @@ rule reports_step_reads:
         """
 
 
-rule reports_step_fastp:
+rule report_step_fastp:
     input:
         rules.fastp_fastqc.input,
     output:
@@ -44,7 +40,7 @@ rule reports_step_fastp:
         """
 
 
-rule reports_step_bowtie2:
+rule report_step_bowtie2:
     input:
         rules.bowtie2_reports.input,
     output:
@@ -65,7 +61,7 @@ rule reports_step_bowtie2:
         """
 
 
-rule reports_step_picard:
+rule report_step_picard:
     input:
         rules.picard_reports.input,
     output:
@@ -86,7 +82,7 @@ rule reports_step_picard:
         """
 
 
-rule reports_step_gatk4:
+rule report_step_gatk4:
     input:
         rules.gatk4_base_recalibrator_all.input,
     output:
@@ -107,7 +103,7 @@ rule reports_step_gatk4:
         """
 
 
-rule reports_step_snpeff:
+rule report_step_snpeff:
     input:
         rules.snpeff_report.input,
     output:
@@ -128,11 +124,11 @@ rule reports_step_snpeff:
         """
 
 
-rule reports_step:
+rule report_steps:
     input:
-        rules.reports_step_reads.output,
-        rules.reports_step_fastp.output,
-        rules.reports_step_bowtie2.output,
-        rules.reports_step_picard.output,
-        rules.reports_step_gatk4.output,
-        rules.reports_step_snpeff.output,
+        rules.report_step_reads.output,
+        rules.report_step_fastp.output,
+        rules.report_step_bowtie2.output,
+        rules.report_step_picard.output,
+        rules.report_step_gatk4.output,
+        rules.report_step_snpeff.output,

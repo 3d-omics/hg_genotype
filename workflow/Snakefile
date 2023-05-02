@@ -48,10 +48,14 @@ rule all:
         # rules.picard.input,
         # rules.gatk4_all.input,
         rules.snpeff.input,
-        rules.reports_step.input,
-        # rules.report_by_sample.input,
+        rules.report_steps.input,
+        rules.report_samples.input,
 
 
 rule clean:
+    conda:
+        "workflow/envs/empty.yaml"
+    log:
+        "clean.log",
     shell:
         "rm -rf results reports"
