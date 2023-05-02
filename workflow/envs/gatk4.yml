@@ -3,5 +3,4 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - gatk4
-  - gatktool
+  - gatk4=4.4.0.0
