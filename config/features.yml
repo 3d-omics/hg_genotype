@@ -4,4 +4,4 @@ reference:
 
 snpeff:
     genome:
-        - GRCg6a.105  # check yours with snpEff databases
+        - GRCg6a.105
