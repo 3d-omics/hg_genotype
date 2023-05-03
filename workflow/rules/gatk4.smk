@@ -15,13 +15,13 @@ rule gatk4_base_recalibrator:
         GATK / "{sample}.{library}.base_recalibrator.log",
     conda:
         "../envs/gatk4.yml"
-    params:  # TODO: get from params.yaml
-        extra="",
-        java_options="",
+    params:
+        extra=params["gatk4"]["base_recalibrator"]["extra"],
     threads: 1
     shell:
         """
         gatk BaseRecalibrator \
+            {params.extra} \
             --input {input.bam} \
             --reference {input.reference} \
             --known-sites {input.known_sites} \
@@ -51,9 +51,12 @@ rule gatk4_apply_bqsr:
         GATK / "{sample}.{library}.bqsr.log",
     conda:
         "../envs/gatk4.yml"
+    params:
+        extra=params["gatk4"]["apply_bqsr"]["extra"],
     shell:
         """
         gatk ApplyBQSR \
+            {params.extra} \
             --input {input.bam} \
             --reference {input.reference} \
             --bqsr-recal-file {input.table} \
@@ -84,9 +87,12 @@ rule gatk4_haplotype_caller:  # TODO: parallelize this?
         GATK / "{sample}.{library}.haplotype_caller.log",
     conda:
         "../envs/gatk4.yml"
+    params:
+        extra=params["gatk4"]["haplotype_caller"]["extra"],
     shell:
         """
         gatk HaplotypeCaller \
+            {params.extra} \
             --reference {input.reference} \
             --input {input.bam} \
             --output {output.gvcf_gz} \
@@ -119,9 +125,11 @@ rule gatk4_combine_gvcfs:
         "../envs/gatk4.yml"
     params:
         variant_line=compose_v_line,
+        extra=params["gatk4"]["combine_gvcfs"]["extra"],
     shell:
         """
         gatk CombineGVCFs \
+            {params.extra} \
             {params.variant_line} \
             --reference {input.reference} \
             --output {output.vcf_gz} \
@@ -140,9 +148,12 @@ rule gatk4_genotype_gvcfs:
         GATK / "genotyped_variants.log",
     conda:
         "../envs/gatk4.yml"
+    params:
+        extra=params["gatk4"]["genotype_gvcfs"]["extra"],
     shell:
         """
         gatk GenotypeGVCFs \
+            {params.extra} \
             --variant {input.vcf_gz} \
             --reference {input.reference} \
             --output {output.vcf_gz} \
@@ -171,9 +182,12 @@ rule gatk4_calculate_genotype_posteriors:
         GATK / "variants_posteriors.log",
     conda:
         "../envs/gatk4.yml"
+    params:
+        extra=params["gatk4"]["calculate_genotype_posteriors"]["extra"],
     shell:
         """
         gatk CalculateGenotypePosteriors \
+            {params.extra} \
             --output {output.vcf} \
             --variant {input.vcf} \
             --reference {input.reference} \
@@ -195,9 +209,11 @@ rule gatk4_variant_filtration:
     params:
         filter_name=params["gatk4"]["variant_filtration"]["filter_name"],
         filter_expression=params["gatk4"]["variant_filtration"]["filter_expression"],
+        extra=params["gatk4"]["variant_filtration"]["extra"],
     shell:
         """
         gatk VariantFiltration \
+            {params.extra} \
             --reference {input.reference} \
             --variant {input.vcf} \
             --output {output.vcf} \
@@ -212,7 +228,6 @@ rule gatk4_variant_annotator:
     Right now this step is useless
     TODO: use known_sites with --resource foo:resource.vcf
     TODO: use expressions with --expression foo.AF \
-    TODO: add to params the annotations we want
     """
     input:
         bams=[GATK / f"{sample}.{library}.bqsr.bam" for sample, library in SAMPLE_LIB],
@@ -232,9 +247,11 @@ rule gatk4_variant_annotator:
     params:
         annotations=params["gatk4"]["variant_annotation"]["annotations"],
         input_bam=compose_input_bqsr_bams,
+        extra=params["gatk4"]["variant_annotation"]["extra"],
     shell:
         """
         gatk VariantAnnotator \
+            {params.extra} \
             --reference {input.reference} \
             {params.input_bam} \
             --variant {input.vcf} \
