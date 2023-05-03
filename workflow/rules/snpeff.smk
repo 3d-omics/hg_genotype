@@ -1,10 +1,3 @@
-SNPEFF_DB = features["snpeff"]["genome"]
-
-
-# TODO: ask for concrete files
-# TODO: un-hardcode database
-
-
 rule snpeff_download:
     output:
         db=directory("resources/snpeff/{snpeff_db}/"),
