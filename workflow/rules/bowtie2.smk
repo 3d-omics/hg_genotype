@@ -53,7 +53,7 @@ rule bowtie2_map:
         BOWTIE2 / "{sample}.{library}.log",
     params:
         index_prefix=REFERENCE / "genome",
-        extra="",  # optional parameters
+        extra=params["bowtie2"]["extra"],  # optional parameters
         samtools_mem=params["bowtie2"]["samtools"]["mem_per_thread"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
