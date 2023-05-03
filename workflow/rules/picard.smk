@@ -9,6 +9,9 @@ rule picard_markduplicates:
         PICARD / "{sample}.{library}.log",
     conda:
         "../envs/picard.yml"
+    resources:
+        mem_mb=8000,
+        runtime=360,
     shell:
         """
         picard MarkDuplicates \

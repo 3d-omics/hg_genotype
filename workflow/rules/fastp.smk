@@ -16,7 +16,10 @@ rule fastp:
         adapter_forward=get_forward_adapter,
         adapter_reverse=get_reverse_adapter,
         extra=params["fastp"]["extra"],
-    threads: MAX_THREADS
+    threads: 24
+    resources:
+        mem_mb=1024,
+        runtime=240,
     conda:
         "../envs/fastp.yml"
     shell:

@@ -17,7 +17,9 @@ rule gatk4_base_recalibrator:
         "../envs/gatk4.yml"
     params:
         extra=params["gatk4"]["base_recalibrator"]["extra"],
-    threads: 1
+    resources:
+        mem_mb=8000,
+        runtime=1440,
     shell:
         """
         gatk BaseRecalibrator \
@@ -53,6 +55,9 @@ rule gatk4_apply_bqsr:
         "../envs/gatk4.yml"
     params:
         extra=params["gatk4"]["apply_bqsr"]["extra"],
+    resources:
+        mem_mb=8000,
+        runtime=1440,
     shell:
         """
         gatk ApplyBQSR \
@@ -89,6 +94,9 @@ rule gatk4_haplotype_caller:  # TODO: parallelize this?
         "../envs/gatk4.yml"
     params:
         extra=params["gatk4"]["haplotype_caller"]["extra"],
+    resources:
+        mem_mb=8000,
+        runtime=1440,
     shell:
         """
         gatk HaplotypeCaller \
@@ -126,6 +134,9 @@ rule gatk4_combine_gvcfs:
     params:
         variant_line=compose_v_line,
         extra=params["gatk4"]["combine_gvcfs"]["extra"],
+    resources:
+        mem_mb=8000,
+        runtime=1440,
     shell:
         """
         gatk CombineGVCFs \
@@ -150,6 +161,9 @@ rule gatk4_genotype_gvcfs:
         "../envs/gatk4.yml"
     params:
         extra=params["gatk4"]["genotype_gvcfs"]["extra"],
+    resources:
+        mem_mb=8000,
+        time=1440,
     shell:
         """
         gatk GenotypeGVCFs \
@@ -184,6 +198,9 @@ rule gatk4_calculate_genotype_posteriors:
         "../envs/gatk4.yml"
     params:
         extra=params["gatk4"]["calculate_genotype_posteriors"]["extra"],
+    resources:
+        mem_mb=8000,
+        time=1440,
     shell:
         """
         gatk CalculateGenotypePosteriors \
@@ -210,6 +227,9 @@ rule gatk4_variant_filtration:
         filter_name=params["gatk4"]["variant_filtration"]["filter_name"],
         filter_expression=params["gatk4"]["variant_filtration"]["filter_expression"],
         extra=params["gatk4"]["variant_filtration"]["extra"],
+    resources:
+        mem_mb=8000,
+        time=1440,
     shell:
         """
         gatk VariantFiltration \
@@ -248,6 +268,9 @@ rule gatk4_variant_annotator:
         annotations=params["gatk4"]["variant_annotation"]["annotations"],
         input_bam=compose_input_bqsr_bams,
         extra=params["gatk4"]["variant_annotation"]["extra"],
+    resources:
+        mem_mb=8000,
+        time=1440,
     shell:
         """
         gatk VariantAnnotator \

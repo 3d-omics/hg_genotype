@@ -57,9 +57,12 @@ rule bowtie2_map:
         samtools_mem=params["bowtie2"]["samtools"]["mem_per_thread"],
         rg_id=compose_rg_id,
         rg_extra=compose_rg_extra,
-    threads: MAX_THREADS
+    threads: 24
     conda:
         "../envs/bowtie2.yml"
+    resources:
+        mem_mb=30000,
+        runtime=1440,
     shell:
         """
         (bowtie2 \
