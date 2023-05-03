@@ -1,6 +1,6 @@
-sample	library	forward	reverse
-sample1	1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz
-sample1	2	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz
-sample2	1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz
-#sample3	1	resources/reads/sample3_1.fq.gz	resources/reads/sample3_2.fq.gz
-#sample4	1	resources/reads/sample4_1.fq.gz	resources/reads/sample4_2.fq.gz
+sample	library	forward	reverse	forward_adapter	reverse_adapter
+sample1	1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	ACGGCTAGCTA	AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
+sample1	2	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	ACGGCTAGCTA	AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
+sample2	1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz	ACGGCTAGCTA	AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
+#sample3	1	resources/reads/sample3_1.fq.gz	resources/reads/sample3_2.fq.gz	ACGGCTAGCTA	AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
+#sample4	1	resources/reads/sample4_1.fq.gz	resources/reads/sample4_2.fq.gz	ACGGCTAGCTA	AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC

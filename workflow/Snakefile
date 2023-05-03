@@ -18,8 +18,6 @@ SAMPLE_LIB = samples[["sample", "library"]].values.tolist()
 MAX_THREADS = params["max_threads"]
 SNPEFF_DBS = features["snpeff"]["genome"]
 
-# shell.prefix("set -euxo pipefail;")
-
 
 # Import subworkflows
 include: "rules/folders.smk"
@@ -47,15 +45,6 @@ rule all:
         # rules.bowtie2.input,
         # rules.picard.input,
         # rules.gatk4_all.input,
-        rules.snpeff.input,
+        # rules.snpeff.input,
         rules.report_steps.input,
         rules.report_samples.input,
-
-
-rule clean:
-    conda:
-        "workflow/envs/empty.yaml"
-    log:
-        "clean.log",
-    shell:
-        "rm -rf results reports"

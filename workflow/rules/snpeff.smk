@@ -1,10 +1,3 @@
-SNPEFF_DB = features["snpeff"]["genome"]
-
-
-# TODO: ask for concrete files
-# TODO: un-hardcode database
-
-
 rule snpeff_download:
     output:
         db=directory("resources/snpeff/{snpeff_db}/"),
@@ -28,7 +21,7 @@ rule snpeff_download:
 rule snpeff_ann:
     input:
         vcf=GATK / "variants_annotated.vcf.gz",
-        db="resources/snpeff/{snpeff_db}/",  # TODO: uncode this
+        db="resources/snpeff/{snpeff_db}/",
     output:
         vcf=SNPEFF / "variants_{snpeff_db}.vcf.gz",
         genes=SNPEFF / "snpEff_stats_{snpeff_db}.genes.txt",
@@ -42,6 +35,9 @@ rule snpeff_ann:
         snpeff_db="{snpeff_db}",
         datadir="$PWD/resources/snpeff/",
         html="snpEff_summary.html",
+    resources:
+        mem_mb=8000,
+        runtime=60,
     shell:
         """
         (snpEff ann \

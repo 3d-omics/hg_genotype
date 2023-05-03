@@ -4,19 +4,22 @@ rule fastp:
         forward_=READS / "{sample}.{library}_1.fq.gz",
         reverse_=READS / "{sample}.{library}_2.fq.gz",
     output:
-        forward_=FASTP / "{sample}.{library}_1.fq.gz",
-        reverse_=FASTP / "{sample}.{library}_2.fq.gz",
-        unpaired1=FASTP / "{sample}.{library}_u1.fq.gz",
-        unpaired2=FASTP / "{sample}.{library}_u2.fq.gz",
+        forward_=temp(FASTP / "{sample}.{library}_1.fq.gz"),
+        reverse_=temp(FASTP / "{sample}.{library}_2.fq.gz"),
+        unpaired1=temp(FASTP / "{sample}.{library}_u1.fq.gz"),
+        unpaired2=temp(FASTP / "{sample}.{library}_u2.fq.gz"),
         html=FASTP / "{sample}.{library}.html",
-        json=FASTP / "{sample}.{library}.json",
+        json=FASTP / "{sample}.{library}_fastp.json",
     log:
         FASTP / "{sample}.{library}.log",
     params:
-        adapter_forward="ACGGCTAGCTA",  # TODO: get from samples.tsv
-        adapter_reverse="AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC",  # TODO: get from samples.tsv
-        extra_args="",  # TODO: fill with arguments from params.yml
-    threads: MAX_THREADS
+        adapter_forward=get_forward_adapter,
+        adapter_reverse=get_reverse_adapter,
+        extra=params["fastp"]["extra"],
+    threads: 24
+    resources:
+        mem_mb=1024,
+        runtime=240,
     conda:
         "../envs/fastp.yml"
     shell:
@@ -34,13 +37,13 @@ rule fastp:
             --verbose \
             --adapter_sequence {params.adapter_forward} \
             --adapter_sequence_r2 {params.adapter_reverse} \
-            {params.extra_args} \
             --thread {threads} \
+            {params.extra} \
         2> {log} 1>&2
         """
 
 
-rule fastp_all_samples:
+rule fastp_all:
     """Collect fastp files"""
     input:
         [
@@ -50,18 +53,7 @@ rule fastp_all_samples:
         ],
 
 
-rule fastp_fastqc:
-    """Collect fasqtc reports from the results of fastp"""
-    # for end in "1 2 u1 u2".split(" ")  # u1 and u2 can be empty!
+rule fastp_reports:
+    """Collect fastp reports"""
     input:
-        [
-            FASTP / f"{sample}.{library}_{end}_fastqc.zip"
-            for sample, library in SAMPLE_LIB
-            for end in "1 2".split(" ")
-        ],
-
-
-rule fastp_all:
-    input:
-        rules.fastp_all_samples.input,
-        rules.fastp_fastqc.input,
+        [FASTP / f"{sample}.{library}_fastp.json" for sample, library in SAMPLE_LIB],

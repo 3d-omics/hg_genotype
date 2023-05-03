@@ -20,6 +20,20 @@ def get_reverse(wildcards):
     ]["reverse"].tolist()[0]
 
 
+def get_forward_adapter(wildcards):
+    return samples[
+        (samples["sample"] == wildcards.sample)
+        & (samples["library"] == wildcards.library)
+    ]["forward_adapter"].tolist()[0]
+
+
+def get_reverse_adapter(wildcards):
+    return samples[
+        (samples["sample"] == wildcards.sample)
+        & (samples["library"] == wildcards.library)
+    ]["reverse_adapter"].tolist()[0]
+
+
 def compose_rg_id(wildcards):
     return f"{wildcards.sample}_{wildcards.library}"
 

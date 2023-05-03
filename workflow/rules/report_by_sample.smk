@@ -2,8 +2,7 @@ rule report_one_sample:
     input:
         READS / "{sample}.{library}_1_fastqc.zip",
         READS / "{sample}.{library}_2_fastqc.zip",
-        FASTP / "{sample}.{library}_1_fastqc.zip",
-        FASTP / "{sample}.{library}_2_fastqc.zip",
+        FASTP / "{sample}.{library}_fastp.json",
         BOWTIE2 / "{sample}.{library}.stats.tsv",
         BOWTIE2 / "{sample}.{library}.flagstats.txt",
         BOWTIE2 / "{sample}.{library}.idxstats.tsv",
