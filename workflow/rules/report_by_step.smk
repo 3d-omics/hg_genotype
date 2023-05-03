@@ -21,7 +21,7 @@ rule report_step_reads:
 
 rule report_step_fastp:
     input:
-        rules.fastp_fastqc.input,
+        rules.fastp_reports.input,
     output:
         html=REPORTS_BY_STEP / "fastp.html",
     log:
