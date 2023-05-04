@@ -23,6 +23,8 @@ rule report_one_sample:
     shell:
         """
         multiqc \
+            --title {params.library} \
+            --force \
             --filename {params.library} \
             --outdir {params.out_dir} \
             {input} \
