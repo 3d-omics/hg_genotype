@@ -2,9 +2,9 @@ rule report_step_reads:
     input:
         rules.reads_fastqc.input,
     output:
-        html=REPORTS_BY_STEP / "raw.html",
+        html=REPORTS_BY_STEP / "reads.html",
     log:
-        REPORTS_BY_STEP / "raw.log",
+        REPORTS_BY_STEP / "reads.log",
     conda:
         "../envs/report.yml"
     params:
@@ -12,7 +12,9 @@ rule report_step_reads:
     shell:
         """
         multiqc \
-            --filename raw \
+            --filename reads \
+            --title reads \
+            --force \
             --outdir {params.dir} \
             {input} \
         2> {log} 1>&2
@@ -33,6 +35,8 @@ rule report_step_fastp:
     shell:
         """
         multiqc \
+            --title fastp \
+            --force \
             --filename fastp \
             --outdir {params.dir} \
             {input} \
@@ -54,6 +58,8 @@ rule report_step_bowtie2:
     shell:
         """
         multiqc \
+            --title bowtie2 \
+            --force \
             --filename bowtie2 \
             --outdir {params.dir} \
             {input} \
@@ -75,6 +81,8 @@ rule report_step_picard:
     shell:
         """
         multiqc \
+            --title picard \
+            --force \
             --filename picard \
             --outdir {params.dir} \
             {input} \
@@ -96,6 +104,8 @@ rule report_step_gatk4:
     shell:
         """
         multiqc \
+            --title gatk4 \
+            --force \
             --filename gatk4 \
             --outdir {params.dir} \
             {input} \
@@ -117,6 +127,8 @@ rule report_step_snpeff:
     shell:
         """
         multiqc \
+            --title snpeff \
+            --force \
             --filename snpeff \
             --outdir {params.dir} \
             {input} \
