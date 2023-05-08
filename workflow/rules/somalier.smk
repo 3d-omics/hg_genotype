@@ -11,7 +11,7 @@ rule somalier_extract_one:
     conda:
         "../envs/somalier.yml"
     params:
-        out_dir="results/somalier/extract/{sample}.{library}",
+        out_dir=compose_somalier_extract_one_param_out_dir,
         sample_prefix="{sample}.{library}",  # libpath + wildcards don't work
     shell:
         """
