@@ -12,4 +12,5 @@ snakemake \
     --notemp  \
     --slurm \
     --profile config/profile \
+    --latency-wait 30 \
     "$@"
