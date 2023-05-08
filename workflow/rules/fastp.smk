@@ -1,4 +1,4 @@
-rule fastp:
+rule fastp_trim_one:
     """Run fastp in default mode"""
     input:
         forward_=READS / "{sample}.{library}_1.fq.gz",
@@ -43,7 +43,7 @@ rule fastp:
         """
 
 
-rule fastp_all:
+rule fastp_trim_all:
     """Collect fastp files"""
     input:
         [
@@ -53,7 +53,13 @@ rule fastp_all:
         ],
 
 
-rule fastp_reports:
+rule fastp_report_all:
     """Collect fastp reports"""
     input:
         [FASTP / f"{sample}.{library}_fastp.json" for sample, library in SAMPLE_LIB],
+
+
+rule fastp:
+    input:
+        rules.fastp_trim_all.input,
+        rules.fastp_report_all.input,

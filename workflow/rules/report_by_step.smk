@@ -1,6 +1,6 @@
 rule report_step_reads:
     input:
-        rules.reads_fastqc.input,
+        rules.reads_fastqc_all.input,
     output:
         html=REPORTS_BY_STEP / "reads.html",
     log:
@@ -23,7 +23,7 @@ rule report_step_reads:
 
 rule report_step_fastp:
     input:
-        rules.fastp_reports.input,
+        rules.fastp_report_all.input,
     output:
         html=REPORTS_BY_STEP / "fastp.html",
     log:
@@ -46,7 +46,7 @@ rule report_step_fastp:
 
 rule report_step_bowtie2:
     input:
-        rules.bowtie2_reports.input,
+        rules.bowtie2_report_all.input,
     output:
         html=REPORTS_BY_STEP / "bowtie2.html",
     log:
@@ -69,7 +69,7 @@ rule report_step_bowtie2:
 
 rule report_step_picard:
     input:
-        rules.picard_reports.input,
+        rules.picard_report_all.input,
     output:
         html=REPORTS_BY_STEP / "picard.html",
     log:

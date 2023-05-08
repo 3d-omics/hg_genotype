@@ -1,4 +1,4 @@
-rule reads_link_pe:
+rule reads_link_one:
     """Make a link to the original file, with a prettier name than default"""
     input:
         forward_=get_forward,
@@ -17,7 +17,7 @@ rule reads_link_pe:
         """
 
 
-rule reads_link:
+rule reads_link_all:
     input:
         [
             READS / f"{sample}.{library}_{end}.fq.gz"
@@ -26,7 +26,7 @@ rule reads_link:
         ],
 
 
-rule reads_fastqc:
+rule reads_fastqc_all:
     input:
         [
             READS / f"{sample}.{library}_{end}_fastqc.{extension}"
@@ -34,3 +34,9 @@ rule reads_fastqc:
             for end in ["1", "2"]
             for extension in ["html", "zip"]
         ],
+
+
+rule reads:
+    input:
+        rules.reads_link_all.input,
+        rules.reads_fastqc_all.input,
