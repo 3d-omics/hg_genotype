@@ -79,3 +79,7 @@ def get_gatk4_base_recalibrator_per_sample_files(wildcards):
         for chromosome in CHROMOSOMES
     ]
     return files
+
+
+def compose_somalier_extract_one_param_out_dir(wildcards):
+    return f"results/somalier/extract/{wildcards.sample}.{wildcards.library}"
