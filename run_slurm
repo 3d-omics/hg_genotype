@@ -9,7 +9,8 @@ snakemake \
     --jobs 100 \
     --cores 96 \
     --keep-going \
-    --notemp  \
+    --notemp \
     --slurm \
     --profile config/profile \
+    --latency-wait 30 \
     "$@"
