@@ -6,5 +6,5 @@ PICARD = Path("results/picard/")
 GATK = Path("results/gatk4/")
 SNPEFF = Path("results/snpeff/")
 
-REPORTS_BY_STEP = Path("reports/by_step/")
-REPORTS_BY_SAMPLE = Path("reports/by_sample/")
+REPORT_STEP = Path("reports/by_step/")
+REPORT_LIBRARY = Path("reports/by_library/")
