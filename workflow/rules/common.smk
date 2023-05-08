@@ -58,3 +58,24 @@ def compose_v_line(wildcards):
     for file in files:
         text += f"--variant {file} "
     return text
+
+
+def get_picard_per_sample_files(wildcards):
+    sample = wildcards.sample
+    library = wildcards.library
+    ANALYSES = ["stats.tsv", "flagstats.txt", "idxstats.tsv", "metrics.tsv"]
+    files = [
+        PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{analysis}"
+        for chromosome in CHROMOSOMES
+        for analysis in ANALYSES
+    ]
+    return files
+
+
+def get_gatk4_base_recalibrator_per_sample_files(wildcards):
+    files = [
+        GATK
+        / f"base_recalibrator/{wildcards.sample}.{wildcards.library}.{chromosome}.txt"
+        for chromosome in CHROMOSOMES
+    ]
+    return files
