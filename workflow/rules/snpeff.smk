@@ -20,7 +20,7 @@ rule snpeff_download:
 
 rule snpeff_ann:
     input:
-        vcf=GATK / "variants_annotated.vcf.gz",
+        vcf=GATK / "variants_filtered.vcf.gz",
         db="resources/snpeff/{snpeff_db}/",
     output:
         vcf=SNPEFF / "variants_{snpeff_db}.vcf.gz",

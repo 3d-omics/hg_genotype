@@ -17,6 +17,7 @@ SAMPLES = samples["sample"].drop_duplicates().values.tolist()
 SAMPLE_LIB = samples[["sample", "library"]].values.tolist()
 MAX_THREADS = params["max_threads"]
 SNPEFF_DBS = features["snpeff"]["genome"]
+CHROMOSOMES = features["reference"]["chromosomes"]
 
 
 # Import subworkflows
@@ -32,8 +33,8 @@ include: "rules/bowtie2.smk"
 include: "rules/picard.smk"
 include: "rules/gatk4.smk"
 include: "rules/snpeff.smk"
-include: "rules/report_by_sample.smk"
-include: "rules/report_by_step.smk"
+include: "rules/report_library.smk"
+include: "rules/report_step.smk"
 
 
 rule all:
@@ -46,5 +47,5 @@ rule all:
         # rules.picard.input,
         # rules.gatk4_all.input,
         # rules.snpeff.input,
-        rules.report_steps.input,
-        rules.report_samples.input,
+        rules.report_step.input,
+        rules.report_library.input,

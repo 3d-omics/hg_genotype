@@ -1,14 +1,14 @@
 rule report_step_reads:
     input:
-        rules.reads_fastqc.input,
+        rules.reads_fastqc_all.input,
     output:
-        html=REPORTS_BY_STEP / "reads.html",
+        html=REPORT_STEP / "reads.html",
     log:
-        REPORTS_BY_STEP / "reads.log",
+        REPORT_STEP / "reads.log",
     conda:
         "../envs/report.yml"
     params:
-        dir=REPORTS_BY_STEP,
+        dir=REPORT_STEP,
     shell:
         """
         multiqc \
@@ -23,15 +23,15 @@ rule report_step_reads:
 
 rule report_step_fastp:
     input:
-        rules.fastp_reports.input,
+        rules.fastp_report_all.input,
     output:
-        html=REPORTS_BY_STEP / "fastp.html",
+        html=REPORT_STEP / "fastp.html",
     log:
-        REPORTS_BY_STEP / "fastp.log",
+        REPORT_STEP / "fastp.log",
     conda:
         "../envs/report.yml"
     params:
-        dir=REPORTS_BY_STEP,
+        dir=REPORT_STEP,
     shell:
         """
         multiqc \
@@ -46,15 +46,15 @@ rule report_step_fastp:
 
 rule report_step_bowtie2:
     input:
-        rules.bowtie2_reports.input,
+        rules.bowtie2_report_all.input,
     output:
-        html=REPORTS_BY_STEP / "bowtie2.html",
+        html=REPORT_STEP / "bowtie2.html",
     log:
-        REPORTS_BY_STEP / "bowtie2.log",
+        REPORT_STEP / "bowtie2.log",
     conda:
         "../envs/report.yml"
     params:
-        dir=REPORTS_BY_STEP,
+        dir=REPORT_STEP,
     shell:
         """
         multiqc \
@@ -69,15 +69,15 @@ rule report_step_bowtie2:
 
 rule report_step_picard:
     input:
-        rules.picard_reports.input,
+        rules.picard_report_all.input,
     output:
-        html=REPORTS_BY_STEP / "picard.html",
+        html=REPORT_STEP / "picard.html",
     log:
-        REPORTS_BY_STEP / "picard.log",
+        REPORT_STEP / "picard.log",
     conda:
         "../envs/report.yml"
     params:
-        dir=REPORTS_BY_STEP,
+        dir=REPORT_STEP,
     shell:
         """
         multiqc \
@@ -94,13 +94,13 @@ rule report_step_gatk4:
     input:
         rules.gatk4_base_recalibrator_all.input,
     output:
-        html=REPORTS_BY_STEP / "gatk4.html",
+        html=REPORT_STEP / "gatk4.html",
     log:
-        REPORTS_BY_STEP / "gatk4.log",
+        REPORT_STEP / "gatk4.log",
     conda:
         "../envs/report.yml"
     params:
-        dir=REPORTS_BY_STEP,
+        dir=REPORT_STEP,
     shell:
         """
         multiqc \
@@ -117,13 +117,13 @@ rule report_step_snpeff:
     input:
         rules.snpeff_report.input,
     output:
-        html=REPORTS_BY_STEP / "snpeff.html",
+        html=REPORT_STEP / "snpeff.html",
     log:
-        REPORTS_BY_STEP / "snpeff.log",
+        REPORT_STEP / "snpeff.log",
     conda:
         "../envs/report.yml"
     params:
-        dir=REPORTS_BY_STEP,
+        dir=REPORT_STEP,
     shell:
         """
         multiqc \
@@ -136,7 +136,7 @@ rule report_step_snpeff:
         """
 
 
-rule report_steps:
+rule report_step:
     input:
         rules.report_step_reads.output,
         rules.report_step_fastp.output,

@@ -30,7 +30,7 @@ rule bowtie2_build:
         """
 
 
-rule bowtie2_map:
+rule bowtie2_map_one:
     """Not using wrapper to sort it as it comes out"""
     input:
         forward_=FASTP / "{sample}.{library}_1.fq.gz",
@@ -84,15 +84,21 @@ rule bowtie2_map:
         """
 
 
-rule bowtie2:
+rule bowtie2_map_all:
     input:
         [BOWTIE2 / f"{sample}.{library}.cram" for sample, library in SAMPLE_LIB],
 
 
-rule bowtie2_reports:
+rule bowtie2_report_all:
     input:
         [
             BOWTIE2 / f"{sample}.{library}.{report}"
             for sample, library in SAMPLE_LIB
             for report in "stats.tsv flagstats.txt idxstats.tsv".split()
         ],
+
+
+rule bowtie2:
+    input:
+        rules.bowtie2_map_all.input,
+        rules.bowtie2_report_all.input,

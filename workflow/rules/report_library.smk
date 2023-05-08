@@ -1,4 +1,4 @@
-rule report_one_sample:
+rule report_library_one:
     input:
         READS / "{sample}.{library}_1_fastqc.zip",
         READS / "{sample}.{library}_2_fastqc.zip",
@@ -6,20 +6,17 @@ rule report_one_sample:
         BOWTIE2 / "{sample}.{library}.stats.tsv",
         BOWTIE2 / "{sample}.{library}.flagstats.txt",
         BOWTIE2 / "{sample}.{library}.idxstats.tsv",
-        PICARD / "{sample}.{library}.stats.tsv",
-        PICARD / "{sample}.{library}.flagstats.txt",
-        PICARD / "{sample}.{library}.idxstats.tsv",
-        PICARD / "{sample}.{library}.metrics.tsv",
-        GATK / "{sample}.{library}.base_recalibrator.txt",
+        get_picard_per_sample_files,
+        get_gatk4_base_recalibrator_per_sample_files,
     output:
-        REPORTS_BY_SAMPLE / "{sample}.{library}.html",
+        REPORT_LIBRARY / "{sample}.{library}.html",
     log:
-        REPORTS_BY_SAMPLE / "{sample}.{library}.log",
+        REPORT_LIBRARY / "{sample}.{library}.log",
     conda:
         "../envs/report.yml"
     params:
         library="{sample}.{library}",
-        out_dir=REPORTS_BY_SAMPLE,
+        out_dir=REPORT_LIBRARY,
     shell:
         """
         multiqc \
@@ -32,9 +29,11 @@ rule report_one_sample:
         """
 
 
-rule report_samples:
+rule report_library_all:
     input:
-        [
-            REPORTS_BY_SAMPLE / f"{sample}.{library}.html"
-            for sample, library in SAMPLE_LIB
-        ],
+        [REPORT_LIBRARY / f"{sample}.{library}.html" for sample, library in SAMPLE_LIB],
+
+
+rule report_library:
+    input:
+        rules.report_library_all.input,
