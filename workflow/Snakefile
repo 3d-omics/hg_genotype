@@ -35,6 +35,7 @@ include: "rules/gatk4.smk"
 include: "rules/snpeff.smk"
 include: "rules/report_library.smk"
 include: "rules/report_step.smk"
+include: "rules/report_chromosome.smk"
 
 
 rule all:
@@ -49,3 +50,4 @@ rule all:
         # rules.snpeff.input,
         rules.report_step.input,
         rules.report_library.input,
+        rules.report_chromosome.input,
