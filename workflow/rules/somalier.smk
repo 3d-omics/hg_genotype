@@ -1,4 +1,5 @@
 rule somalier_extract_one:
+    """Extract SNPs from one sample"""
     input:
         cram=BOWTIE2 / "{sample}.{library}.cram",
         crai=BOWTIE2 / "{sample}.{library}.cram.crai",
@@ -26,6 +27,7 @@ rule somalier_extract_one:
 
 
 rule somalier_extract_all:
+    """Extract SNPs from all samples"""
     input:
         [
             SOMALIER / f"extract/{sample}.{library}/{sample}.somalier"
@@ -34,6 +36,7 @@ rule somalier_extract_all:
 
 
 rule somalier_relate:
+    """Relate all samples"""
     input:
         somalier=rules.somalier_extract_all.input,
     output:
@@ -60,10 +63,12 @@ rule somalier_relate:
 
 
 rule somalier_report:
+    """Generate report"""
     input:
         rules.somalier_relate.output,
 
 
 rule somalier:
+    """Run somalier"""
     input:
         rules.somalier_relate.output,

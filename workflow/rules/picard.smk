@@ -1,4 +1,5 @@
 rule picard_extract_one:
+    """Extract a single chromosome from a CRAM file"""
     input:
         cram=BOWTIE2 / "{sample}.{library}.cram",
         crai=BOWTIE2 / "{sample}.{library}.cram.crai",
@@ -27,6 +28,7 @@ rule picard_extract_one:
 
 
 rule picard_extract_all:
+    """Extract all chromosomes (the ones in features.yml) from all libraries file"""
     input:
         [
             PICARD / f"extract/{sample}.{library}/{chromosome}.bam"
@@ -36,6 +38,7 @@ rule picard_extract_all:
 
 
 rule picard_markduplicates_one:
+    """Mark duplicates in a single chromosome from a single library"""
     input:
         bam=PICARD / "extract/{sample}.{library}.{chromosome}.bam",
         reference=REFERENCE / "genome.fa.gz",
@@ -63,6 +66,7 @@ rule picard_markduplicates_one:
 
 
 rule picard_markduplicates_all:
+    """Mark duplicates in all chromosomes and all libraries"""
     input:
         [
             PICARD / f"markduplicates/{sample}.{library}.{chromosome}.bam"
@@ -72,6 +76,7 @@ rule picard_markduplicates_all:
 
 
 rule picard_report_all:
+    """Generate reports for all chromosomes and all libraries"""
     input:
         [
             PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{report}"
@@ -82,6 +87,7 @@ rule picard_report_all:
 
 
 rule picard:
+    """Run all picard steps and get all reports"""
     input:
         rules.picard_markduplicates_all.input,
         rules.picard_report_all.input,

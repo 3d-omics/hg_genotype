@@ -1,5 +1,5 @@
 rule fastp_trim_one:
-    """Run fastp in default mode"""
+    """Run fastp on one library"""
     input:
         forward_=READS / "{sample}.{library}_1.fq.gz",
         reverse_=READS / "{sample}.{library}_2.fq.gz",
@@ -44,7 +44,7 @@ rule fastp_trim_one:
 
 
 rule fastp_trim_all:
-    """Collect fastp files"""
+    """Run fastp over all libraries"""
     input:
         [
             FASTP / f"{sample}.{library}_{end}.fq.gz"
@@ -60,6 +60,7 @@ rule fastp_report_all:
 
 
 rule fastp:
+    """Run fastp and collect reports"""
     input:
         rules.fastp_trim_all.input,
         rules.fastp_report_all.input,
