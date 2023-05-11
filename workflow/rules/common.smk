@@ -94,3 +94,27 @@ def get_gatk4_base_recalibrator_per_chromosome_files(wildcards):
 def compose_somalier_extract_one_param_out_dir(wildcards):
     """Compose the output directory for somalier extract"""
     return f"results/somalier/extract/{wildcards.sample}.{wildcards.library}"
+
+
+def get_picard_markduplicates_for_library_report(wildcards):
+    """Get all picard markduplicates reports for a single library"""
+    sample = wildcards.sample
+    library = wildcards.library
+    ANALYSES = ["stats.tsv", "flagstats.txt", "idxstats.tsv", "metrics.tsv"]
+    files = [
+        PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{analysis}"
+        for chromosome in CHROMOSOMES
+        for analysis in ANALYSES
+    ]
+    return files
+
+
+def get_gatk4_base_recalibrator_for_library_report(wildcards):
+    """Get gatk4 base recalibrator reports for a single library"""
+    sample = wildcards.sample
+    library = wildcards.library
+    files = [
+        GATK / f"base_recalibrator/{sample}.{library}.{chromosome}.txt"
+        for chromosome in CHROMOSOMES
+    ]
+    return files
