@@ -1,7 +1,5 @@
 rule gatk4_base_recalibrator_one:
-    """
-    TODO: add known sites
-    """
+    """Compute the recalibration table for a single library and chromosome"""
     input:
         bam=PICARD / "markduplicates/{sample}.{library}.{chromosome}.bam",
         bai=PICARD / "markduplicates/{sample}.{library}.{chromosome}.bam.bai",
@@ -33,7 +31,7 @@ rule gatk4_base_recalibrator_one:
 
 
 rule gatk4_base_recalibrator_all:
-    """Collect fasqtc reports from the results of fastp"""
+    """Compute recalibration for all chromosomes and libraries"""
     input:
         [
             GATK / f"base_recalibrator/{sample}.{library}.{chromosome}.txt"
@@ -43,6 +41,7 @@ rule gatk4_base_recalibrator_all:
 
 
 rule gatk4_apply_bqsr_one:
+    """Apply the recalibration table to a single library and chromosome"""
     input:
         bam=PICARD / "markduplicates/{sample}.{library}.{chromosome}.bam",
         reference=REFERENCE / "genome.fa.gz",
@@ -72,7 +71,7 @@ rule gatk4_apply_bqsr_one:
 
 
 rule gatk4_apply_bqsr_all:
-    """Collect fasqtc reports from the results of fastp"""
+    """Apply the recalibration table to all libraries and chromosomes"""
     input:
         [
             GATK / f"apply_bqsr/{sample}.{library}.{chromosome}.bam"
@@ -81,12 +80,13 @@ rule gatk4_apply_bqsr_all:
         ],
 
 
-# rule gatk4_analyze_covariates:  # TODO
+# rule gatk4_analyze_covariates:
 #     shell:
 #         pass
 
 
 rule gatk4_haplotype_caller_one:
+    """Call variants for a single library and chromosome"""
     input:
         reference=REFERENCE / "genome.fa.gz",
         bam=GATK / "apply_bqsr/{sample}.{library}.{chromosome}.bam",
@@ -115,6 +115,7 @@ rule gatk4_haplotype_caller_one:
 
 
 rule gatk4_haplotype_caller_all:
+    """Call variants for all libraries and chromosomes"""
     input:
         [
             GATK / f"haplotype_caller/{sample}.{library}.{chromosome}.gvcf.gz"
@@ -123,10 +124,11 @@ rule gatk4_haplotype_caller_all:
         ],
 
 
-# TODO: I think here comes the GenomicsDBImport step
+# I think here comes the GenomicsDBImport step
 
 
 rule gatk4_combine_gvcfs_one:
+    """Combine gVCFs to get a chromosome"""
     input:
         vcf_gzs=get_files_to_genotype,
         reference=REFERENCE / "genome.fa.gz",
@@ -155,14 +157,13 @@ rule gatk4_combine_gvcfs_one:
 
 
 rule gatk4_combine_gvcfs_all:
+    """Get all chromosomal gVCFs"""
     input:
         [GATK / f"joint_variants/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
 
 
-# TODO: insert checkpoint
-
-
 rule gatk4_genotype_gvcfs_one:
+    """Genotype a single chromosome"""
     input:
         vcf_gz=GATK / "joint_variants/{chromosome}.vcf.gz",
         reference=REFERENCE / "genome.fa.gz",
@@ -190,6 +191,7 @@ rule gatk4_genotype_gvcfs_one:
 
 
 rule gatk4_genotype_gvcfs_all:
+    """Genotype all chromosomes"""
     input:
         [GATK / f"genotyped_variants/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
 
@@ -205,6 +207,7 @@ rule gatk4_genotype_gvcfs_all:
 
 
 rule gatk4_calculate_genotype_posteriors_one:
+    """Calculate genotype posteriors for a single chromosome"""
     input:
         vcf=GATK / "genotyped_variants/{chromosome}.vcf.gz",
         reference=REFERENCE / "genome.fa.gz",
@@ -232,6 +235,7 @@ rule gatk4_calculate_genotype_posteriors_one:
 
 
 rule gatk4_calculate_genotype_posteriors_all:
+    """Calculate genotype posteriors for all chromosomes"""
     input:
         [
             GATK / f"variants_posteriors/{chromosome}.vcf.gz"
@@ -240,6 +244,7 @@ rule gatk4_calculate_genotype_posteriors_all:
 
 
 rule gatk4_variant_filtration_one:
+    """Filter variants for a single chromosome"""
     input:
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
@@ -271,6 +276,7 @@ rule gatk4_variant_filtration_one:
 
 
 rule gatk4_variant_filtration_all:
+    """Filter variants for all chromosomes"""
     input:
         [GATK / f"variants_filtered/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
 
@@ -286,7 +292,10 @@ rule gatk4_variant_filtration_all:
 #             GATK / f"{sample}.{library}.bqsr.bam"
 #             for sample, library in SAMPLE_LIB
 #         ],
-#         # TODO: add .bais here
+#         bais = [
+#             GATK / f"{sample}.{library}.bqsr.bam.bai"
+#             for sample, library in SAMPLE_LIB
+#         ],
 #         reference = REFERENCE / "genome.fa.gz",
 #         vcf =  GATK / "genotyped_variants.vcf.gz"
 #     output:
@@ -308,6 +317,7 @@ rule gatk4_variant_filtration_all:
 
 
 rule gatk4_variant_filtration_merge:
+    """Merge all VCF chromosomes"""
     input:
         expand(
             GATK / "variants_filtered/{chromosome}.vcf.gz",
@@ -333,6 +343,7 @@ rule gatk4_variant_filtration_merge:
 
 
 rule gatk4:
+    """Run all GATK4 steps"""
     input:
         # rules.gatk4_base_recalibrator_all.input,
         # rules.gatk4_apply_bqsr_all.input,

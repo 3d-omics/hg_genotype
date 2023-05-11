@@ -25,6 +25,7 @@ rule reference_recompress_genome:
 
 
 rule reference_recompress_vcf:
+    """Extract the vcf.gz on config.yaml into known_variants.vcf.gz with bgzip"""
     input:
         vcf_gz=features["reference"]["known_vcf"],
     output:
@@ -44,6 +45,7 @@ rule reference_recompress_vcf:
 
 
 rule reference:
+    """Re-bgzip the reference genome and known variants"""
     input:
         rules.reference_recompress_genome.output,
         rules.reference_recompress_vcf.output,

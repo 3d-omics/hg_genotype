@@ -18,6 +18,7 @@ rule reads_link_one:
 
 
 rule reads_link_all:
+    """Link all reads in the samples.tsv"""
     input:
         [
             READS / f"{sample}.{library}_{end}.fq.gz"
@@ -27,6 +28,7 @@ rule reads_link_all:
 
 
 rule reads_fastqc_all:
+    """Run fastqc on all raw reads"""
     input:
         [
             READS / f"{sample}.{library}_{end}_fastqc.{extension}"
@@ -37,6 +39,7 @@ rule reads_fastqc_all:
 
 
 rule reads:
+    """Link all reads and run fastqc on them"""
     input:
         rules.reads_link_all.input,
         rules.reads_fastqc_all.input,

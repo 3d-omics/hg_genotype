@@ -2,7 +2,7 @@ rule report_chromosome_one:
     """Generate a report for a single chromosome"""
     input:
         get_picard_markduplicates_per_chromosome_files,
-        get_gatk4_base_recalibrator_per_sample_files,
+        get_gatk4_base_recalibrator_per_chromosome_files,
     output:
         REPORT_CHR / "{chromosome}.html",
     log:

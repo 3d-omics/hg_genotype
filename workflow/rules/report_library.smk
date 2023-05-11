@@ -1,4 +1,5 @@
 rule report_library_one:
+    """Make a MultiQC report for a single library"""
     input:
         READS / "{sample}.{library}_1_fastqc.zip",
         READS / "{sample}.{library}_2_fastqc.zip",
@@ -28,10 +29,12 @@ rule report_library_one:
 
 
 rule report_library_all:
+    """Make a MultiQC report for every library"""
     input:
         [REPORT_LIBRARY / f"{sample}.{library}.html" for sample, library in SAMPLE_LIB],
 
 
 rule report_library:
+    """Make all MultiQC reports per library"""
     input:
         rules.report_library_all.input,

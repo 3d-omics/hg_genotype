@@ -1,4 +1,5 @@
 rule report_step_reads:
+    """Collect all reports for the reads step"""
     input:
         rules.reads_fastqc_all.input,
     output:
@@ -22,6 +23,7 @@ rule report_step_reads:
 
 
 rule report_step_fastp:
+    """Collect all reports for the fastp step"""
     input:
         rules.fastp_report_all.input,
     output:
@@ -45,6 +47,7 @@ rule report_step_fastp:
 
 
 rule report_step_bowtie2:
+    """Collect all reports for the bowtie2 step"""
     input:
         rules.bowtie2_report_all.input,
     output:
@@ -67,7 +70,32 @@ rule report_step_bowtie2:
         """
 
 
+rule report_step_somalier:
+    """Collect all reports for the somalier step"""
+    input:
+        rules.somalier_report.input,
+    output:
+        html=REPORT_STEP / "somalier.html",
+    log:
+        REPORT_STEP / "somalier.log",
+    conda:
+        "../envs/report.yml"
+    params:
+        dir=REPORT_STEP,
+    shell:
+        """
+        multiqc \
+            --title somalier \
+            --force \
+            --filename somalier \
+            --outdir {params.dir} \
+            {input} \
+        2> {log} 1>&2
+        """
+
+
 rule report_step_picard:
+    """Collect all reports for the picard step"""
     input:
         rules.picard_report_all.input,
     output:
@@ -91,6 +119,7 @@ rule report_step_picard:
 
 
 rule report_step_gatk4:
+    """Collect all reports for the gatk4 step"""
     input:
         rules.gatk4_base_recalibrator_all.input,
     output:
@@ -114,6 +143,7 @@ rule report_step_gatk4:
 
 
 rule report_step_snpeff:
+    """Collect all reports for the snpeff step"""
     input:
         rules.snpeff_report.input,
     output:
@@ -137,10 +167,12 @@ rule report_step_snpeff:
 
 
 rule report_step:
+    """Collect all per step reports for the pipeline"""
     input:
         rules.report_step_reads.output,
         rules.report_step_fastp.output,
         rules.report_step_bowtie2.output,
+        rules.report_step_somalier.output,
         rules.report_step_picard.output,
         rules.report_step_gatk4.output,
         rules.report_step_snpeff.output,
