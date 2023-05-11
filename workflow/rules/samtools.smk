@@ -1,4 +1,5 @@
 rule bai:
+    """Generate a bam index"""
     input:
         "{prefix}.bam",
     output:
@@ -12,6 +13,7 @@ rule bai:
 
 
 rule crai:
+    """Generate a cram index"""
     input:
         "{prefix}.cram",
     output:
@@ -25,6 +27,7 @@ rule crai:
 
 
 rule dict_fa:
+    """Generate a dictionary from a .fa"""
     input:
         "{prefix}.fa",
     output:
@@ -38,6 +41,7 @@ rule dict_fa:
 
 
 rule dict_fagz:
+    """Generate a dictionary from a fa.gz"""
     input:
         "{prefix}.fa.gz",
     output:
@@ -51,6 +55,7 @@ rule dict_fagz:
 
 
 rule vcf_gz_tbi:
+    """Generate index for a vcf.gz"""
     input:
         "{prefix}.vcf.gz",
     output:
@@ -64,6 +69,7 @@ rule vcf_gz_tbi:
 
 
 rule vcf_gz:
+    """bgzip a vcf file"""
     input:
         "{prefix}.vcf",
     output:
@@ -77,6 +83,7 @@ rule vcf_gz:
 
 
 rule samtools_stats_bam:
+    """Compute stats for a bam"""
     input:
         bam="{prefix}.bam",
         bai="{prefix}.bam.bai",
@@ -91,6 +98,7 @@ rule samtools_stats_bam:
 
 
 rule samtools_stats_cram:
+    """Compute stats for a cram"""
     input:
         cram="{prefix}.cram",
         crai="{prefix}.cram.crai",
@@ -105,6 +113,7 @@ rule samtools_stats_cram:
 
 
 rule samtools_flagstats_bam:
+    """Compute flagstats for a bam"""
     input:
         bam="{prefix}.bam",
         bai="{prefix}.bam.bai",
@@ -119,6 +128,7 @@ rule samtools_flagstats_bam:
 
 
 rule samtools_flagstats_cram:
+    """Compute flagstats for a cram"""
     input:
         cram="{prefix}.cram",
         crai="{prefix}.cram.crai",
@@ -133,6 +143,7 @@ rule samtools_flagstats_cram:
 
 
 rule samtools_idxstats_bam:
+    """Compute idxstats for a bam"""
     input:
         bam="{prefix}.bam",
         bai="{prefix}.bam.bai",
@@ -147,6 +158,7 @@ rule samtools_idxstats_bam:
 
 
 rule samtools_idxstats_cram:
+    """Compute idxstats for a cram"""
     input:
         cram="{prefix}.cram",
         crai="{prefix}.cram.crai",
