@@ -292,7 +292,10 @@ rule gatk4_variant_filtration_all:
 #             GATK / f"{sample}.{library}.bqsr.bam"
 #             for sample, library in SAMPLE_LIB
 #         ],
-#         # TODO: add .bais here
+#         bais = [
+#             GATK / f"{sample}.{library}.bqsr.bam.bai"
+#             for sample, library in SAMPLE_LIB
+#         ],
 #         reference = REFERENCE / "genome.fa.gz",
 #         vcf =  GATK / "genotyped_variants.vcf.gz"
 #     output:
