@@ -7,8 +7,6 @@ rule report_library_one:
         BOWTIE2 / "{sample}.{library}.stats.tsv",
         BOWTIE2 / "{sample}.{library}.flagstats.txt",
         BOWTIE2 / "{sample}.{library}.idxstats.tsv",
-        get_picard_per_sample_files,
-        get_gatk4_base_recalibrator_per_sample_files,
     output:
         REPORT_LIBRARY / "{sample}.{library}.html",
     log:

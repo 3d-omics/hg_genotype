@@ -69,25 +69,24 @@ def compose_v_line(wildcards):
     return text
 
 
-def get_picard_per_sample_files(wildcards):
-    """Get picard reports for all samples, libraries, and chromosomes"""
-    sample = wildcards.sample
-    library = wildcards.library
+def get_picard_markduplicates_per_chromosome_files(wildcards):
+    """Get all picard markduplicates reports for a single chromosome"""
+    chromosome = wildcards.chromosome
     ANALYSES = ["stats.tsv", "flagstats.txt", "idxstats.tsv", "metrics.tsv"]
     files = [
         PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{analysis}"
-        for chromosome in CHROMOSOMES
+        for sample, library in SAMPLE_LIB
         for analysis in ANALYSES
     ]
     return files
 
 
-def get_gatk4_base_recalibrator_per_sample_files(wildcards):
-    """Get gatk4 base recalibrator reports for all samples, libraries, and chromosomes"""
+def get_gatk4_base_recalibrator_per_chromosome_files(wildcards):
+    """Get gatk4 base recalibrator reports for a single chromosome"""
+    chromosome = wildcards.chromosome
     files = [
-        GATK
-        / f"base_recalibrator/{wildcards.sample}.{wildcards.library}.{chromosome}.txt"
-        for chromosome in CHROMOSOMES
+        GATK / f"base_recalibrator/{sample}.{library}.{chromosome}.txt"
+        for sample, library in SAMPLE_LIB
     ]
     return files
 
