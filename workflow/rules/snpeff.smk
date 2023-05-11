@@ -1,4 +1,5 @@
 rule snpeff_download:
+    """Download a SNPEff database"""
     output:
         db=directory("resources/snpeff/{snpeff_db}/"),
     log:
@@ -19,6 +20,7 @@ rule snpeff_download:
 
 
 rule snpeff_ann:
+    """Annotate variants with a SNPEff database"""
     input:
         vcf=GATK / "variants_filtered.vcf.gz",
         db="resources/snpeff/{snpeff_db}/",
@@ -59,10 +61,12 @@ rule snpeff_ann:
 
 
 rule snpeff_report:
+    """Generate SNPeff reports for all databases"""
     input:
         [SNPEFF / f"snpEff_stats_{db}.csv" for db in SNPEFF_DBS],
 
 
 rule snpeff:
+    """Run SNPeff for all databases"""
     input:
-        [SNPEFF / f"variants_{db}.vcf.gz" for db in SNPEFF_DBS],
+        rules.snpeff_report.input,
