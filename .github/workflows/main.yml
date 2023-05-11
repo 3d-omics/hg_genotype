@@ -41,6 +41,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Set cache date
+      run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+
+    - name: cache
+      uses: actions/cache@v2
+      with:
+        path: .snakemake/conda
+        key: snakemake-conda-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
+      id: cache
+
     - name: Test workflow
       uses: snakemake/snakemake-github-action@v1.24.0
       with:
@@ -54,9 +64,3 @@ jobs:
         directory: .
         snakefile: workflow/Snakefile
         args: "--report report.zip"
-
-    - name: cache
-      uses: actions/cache@v2
-      with:
-        path: .snakemake/conda
-      id: cache
