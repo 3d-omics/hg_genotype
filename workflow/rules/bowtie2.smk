@@ -1,4 +1,5 @@
 rule bowtie2_build:
+    """Build bowtie2 index"""
     input:
         reference=REFERENCE / "genome.fa.gz",
     output:
@@ -31,7 +32,7 @@ rule bowtie2_build:
 
 
 rule bowtie2_map_one:
-    """Not using wrapper to sort it as it comes out"""
+    """Map one library to reference genome using bowtie2"""
     input:
         forward_=FASTP / "{sample}.{library}_1.fq.gz",
         reverse_=FASTP / "{sample}.{library}_2.fq.gz",
@@ -85,11 +86,13 @@ rule bowtie2_map_one:
 
 
 rule bowtie2_map_all:
+    """Run bowtie2 on all libraries"""
     input:
         [BOWTIE2 / f"{sample}.{library}.cram" for sample, library in SAMPLE_LIB],
 
 
 rule bowtie2_report_all:
+    """Generate bowtie2 report for all libraries"""
     input:
         [
             BOWTIE2 / f"{sample}.{library}.{report}"
@@ -99,6 +102,7 @@ rule bowtie2_report_all:
 
 
 rule bowtie2:
+    """Run bowtie2 on all libraries and generate reports"""
     input:
         rules.bowtie2_map_all.input,
         rules.bowtie2_report_all.input,
