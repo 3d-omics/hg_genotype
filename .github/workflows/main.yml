@@ -6,6 +6,8 @@ on:
   pull_request:
     branches: [ main, devel ]
 
+env:
+  CACHE_NUMBER: 0  # Increment this number to invalidate the cache
 
 jobs:
   Formatting:
@@ -52,3 +54,9 @@ jobs:
         directory: .
         snakefile: workflow/Snakefile
         args: "--report report.zip"
+
+    - name: cache
+      uses: actions/cache@v2
+      with:
+        path: .snakemake/conda
+      id: cache
