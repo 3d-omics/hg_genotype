@@ -1,4 +1,5 @@
 rule bcftools_index_vcf_gz:
+    """Index a vcf.gz"""
     input:
         "{prefix}.vcf.gz",
     output:
