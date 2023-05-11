@@ -10,6 +10,4 @@ rule fastqc:
     log:
         "{prefix}_fastqc.log",
     shell:
-        """
-        fastqc {input} 2> {log} 1>&2
-        """
+        "fastqc {input} 2> {log} 1>&2"
