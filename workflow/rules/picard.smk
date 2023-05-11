@@ -47,6 +47,8 @@ rule picard_markduplicates_one:
         metrics=PICARD / "markduplicates/{sample}.{library}.{chromosome}.metrics.tsv",
     log:
         PICARD / "markduplicates/{sample}.{library}.{chromosome}.log",
+    benchmark:
+        PICARD / "markduplicates/{sample}.{library}.{chromosome}.bmk"
     conda:
         "../envs/picard.yml"
     resources:

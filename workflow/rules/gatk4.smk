@@ -11,6 +11,8 @@ rule gatk4_base_recalibrator_one:
         table=GATK / "base_recalibrator/{sample}.{library}.{chromosome}.txt",
     log:
         GATK / "base_recalibrator/{sample}.{library}.{chromosome}.log",
+    benchmark:
+        GATK / "base_recalibrator/{sample}.{library}.{chromosome}.bmk"
     conda:
         "../envs/gatk4.yml"
     params:
@@ -51,6 +53,8 @@ rule gatk4_apply_bqsr_one:
         bam=protected(GATK / "apply_bqsr/{sample}.{library}.{chromosome}.bam"),
     log:
         GATK / "apply_bqsr/{sample}.{library}.{chromosome}.log",
+    benchmark:
+        GATK / "apply_bqsr/{sample}.{library}.{chromosome}.bmk"
     conda:
         "../envs/gatk4.yml"
     params:
@@ -95,6 +99,8 @@ rule gatk4_haplotype_caller_one:
         gvcf_gz=GATK / "haplotype_caller/{sample}.{library}.{chromosome}.gvcf.gz",
     log:
         GATK / "haplotype_caller/{sample}.{library}.{chromosome}.log",
+    benchmark:
+        GATK / "haplotype_caller/{sample}.{library}.{chromosome}.bmk"
     conda:
         "../envs/gatk4.yml"
     params:
@@ -137,6 +143,8 @@ rule gatk4_combine_gvcfs_one:
         vcf_gz=GATK / "joint_variants/{chromosome}.vcf.gz",
     log:
         GATK / "joint_variants/{chromosome}.log",
+    benchmark:
+        GATK / "joint_variants/{chromosome}.bmk"
     conda:
         "../envs/gatk4.yml"
     params:
@@ -172,6 +180,8 @@ rule gatk4_genotype_gvcfs_one:
         vcf_gz=GATK / "genotyped_variants/{chromosome}.vcf.gz",
     log:
         GATK / "genotyped_variants/{chromosome}.log",
+    benchmark:
+        GATK / "genotyped_variants/{chromosome}.bmk"
     conda:
         "../envs/gatk4.yml"
     params:
@@ -216,6 +226,8 @@ rule gatk4_calculate_genotype_posteriors_one:
         vcf=GATK / "variants_posteriors/{chromosome}.vcf.gz",
     log:
         GATK / "variants_posteriors/{chromosome}.log",
+    benchmark:
+        GATK / "variants_posteriors/{chromosome}.bmk"
     conda:
         "../envs/gatk4.yml"
     params:
@@ -253,6 +265,8 @@ rule gatk4_variant_filtration_one:
         vcf=GATK / "variants_filtered/{chromosome}.vcf.gz",
     log:
         GATK / "variants_filtered/{chromosome}.log",
+    benchmark:
+        GATK / "variants_filtered/{chromosome}.bmk"
     conda:
         "../envs/gatk4.yml"
     params:
