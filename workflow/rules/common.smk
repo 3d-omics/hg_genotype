@@ -72,7 +72,6 @@ def compose_v_line(wildcards):
 def get_picard_markduplicates_for_chromosome_report(wildcards):
     """Get all picard markduplicates reports for a single chromosome"""
     chromosome = wildcards.chromosome
-    ANALYSES = ["stats.tsv", "flagstats.txt", "idxstats.tsv", "metrics.tsv"]
     files = [
         PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{report}"
         for sample, library in SAMPLE_LIB
@@ -100,7 +99,6 @@ def get_picard_markduplicates_for_library_report(wildcards):
     """Get all picard markduplicates reports for a single library"""
     sample = wildcards.sample
     library = wildcards.library
-    ANALYSES = ["stats.tsv", "flagstats.txt", "idxstats.tsv", "metrics.tsv"]
     files = [
         PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{report}"
         for chromosome in CHROMOSOMES
