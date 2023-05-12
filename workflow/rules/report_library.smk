@@ -9,6 +9,7 @@ rule report_library_one:
         BOWTIE2 / "{sample}.{library}.idxstats.tsv",
         get_picard_markduplicates_for_library_report,
         get_gatk4_base_recalibrator_for_library_report,
+        get_gatk4_apply_bqsr_for_library_report,
     output:
         REPORT_LIBRARY / "{sample}.{library}.html",
     log:

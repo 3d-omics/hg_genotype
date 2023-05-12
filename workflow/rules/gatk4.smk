@@ -84,6 +84,17 @@ rule gatk4_apply_bqsr_all:
         ],
 
 
+rule gatk4_apply_bqsr_report:
+    """Generate a report for all libraries and chromosomes"""
+    input:
+        [
+            GATK / f"apply_bqsr/{sample}.{library}.{chromosome}.{report}"
+            for sample, library in SAMPLE_LIB
+            for chromosome in CHROMOSOMES
+            for report in BAM_REPORTS
+        ],
+
+
 # rule gatk4_analyze_covariates:
 #     shell:
 #         pass
@@ -354,6 +365,17 @@ rule gatk4_variant_filtration_merge:
             {input} \
         2> {log} 1>&2
         """
+
+
+rule gatk4_all:
+    input:
+        GATK / "variants_filtered.vcf.gz",
+
+
+rule gatk4_report:
+    input:
+        rules.gatk4_base_recalibrator_all.input,
+        rules.gatk4_apply_bqsr_report.input,
 
 
 rule gatk4:

@@ -69,7 +69,7 @@ def compose_v_line(wildcards):
     return text
 
 
-def get_picard_markduplicates_per_chromosome_files(wildcards):
+def get_picard_markduplicates_for_chromosome_report(wildcards):
     """Get all picard markduplicates reports for a single chromosome"""
     chromosome = wildcards.chromosome
     ANALYSES = ["stats.tsv", "flagstats.txt", "idxstats.tsv", "metrics.tsv"]
@@ -81,7 +81,7 @@ def get_picard_markduplicates_per_chromosome_files(wildcards):
     return files
 
 
-def get_gatk4_base_recalibrator_per_chromosome_files(wildcards):
+def get_gatk4_base_recalibrator_for_chromosome_report(wildcards):
     """Get gatk4 base recalibrator reports for a single chromosome"""
     chromosome = wildcards.chromosome
     files = [
@@ -116,5 +116,28 @@ def get_gatk4_base_recalibrator_for_library_report(wildcards):
     files = [
         GATK / f"base_recalibrator/{sample}.{library}.{chromosome}.txt"
         for chromosome in CHROMOSOMES
+    ]
+    return files
+
+
+def get_gatk4_apply_bqsr_for_library_report(wildcards):
+    """Get gatk4 apply bqsr reports for a single library"""
+    sample = wildcards.sample
+    library = wildcards.library
+    files = [
+        GATK / f"apply_bqsr/{sample}.{library}.{chromosome}.{report}"
+        for chromosome in CHROMOSOMES
+        for report in BAM_REPORTS
+    ]
+    return files
+
+
+def get_gatk4_apply_bqsr_for_chromosome_report(wildcards):
+    """Get gatk4 apply bqsr reports for a single chromosome"""
+    chromosome = wildcards.chromosome
+    files = [
+        GATK / f"apply_bqsr/{sample}.{library}.{chromosome}.{report}"
+        for sample, library in SAMPLE_LIB
+        for report in BAM_REPORTS
     ]
     return files

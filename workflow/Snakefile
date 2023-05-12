@@ -18,8 +18,8 @@ SAMPLE_LIB = samples[["sample", "library"]].values.tolist()
 MAX_THREADS = params["max_threads"]
 SNPEFF_DBS = features["snpeff"]["genome"]
 CHROMOSOMES = features["reference"]["chromosomes"]
-BOWTIE2_REPORTS = "stats.tsv flagstats.txt idxstats.tsv".split()
-PICARD_REPORTS = BOWTIE2_REPORTS + ["metrics.tsv"]
+BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
+PICARD_REPORTS = BAM_REPORTS + ["metrics.tsv"]
 
 
 # Import subworkflows

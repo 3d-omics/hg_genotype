@@ -121,7 +121,7 @@ rule report_step_picard:
 rule report_step_gatk4:
     """Collect all reports for the gatk4 step"""
     input:
-        rules.gatk4_base_recalibrator_all.input,
+        rules.gatk4_report.input,
     output:
         html=REPORT_STEP / "gatk4.html",
     log:
