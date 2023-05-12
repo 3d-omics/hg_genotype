@@ -63,6 +63,7 @@ jobs:
             --use-conda
             --conda-create-envs-only
             --conda-frontend mamba
+            --cores 1
 
       - name: Test workflow
         uses: snakemake/snakemake-github-action@v1.24.0
