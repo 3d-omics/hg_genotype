@@ -14,6 +14,8 @@ rule bowtie2_build:
         ),
     log:
         BOWTIE2 / "build.log",
+    benchmark:
+        BOWTIE2 / "build.bmk"
     conda:
         "../envs/bowtie2.yml"
     params:
@@ -52,6 +54,8 @@ rule bowtie2_map_one:
         cram=protected(BOWTIE2 / "{sample}.{library}.cram"),
     log:
         BOWTIE2 / "{sample}.{library}.log",
+    benchmark:
+        BOWTIE2 / "{sample}.{library}.bmk"
     params:
         index_prefix=REFERENCE / "genome",
         extra=params["bowtie2"]["extra"],
@@ -77,6 +81,7 @@ rule bowtie2_map_one:
             {params.extra} \
         | samtools sort \
             -l 9 \
+            -M \
             -m {params.samtools_mem} \
             -o {output.cram} \
             --reference {input.reference} \
