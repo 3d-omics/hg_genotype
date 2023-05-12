@@ -102,7 +102,7 @@ rule bowtie2_report_all:
         [
             BOWTIE2 / f"{sample}.{library}.{report}"
             for sample, library in SAMPLE_LIB
-            for report in "stats.tsv flagstats.txt idxstats.tsv".split()
+            for report in BAM_REPORTS
         ],
 
 

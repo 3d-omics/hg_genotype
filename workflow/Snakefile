@@ -18,6 +18,7 @@ SAMPLE_LIB = samples[["sample", "library"]].values.tolist()
 MAX_THREADS = params["max_threads"]
 SNPEFF_DBS = features["snpeff"]["genome"]
 CHROMOSOMES = features["reference"]["chromosomes"]
+BAM_REPORTS = "stats.tsv flagstats.txt idxstats.tsv".split()
 
 
 # Import subworkflows

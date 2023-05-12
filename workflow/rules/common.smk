@@ -74,9 +74,9 @@ def get_picard_markduplicates_per_chromosome_files(wildcards):
     chromosome = wildcards.chromosome
     ANALYSES = ["stats.tsv", "flagstats.txt", "idxstats.tsv", "metrics.tsv"]
     files = [
-        PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{analysis}"
+        PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{report}"
         for sample, library in SAMPLE_LIB
-        for analysis in ANALYSES
+        for report in BAM_REPORTS
     ]
     return files
 
@@ -102,9 +102,9 @@ def get_picard_markduplicates_for_library_report(wildcards):
     library = wildcards.library
     ANALYSES = ["stats.tsv", "flagstats.txt", "idxstats.tsv", "metrics.tsv"]
     files = [
-        PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{analysis}"
+        PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{report}"
         for chromosome in CHROMOSOMES
-        for analysis in ANALYSES
+        for report in BAM_REPORTS + ["metrics.tsv"]
     ]
     return files
 
