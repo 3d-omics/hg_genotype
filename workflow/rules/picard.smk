@@ -84,7 +84,7 @@ rule picard_report_all:
             PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{report}"
             for sample, library in SAMPLE_LIB
             for chromosome in CHROMOSOMES
-            for report in BAM_REPORTS + ["metrics.tsv"]
+            for report in PICARD_REPORTS
         ],
 
 

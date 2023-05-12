@@ -102,7 +102,7 @@ rule bowtie2_report_all:
         [
             BOWTIE2 / f"{sample}.{library}.{report}"
             for sample, library in SAMPLE_LIB
-            for report in BAM_REPORTS
+            for report in BOWTIE2_REPORTS
         ],
 
 

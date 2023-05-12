@@ -76,7 +76,7 @@ def get_picard_markduplicates_per_chromosome_files(wildcards):
     files = [
         PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{report}"
         for sample, library in SAMPLE_LIB
-        for report in BAM_REPORTS
+        for report in PICARD_REPORTS
     ]
     return files
 
@@ -104,7 +104,7 @@ def get_picard_markduplicates_for_library_report(wildcards):
     files = [
         PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{report}"
         for chromosome in CHROMOSOMES
-        for report in BAM_REPORTS + ["metrics.tsv"]
+        for report in PICARD_REPORTS
     ]
     return files
 
