@@ -46,7 +46,7 @@ jobs:
       - name: Set cache date
         run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
-      - name: cache
+      - name: Cache
         uses: actions/cache@v2
         with:
           path: .snakemake/conda
@@ -61,7 +61,7 @@ jobs:
           snakefile: workflow/Snakefile
           args: >
             --use-conda
-            --download-only
+            --conda-create-envs-only
             --conda-frontend mamba
 
       - name: Test workflow
