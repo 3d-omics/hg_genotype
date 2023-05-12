@@ -188,7 +188,7 @@ rule gatk4_genotype_gvcfs_one:
         extra=params["gatk4"]["genotype_gvcfs"]["extra"],
     resources:
         mem_mb=8000,
-        time=1440,
+        runtime=1440,
     shell:
         """
         gatk GenotypeGVCFs \
@@ -234,7 +234,7 @@ rule gatk4_calculate_genotype_posteriors_one:
         extra=params["gatk4"]["calculate_genotype_posteriors"]["extra"],
     resources:
         mem_mb=8000,
-        time=1440,
+        runtime=1440,
     shell:
         """
         gatk CalculateGenotypePosteriors \
@@ -275,7 +275,7 @@ rule gatk4_variant_filtration_one:
         extra=params["gatk4"]["variant_filtration"]["extra"],
     resources:
         mem_mb=8000,
-        time=1440,
+        runtime=1440,
     shell:
         """
         gatk VariantFiltration \
