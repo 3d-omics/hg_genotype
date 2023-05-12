@@ -18,25 +18,32 @@ SAMPLE_LIB = samples[["sample", "library"]].values.tolist()
 MAX_THREADS = params["max_threads"]
 SNPEFF_DBS = features["snpeff"]["genome"]
 CHROMOSOMES = features["reference"]["chromosomes"]
+BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
+PICARD_REPORTS = BAM_REPORTS + ["metrics.tsv"]
 
 
 # Import subworkflows
 include: "rules/folders.smk"
-include: "rules/common.smk"
 include: "rules/samtools.smk"
 include: "rules/bcftools.smk"
+include: "rules/reads_functions.smk"
 include: "rules/reads.smk"
 include: "rules/reference.smk"
 include: "rules/fastqc.smk"
 include: "rules/fastp.smk"
+include: "rules/bowtie2_functions.smk"
 include: "rules/bowtie2.smk"
+include: "rules/somalier_functions.smk"
 include: "rules/somalier.smk"
 include: "rules/picard.smk"
+include: "rules/gatk4_functions.smk"
 include: "rules/gatk4.smk"
 include: "rules/snpeff.smk"
+include: "rules/report_library_functions.smk"
 include: "rules/report_library.smk"
-include: "rules/report_step.smk"
+include: "rules/report_chromosome_functions.smk"
 include: "rules/report_chromosome.smk"
+include: "rules/report_step.smk"
 
 
 rule all:

@@ -1,5 +1,7 @@
+# Check that pull requests have proper names
+---
 name: PR
-on:
+on:  # yamllint disable-line rule:truthy
   pull_request_target:
     types:
       - opened

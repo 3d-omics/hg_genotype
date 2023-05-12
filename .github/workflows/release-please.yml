@@ -1,4 +1,6 @@
-on:
+# Helper for a release
+---
+on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - main
@@ -13,5 +15,5 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
-          release-type: go # just keep a changelog, no version anywhere outside of git tags
+          release-type: go
           package-name: <repo>

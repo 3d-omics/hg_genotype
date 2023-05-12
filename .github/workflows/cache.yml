@@ -1,0 +1,24 @@
+# Cache .snakemake/conda
+---
+# name: Cache conda packages weekly
+# on:  # yamllint disable-line rule:truthy
+#   schedule:
+#     - cron: '@weekly'
+#   workflow_dispatch:
+
+# jobs:
+#   Caching:
+#   runs-on: ubuntu-latest
+#   steps:
+#     - uses: actions/checkout@v3
+#     - name:
+
+#   my-job:
+#     name: Delete all caches
+#     runs-on: ubuntu-20.04
+
+#     steps:
+#       - name: Clear caches
+#         uses: easimon/wipe-cache@main
+#         with:
+#           dry-run: 'true'
