@@ -39,7 +39,7 @@ rule snpeff_ann:
         html="snpEff_summary.html",
     resources:
         mem_mb=8000,
-        runtime=60,
+        runtime=24 * 60,
     shell:
         """
         (snpEff ann \
