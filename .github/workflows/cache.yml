@@ -3,7 +3,7 @@
 # name: Cache conda packages weekly
 on:  # yamllint disable-line rule:truthy
   schedule:
-    - cron: '@weekly'
+    - cron: '0 0 * * 1'
   workflow_dispatch:
 
 jobs:
