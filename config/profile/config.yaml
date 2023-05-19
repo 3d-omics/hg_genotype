@@ -16,7 +16,7 @@
 default-resources:
     - runtime=60
     - mem_mb=1024
-    - disk_mb=1000000
+    - disk_mb=100000
 set-threads:
     - single_core_rule=1
     - multi_core_rule=16
