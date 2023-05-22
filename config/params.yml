@@ -1,7 +1,7 @@
 max_threads: 96
 
 fastp:
-  extra: ""
+  extra: "--trim_poly_g --trim_poly_x"
 
 bowtie2:
   extra: ""
