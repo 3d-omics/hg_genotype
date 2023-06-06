@@ -116,6 +116,7 @@ rule gatk4_haplotype_caller_one:
         "../envs/gatk4.yml"
     params:
         extra=params["gatk4"]["haplotype_caller"]["extra"],
+        ploidy=get_ploidy_of_sample_and_chromosome,
     resources:
         mem_mb=8000,
         runtime=1440,
@@ -127,6 +128,7 @@ rule gatk4_haplotype_caller_one:
             --input {input.bam} \
             --output {output.gvcf_gz} \
             --emit-ref-confidence GVCF \
+            -ploidy {params.ploidy} \
         2> {log} 1>&2
         """
 
@@ -358,7 +360,6 @@ rule gatk4_variant_filtration_merge:
     shell:
         """
         bcftools concat \
-            --naive \
             --output {output} \
             --output-type z9 \
             --threads {threads} \

@@ -27,14 +27,16 @@ def get_ploidy_of_sample_and_chromosome(wildcards):
         ["sex"]
     ]
 
-    male_chrs = features["male_chrs"]
-    female_chrs = features["female_chrs"]
-    mitochondria = features["mitochondria"]
+    male_chrs = features["reference"]["male_chromosomes"]
+    female_chrs = features["reference"]["female_chromosomes"]
+    mitochondria = features["reference"]["mitochondria"]
 
-    if chormosome in mitochondria:
+    if chromosome in mitochondria:
         return 1
-    if lenth(male_chrs) == 2 & chromosome in male_chrs:
+    if (len(male_chrs) == 2) & (chromosome in male_chrs):
+        # ZZ won't trigger XY will
         return 1
-    if length(female_chrs) == 2 & chromsome in female_chrs:
+    if (len(female_chrs) == 2) & (chromosome in female_chrs):
+        # ZW will trigger, XY won't
         return 1
     return 2
