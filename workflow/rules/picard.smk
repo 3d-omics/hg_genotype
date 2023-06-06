@@ -33,7 +33,7 @@ rule picard_extract_all:
         [
             PICARD / f"extract/{sample}.{library}/{chromosome}.bam"
             for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
+            for chromosome in get_sample_chromosomes(sample)
         ],
 
 
@@ -73,7 +73,7 @@ rule picard_markduplicates_all:
         [
             PICARD / f"markduplicates/{sample}.{library}.{chromosome}.bam"
             for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
+            for chromosome in get_sample_chromosomes(sample)
         ],
 
 
@@ -83,7 +83,7 @@ rule picard_report_all:
         [
             PICARD / f"markduplicates/{sample}.{library}.{chromosome}.{report}"
             for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
+            for chromosome in get_sample_chromosomes(sample)
             for report in PICARD_REPORTS
         ],
 

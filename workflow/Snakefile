@@ -17,9 +17,13 @@ SAMPLES = samples["sample"].drop_duplicates().values.tolist()
 SAMPLE_LIB = samples[["sample", "library"]].values.tolist()
 MAX_THREADS = params["max_threads"]
 SNPEFF_DBS = features["snpeff"]["genome"]
-CHROMOSOMES = features["reference"]["chromosomes"]
 BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
 PICARD_REPORTS = BAM_REPORTS + ["metrics.tsv"]
+CHROMOSOMES = set(
+    features["reference"]["autosomes"]
+    + features["reference"]["male_chromosomes"]
+    + features["reference"]["mitochondria"]
+)
 
 
 # Import subworkflows

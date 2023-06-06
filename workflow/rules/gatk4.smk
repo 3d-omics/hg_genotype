@@ -137,7 +137,7 @@ rule gatk4_haplotype_caller_all:
         [
             GATK / f"haplotype_caller/{sample}.{library}.{chromosome}.gvcf.gz"
             for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
+            for chromosome in get_sample_chromosomes(sample)
         ],
 
 

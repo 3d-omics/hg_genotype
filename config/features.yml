@@ -1,7 +1,10 @@
 reference:
     dna: resources/reference/ggal.mock.fa.gz
     known_vcf: resources/reference/ggal.mock.vcf.gz
-    chromosomes: [1, 2]
+    autosomes: [1, 2]
+    male_chromosomes: [Z, W]
+    female_chromosomes: [Z]
+    mitochondria: [MT]
 
 snpeff:
     genome:
