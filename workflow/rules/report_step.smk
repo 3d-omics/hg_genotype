@@ -70,30 +70,6 @@ rule report_step_bowtie2:
         """
 
 
-rule report_step_somalier:
-    """Collect all reports for the somalier step"""
-    input:
-        rules.somalier_report.input,
-    output:
-        html=REPORT_STEP / "somalier.html",
-    log:
-        REPORT_STEP / "somalier.log",
-    conda:
-        "../envs/report.yml"
-    params:
-        dir=REPORT_STEP,
-    shell:
-        """
-        multiqc \
-            --title somalier \
-            --force \
-            --filename somalier \
-            --outdir {params.dir} \
-            {input} \
-        2> {log} 1>&2
-        """
-
-
 rule report_step_picard:
     """Collect all reports for the picard step"""
     input:
@@ -172,7 +148,6 @@ rule report_step:
         rules.report_step_reads.output,
         rules.report_step_fastp.output,
         rules.report_step_bowtie2.output,
-        rules.report_step_somalier.output,
         rules.report_step_picard.output,
         rules.report_step_gatk4.output,
         rules.report_step_snpeff.output,
