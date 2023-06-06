@@ -176,3 +176,12 @@ rule report_step:
         rules.report_step_picard.output,
         rules.report_step_gatk4.output,
         rules.report_step_snpeff.output,
+
+
+localrules:
+    report_step_reads,
+    report_step_fastp,
+    report_step_bowtie2,
+    report_step_picard,
+    report_step_gatk4,
+    report_step_snpeff,

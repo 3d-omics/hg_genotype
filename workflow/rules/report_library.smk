@@ -4,8 +4,8 @@ rule report_library_one:
         READS / "{sample}.{library}_1_fastqc.zip",
         READS / "{sample}.{library}_2_fastqc.zip",
         FASTP / "{sample}.{library}_fastp.json",
-        FASTP / "{sample}.{library}_1.html",
-        FASTP / "{sample}.{library}_2.html",
+        FASTP / "{sample}.{library}_1_fastqc.zip",
+        FASTP / "{sample}.{library}_2_fastqc.zip",
         BOWTIE2 / "{sample}.{library}.stats.tsv",
         BOWTIE2 / "{sample}.{library}.flagstats.txt",
         BOWTIE2 / "{sample}.{library}.idxstats.tsv",
@@ -43,3 +43,7 @@ rule report_library:
     """Make all MultiQC reports per library"""
     input:
         rules.report_library_all.input,
+
+
+localrules:
+    report_library_one,
