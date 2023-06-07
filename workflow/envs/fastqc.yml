@@ -1,8 +1,8 @@
-# bcftools.yml: process vcf/bcf
+# fasqtc: generate reports for raw and trimmed files
 ---
 channels:
   - conda-forge
   - bioconda
   - nodefaults
 dependencies:
-  - bcftools=1.17
+  - fastqc=0.11.9

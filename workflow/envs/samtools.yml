@@ -1,3 +1,5 @@
+# samtools: bam wrangling
+---
 channels:
   - conda-forge
   - bioconda

@@ -1,3 +1,5 @@
+# empty environment file with only python
+---
 channels:
   - conda-forge
   - bioconda

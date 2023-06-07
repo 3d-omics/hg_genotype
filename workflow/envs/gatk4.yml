@@ -1,3 +1,5 @@
+# gatk4: bam recalibration + variant calling
+---
 channels:
   - conda-forge
   - bioconda

@@ -1,3 +1,5 @@
+# snpeff: annotate vcf from gatk4
+---
 channels:
   - conda-forge
   - bioconda

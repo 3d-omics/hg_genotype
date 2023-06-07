@@ -1,6 +1,9 @@
+# picard: slice bams by chromosome and use picard markduplicates
+---
 channels:
   - conda-forge
   - bioconda
   - nodefaults
 dependencies:
   - picard=3.0.0
+  - samtools= 1.17

@@ -9,7 +9,7 @@ rule picard_extract_one:
     log:
         PICARD / "extract/{sample}.{library}.{chromosome}.log",
     conda:
-        "../envs/samtools.yml"
+        "../envs/picard.yml"
     params:
         chromosome=lambda wildcards: f"{wildcards.chromosome}",
     resources:
