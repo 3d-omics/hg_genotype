@@ -5,3 +5,4 @@ logs/**
 .snakemake/**
 **/.DS_Store
 reports/**
+.Rproj.user

@@ -1,3 +1,5 @@
+# bowtie2: run bowtie and use samtools to sort and compress
+---
 channels:
   - conda-forge
   - bioconda

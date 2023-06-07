@@ -15,7 +15,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .snakemake/conda
-          key: snakemake-conda-${{ env.CACHE_NUMBER }}
+          key: snakemake-conda
         id: cache
       - name: Download environments
         uses: snakemake/snakemake-github-action@v1.24.0
