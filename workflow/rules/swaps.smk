@@ -134,6 +134,24 @@ rule swaps_process:
         """
 
 
+rule swaps_plot:
+    input:
+        tsv=SWAPS / "gtcheck.tsv",
+    output:
+        pdf=SWAPS / "gtcheck.pdf",
+    log:
+        SWAPS / "plot.log",
+    conda:
+        "../envs/swaps.yml"
+    shell:
+        """
+        Rscript workflow/scripts/plot_gtcheck.R \
+            --infile {input} \
+            --outfile {output} \
+        2> {log} 1>&2
+        """
+
+
 rule swaps:
     input:
-        SWAPS / "gtcheck.tsv",
+        SWAPS / "gtcheck.pdf",
