@@ -1,5 +1,9 @@
 rule bowtie2_build:
-    """Build bowtie2 index"""
+    """Build bowtie2 index
+
+    Let the script decide to use a small or a large index based on the size of
+    the reference genome.
+    """
     input:
         reference=REFERENCE / "genome.fa.gz",
     output:
@@ -34,7 +38,10 @@ rule bowtie2_build:
 
 
 rule bowtie2_map_one:
-    """Map one library to reference genome using bowtie2"""
+    """Map one library to reference genome using bowtie2
+
+    Output SAM file is piped to samtools sort to generate a CRAM file.
+    """
     input:
         forward_=FASTP / "{sample}.{library}_1.fq.gz",
         reverse_=FASTP / "{sample}.{library}_2.fq.gz",
@@ -91,13 +98,17 @@ rule bowtie2_map_one:
 
 
 rule bowtie2_map_all:
-    """Run bowtie2 on all libraries"""
+    """Collect the results of `bowtie2_map_one` for all libraries"""
     input:
         [BOWTIE2 / f"{sample}.{library}.cram" for sample, library in SAMPLE_LIB],
 
 
 rule bowtie2_report_all:
-    """Generate bowtie2 report for all libraries"""
+    """Generate bowtie2 reports for all libraries:
+    - samtools stats
+    - samtools flagstats
+    - samtools idxstats
+    """
     input:
         [
             BOWTIE2 / f"{sample}.{library}.{report}"

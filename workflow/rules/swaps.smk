@@ -1,4 +1,6 @@
 rule swaps_rename_library_one:
+    """Replace the read group information so intead of showing the sample, it shows the library ID.
+    """
     input:
         bam=PICARD / "markduplicates/{sample}.{library}.{chromosome}.bam",
         reference=REFERENCE / "genome.fa.gz",
@@ -25,6 +27,7 @@ rule swaps_rename_library_one:
 
 
 rule swaps_rename_library_all:
+    """Replace RG tags to library ids over all the libraries"""
     input:
         [
             SWAPS / f"rename_library/{sample}.{library}.{chromosome}.bam"
@@ -33,15 +36,8 @@ rule swaps_rename_library_all:
         ],
 
 
-def get_bams_for_bcftools_call(wildcards):
-    chromosome = wildcards.chromosome
-    return [
-        SWAPS / f"rename_library/{sample}.{library}.{chromosome}.bam"
-        for sample, library in SAMPLE_LIB
-    ]
-
-
 rule swaps_call_one_chromosome:
+    """Call variants for a single chromosome"""
     input:
         bams=get_bams_for_bcftools_call,
         reference=REFERENCE / "genome.fa.gz",
@@ -67,11 +63,13 @@ rule swaps_call_one_chromosome:
 
 
 rule swaps_call_all:
+    """Collect variants from all chromosomes"""
     input:
         [SWAPS / f"bcftools_mpileup/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
 
 
 rule swaps_filter_one:
+    """Filter variants on one chromosome"""
     input:
         vcf=SWAPS / "call/{chromosome}.vcf.gz",
     output:
@@ -94,11 +92,13 @@ rule swaps_filter_one:
 
 
 rule swaps_filter_all:
+    """Collect filtered variants from all chromosomes"""
     input:
         [SWAPS / f"call/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
 
 
 rule swaps_merge:
+    """Merge all chromosomes into one file"""
     input:
         vcf=[SWAPS / f"filter/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
     output:
@@ -118,6 +118,7 @@ rule swaps_merge:
 
 
 rule swaps_process:
+    """Run bcftools gtcheck"""
     input:
         vcf=SWAPS / "merge.vcf.gz",
     output:
@@ -135,6 +136,7 @@ rule swaps_process:
 
 
 rule swaps_plot:
+    """Plot the results of bcftools gtcheck"""
     input:
         tsv=SWAPS / "gtcheck.tsv",
     output:
@@ -153,5 +155,6 @@ rule swaps_plot:
 
 
 rule swaps:
+    """Run the entire gtcheck workflow"""
     input:
         SWAPS / "gtcheck.pdf",
