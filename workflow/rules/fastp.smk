@@ -56,6 +56,7 @@ rule fastp_trim_all:
 
 
 rule fastp_fastqc_all:
+    """Run fastqc over all libraries"""
     input:
         [
             FASTP / f"{sample}.{library}_{end}_fastqc.{extension}"

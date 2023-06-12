@@ -369,11 +369,18 @@ rule gatk4_variant_filtration_merge:
 
 
 rule gatk4_all:
+    """Run the entire GATK4 pipeline: from the results from picard to the
+    filtered variants
+    """
     input:
         GATK / "variants_filtered.vcf.gz",
 
 
 rule gatk4_report:
+    """Generate the reports for the GATK pipeline:
+    - BaseRecalibrator
+    - ApplyBQSR
+    """
     input:
         rules.gatk4_base_recalibrator_all.input,
         rules.gatk4_apply_bqsr_report.input,

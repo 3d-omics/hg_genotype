@@ -2,8 +2,6 @@
 library(getopt)
 library(tidyverse)
 
-gtcheck_file <- "results/swaps/gtcheck.tsv"
-
 option_matrix <- matrix(
   c(
     "infile", "i", 1, "character",
@@ -18,7 +16,7 @@ options <- getopt(option_matrix)
 
 read_gtcheck <- function(gtcheck_filename) {
   read_tsv(
-    file = gtcheck_file,
+    file = gtcheck_filename,
     skip = 20,
     col_names = c(
       "dc", "query_sample", "genotyped_sample", "discordance", "log_p_hwe",
