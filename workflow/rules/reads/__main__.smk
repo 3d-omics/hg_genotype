@@ -1,3 +1,6 @@
+include: "__functions__.smk"
+
+
 rule reads_link_one:
     """Make a link to the original file, with a prettier name than default"""
     input:
@@ -9,7 +12,7 @@ rule reads_link_one:
     log:
         READS / "{sample}.{library}.log",
     conda:
-        "../envs/empty.yml"
+        "__environment__.yml"
     shell:
         """
         ln --symbolic $(readlink --canonicalize {input.forward_}) {output.forward_}

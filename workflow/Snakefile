@@ -29,8 +29,7 @@ CHROMOSOMES = set(
 # Import subworkflows
 include: "rules/folders.smk"
 include: "rules/helpers/__main__.smk"
-include: "rules/reads_functions.smk"
-include: "rules/reads.smk"
+include: "rules/reads/__main__.smk"
 include: "rules/reference.smk"
 include: "rules/preprocess/__main__.smk"
 include: "rules/align/__main__.smk"
