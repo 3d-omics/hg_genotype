@@ -7,7 +7,7 @@ rule reference_recompress_genome:
     log:
         REFERENCE / "genome.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     threads: 8
     shell:
         """
@@ -33,7 +33,7 @@ rule reference_recompress_vcf:
     log:
         REFERENCE / "known_variants.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     threads: 8
     shell:
         """
