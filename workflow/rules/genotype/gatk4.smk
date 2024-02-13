@@ -1,100 +1,3 @@
-rule gatk4_base_recalibrator_one:
-    """Compute the recalibration table for a single library and chromosome"""
-    input:
-        bam=PICARD / "markduplicates/{sample}.{library}.{chromosome}.bam",
-        bai=PICARD / "markduplicates/{sample}.{library}.{chromosome}.bam.bai",
-        reference=REFERENCE / "genome.fa.gz",
-        dict_=REFERENCE / "genome.dict",
-        known_sites=REFERENCE / "known_variants.vcf.gz",
-        csi=REFERENCE / "known_variants.vcf.gz.tbi",
-    output:
-        table=GATK / "base_recalibrator/{sample}.{library}.{chromosome}.txt",
-    log:
-        GATK / "base_recalibrator/{sample}.{library}.{chromosome}.log",
-    benchmark:
-        GATK / "base_recalibrator/{sample}.{library}.{chromosome}.bmk"
-    conda:
-        "__environment__.yml"
-    params:
-        extra=params["gatk4"]["base_recalibrator"]["extra"],
-    resources:
-        mem_mb=8000,
-        runtime=1440,
-    shell:
-        """
-        gatk BaseRecalibrator \
-            {params.extra} \
-            --input {input.bam} \
-            --reference {input.reference} \
-            --known-sites {input.known_sites} \
-            --output {output.table} \
-        2> {log} 1>&2
-        """
-
-
-rule gatk4_base_recalibrator_all:
-    """Compute recalibration for all chromosomes and libraries"""
-    input:
-        [
-            GATK / f"base_recalibrator/{sample}.{library}.{chromosome}.txt"
-            for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
-        ],
-
-
-rule gatk4_apply_bqsr_one:
-    """Apply the recalibration table to a single library and chromosome"""
-    input:
-        bam=PICARD / "markduplicates/{sample}.{library}.{chromosome}.bam",
-        reference=REFERENCE / "genome.fa.gz",
-        table=GATK / "base_recalibrator/{sample}.{library}.{chromosome}.txt",
-        dict_=REFERENCE / "genome.dict",
-    output:
-        bam=protected(GATK / "apply_bqsr/{sample}.{library}.{chromosome}.bam"),
-    log:
-        GATK / "apply_bqsr/{sample}.{library}.{chromosome}.log",
-    benchmark:
-        GATK / "apply_bqsr/{sample}.{library}.{chromosome}.bmk"
-    conda:
-        "__environment__.yml"
-    params:
-        extra=params["gatk4"]["apply_bqsr"]["extra"],
-    resources:
-        mem_mb=8000,
-        runtime=1440,
-    shell:
-        """
-        gatk ApplyBQSR \
-            {params.extra} \
-            --input {input.bam} \
-            --reference {input.reference} \
-            --bqsr-recal-file {input.table} \
-            --output {output.bam} \
-        2> {log} 1>&2
-        """
-
-
-rule gatk4_apply_bqsr_all:
-    """Apply the recalibration table to all libraries and chromosomes"""
-    input:
-        [
-            GATK / f"apply_bqsr/{sample}.{library}.{chromosome}.bam"
-            for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
-        ],
-
-
-rule gatk4_apply_bqsr_report:
-    """Generate a report for all libraries and chromosomes"""
-    input:
-        [
-            GATK / f"apply_bqsr/{sample}.{library}.{chromosome}.{report}"
-            for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
-            for report in BAM_REPORTS
-        ],
-
-
 # rule gatk4_analyze_covariates:
 #     shell:
 #         pass
@@ -104,14 +7,12 @@ rule gatk4_haplotype_caller_one:
     """Call variants for a single library and chromosome"""
     input:
         reference=REFERENCE / "genome.fa.gz",
-        bam=GATK / "apply_bqsr/{sample}.{library}.{chromosome}.bam",
+        bam=RECALIBRATE / "{sample}.{library}" / "{chromosome}.bam",
         dict_=REFERENCE / "genome.dict",
     output:
-        gvcf_gz=GATK / "haplotype_caller/{sample}.{library}.{chromosome}.gvcf.gz",
+        gvcf_gz=GATK / "haplotype_caller/{sample}.{library}" / "{chromosome}.gvcf.gz",
     log:
-        GATK / "haplotype_caller/{sample}.{library}.{chromosome}.log",
-    benchmark:
-        GATK / "haplotype_caller/{sample}.{library}.{chromosome}.bmk"
+        GATK / "haplotype_caller/{sample}.{library}" / "{chromosome}.log",
     conda:
         "__environment__.yml"
     params:
@@ -137,7 +38,7 @@ rule gatk4_haplotype_caller_all:
     """Call variants for all libraries and chromosomes"""
     input:
         [
-            GATK / f"haplotype_caller/{sample}.{library}.{chromosome}.gvcf.gz"
+            GATK / f"haplotype_caller/{sample}.{library}" / f"{chromosome}.gvcf.gz"
             for sample, library in SAMPLE_LIB
             for chromosome in get_sample_chromosomes(sample)
         ],
@@ -153,11 +54,9 @@ rule gatk4_combine_gvcfs_one:
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
     output:
-        vcf_gz=GATK / "joint_variants/{chromosome}.vcf.gz",
+        vcf_gz=GATK / "joint_variants" / "{chromosome}.vcf.gz",
     log:
-        GATK / "joint_variants/{chromosome}.log",
-    benchmark:
-        GATK / "joint_variants/{chromosome}.bmk"
+        GATK / "joint_variants" / "{chromosome}.log",
     conda:
         "__environment__.yml"
     params:
@@ -180,7 +79,7 @@ rule gatk4_combine_gvcfs_one:
 rule gatk4_combine_gvcfs_all:
     """Get all chromosomal gVCFs"""
     input:
-        [GATK / f"joint_variants/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
+        [GATK / "joint_variants" / f"{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
 
 
 rule gatk4_genotype_gvcfs_one:

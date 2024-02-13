@@ -1,40 +1,4 @@
-rule bowtie2_build:
-    """Build bowtie2 index
 
-    Let the script decide to use a small or a large index based on the size of
-    the reference genome.
-    """
-    input:
-        reference=REFERENCE / "genome.fa.gz",
-    output:
-        multiext(
-            f"{REFERENCE}/genome",
-            ".1.bt2",
-            ".2.bt2",
-            ".3.bt2",
-            ".4.bt2",
-            ".rev.1.bt2",
-            ".rev.2.bt2",
-        ),
-    log:
-        BOWTIE2 / "build.log",
-    benchmark:
-        BOWTIE2 / "build.bmk"
-    conda:
-        "__environment__.yml"
-    params:
-        output_path=REFERENCE / "genome",
-        extra=params["bowtie2"]["extra"],
-    threads: 8
-    shell:
-        """
-        bowtie2-build \
-            --threads {threads} \
-            {params.extra} \
-            {input.reference} \
-            {params.output_path} \
-        2> {log} 1>&2
-        """
 
 
 rule bowtie2_map_one:
@@ -48,7 +12,7 @@ rule bowtie2_map_one:
         unpaired1=FASTP / "{sample}.{library}_u1.fq.gz",
         unpaired2=FASTP / "{sample}.{library}_u2.fq.gz",
         idx=multiext(
-            f"{REFERENCE}/genome",
+            f"{INDEX}/genome",
             ".1.bt2",
             ".2.bt2",
             ".3.bt2",
@@ -58,13 +22,11 @@ rule bowtie2_map_one:
         ),
         reference=REFERENCE / "genome.fa.gz",
     output:
-        cram=protected(BOWTIE2 / "{sample}.{library}.cram"),
+        cram=protected(MAP / "{sample}.{library}.cram"),
     log:
-        BOWTIE2 / "{sample}.{library}.log",
-    benchmark:
-        BOWTIE2 / "{sample}.{library}.bmk"
+        MAP / "{sample}.{library}.log",
     params:
-        index_prefix=REFERENCE / "genome",
+        index_prefix=INDEX / "genome",
         extra=params["bowtie2"]["extra"],
         samtools_mem=params["bowtie2"]["samtools"]["mem_per_thread"],
         rg_id=compose_rg_id,
@@ -100,7 +62,7 @@ rule bowtie2_map_one:
 rule bowtie2_map_all:
     """Collect the results of `bowtie2_map_one` for all libraries"""
     input:
-        [BOWTIE2 / f"{sample}.{library}.cram" for sample, library in SAMPLE_LIB],
+        [MAP / f"{sample}.{library}.cram" for sample, library in SAMPLE_LIB],
 
 
 rule bowtie2_report_all:
@@ -111,7 +73,7 @@ rule bowtie2_report_all:
     """
     input:
         [
-            BOWTIE2 / f"{sample}.{library}.{report}"
+            MAP / f"{sample}.{library}.{report}"
             for sample, library in SAMPLE_LIB
             for report in BAM_REPORTS
         ],
