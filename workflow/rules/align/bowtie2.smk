@@ -21,7 +21,7 @@ rule bowtie2_build:
     benchmark:
         BOWTIE2 / "build.bmk"
     conda:
-        "../envs/bowtie2.yml"
+        "__environment__.yml"
     params:
         output_path=REFERENCE / "genome",
         extra=params["bowtie2"]["extra"],
@@ -71,7 +71,7 @@ rule bowtie2_map_one:
         rg_extra=compose_rg_extra,
     threads: 24
     conda:
-        "../envs/bowtie2.yml"
+        "__environment__.yml"
     resources:
         mem_mb=30000,
         runtime=1440,

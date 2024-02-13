@@ -1,4 +1,4 @@
-rule picard_extract_one:
+rule picard_extract_:
     """Extract a single chromosome from a CRAM file"""
     input:
         cram=BOWTIE2 / "{sample}.{library}.cram",
@@ -9,7 +9,7 @@ rule picard_extract_one:
     log:
         PICARD / "extract/{sample}.{library}.{chromosome}.log",
     conda:
-        "../envs/picard.yml"
+        "__environment__.yml"
     params:
         chromosome=lambda wildcards: f"{wildcards.chromosome}",
     resources:
@@ -37,7 +37,7 @@ rule picard_extract_all:
         ],
 
 
-rule picard_markduplicates_one:
+rule picard_markduplicates_:
     """Mark duplicates in a single chromosome from a single library"""
     input:
         bam=PICARD / "extract/{sample}.{library}.{chromosome}.bam",
@@ -50,7 +50,7 @@ rule picard_markduplicates_one:
     benchmark:
         PICARD / "markduplicates/{sample}.{library}.{chromosome}.bmk"
     conda:
-        "../envs/picard.yml"
+        "__environment__.yml"
     resources:
         mem_mb=8000,
         runtime=360,
