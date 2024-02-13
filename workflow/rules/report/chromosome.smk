@@ -9,7 +9,7 @@ rule report_chromosome_one:
     log:
         REPORT_CHR / "{chromosome}.log",
     conda:
-        "../envs/report.yml"
+        "__environment__.yml"
     params:
         chromosome="{chromosome}",
         out_dir=REPORT_CHR,

@@ -1,0 +1,5 @@
+include: "chromosome_functions.smk"
+include: "chromosome.smk"
+include: "library_functions.smk"
+include: "library.smk"
+include: "step.smk"
