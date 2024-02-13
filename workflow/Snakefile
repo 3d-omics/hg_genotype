@@ -40,8 +40,8 @@ include: "rules/fastp.smk"
 include: "rules/bowtie2_functions.smk"
 include: "rules/bowtie2.smk"
 include: "rules/picard.smk"
-include: "rules/swaps_functions.smk"
-include: "rules/swaps.smk"
+# include: "rules/swaps_functions.smk"
+# include: "rules/swaps.smk"
 include: "rules/gatk4_functions.smk"
 include: "rules/gatk4.smk"
 include: "rules/snpeff.smk"
@@ -61,7 +61,7 @@ rule all:
         # rules.fastp.input,
         # rules.bowtie2.input,
         # rules.picard.input,
-        rules.swaps.input,
+        # rules.swaps.input,
         # rules.gatk4_all.input,
         # rules.snpeff.input,
         rules.report_step.input,
