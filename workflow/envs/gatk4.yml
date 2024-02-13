@@ -1,8 +1,6 @@
-# gatk4: bam recalibration + variant calling
----
 channels:
   - conda-forge
   - bioconda
   - nodefaults
 dependencies:
-  - gatk4=4.4.0.0
+  - gatk4 =4.5.0.0

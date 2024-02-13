@@ -1,8 +1,6 @@
-# empty environment file with only python
----
 channels:
   - conda-forge
   - bioconda
   - nodefaults
 dependencies:
-  - python=3.10
+  - python =3.12.1

@@ -1,8 +1,6 @@
-# samtools: bam wrangling
----
 channels:
   - conda-forge
   - bioconda
   - nodefaults
 dependencies:
-  - samtools=1.17
+  - samtools =1.19.2
