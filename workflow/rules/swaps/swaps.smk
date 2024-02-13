@@ -11,7 +11,7 @@ rule swaps_rename_library_one:
     params:
         sample_library="{sample}.{library}",
     conda:
-        "../envs/swaps.yml"
+        "__environment__.yml"
     shell:
         """
         picard AddOrReplaceReadGroups \
@@ -46,7 +46,7 @@ rule swaps_call_one_chromosome:
     log:
         SWAPS / "call/{chromosome}.log",
     conda:
-        "../envs/swaps.yml"
+        "__environment__.yml"
     shell:
         """
         (bcftools mpileup \
@@ -77,7 +77,7 @@ rule swaps_filter_one:
     log:
         SWAPS / "filter/{chromosome}.log",
     conda:
-        "../envs/swaps.yml"
+        "__environment__.yml"
     params:
         min_qual=30,
     shell:
@@ -106,7 +106,7 @@ rule swaps_merge:
     log:
         SWAPS / "merge.log",
     conda:
-        "../envs/swaps.yml"
+        "__environment__.yml"
     shell:
         """
         bcftools concat \
@@ -126,7 +126,7 @@ rule swaps_process:
     log:
         SWAPS / "gtcheck.log",
     conda:
-        "../envs/swaps.yml"
+        "__environment__.yml"
     shell:
         """
         bcftools gtcheck \
@@ -144,7 +144,7 @@ rule swaps_plot:
     log:
         SWAPS / "plot.log",
     conda:
-        "../envs/swaps.yml"
+        "__environment__.yml"
     shell:
         """
         Rscript workflow/scripts/plot_gtcheck.R \
