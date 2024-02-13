@@ -14,7 +14,7 @@ rule gatk4_base_recalibrator_one:
     benchmark:
         GATK / "base_recalibrator/{sample}.{library}.{chromosome}.bmk"
     conda:
-        "../envs/gatk4.yml"
+        "__environment__.yml"
     params:
         extra=params["gatk4"]["base_recalibrator"]["extra"],
     resources:
@@ -56,7 +56,7 @@ rule gatk4_apply_bqsr_one:
     benchmark:
         GATK / "apply_bqsr/{sample}.{library}.{chromosome}.bmk"
     conda:
-        "../envs/gatk4.yml"
+        "__environment__.yml"
     params:
         extra=params["gatk4"]["apply_bqsr"]["extra"],
     resources:
@@ -113,7 +113,7 @@ rule gatk4_haplotype_caller_one:
     benchmark:
         GATK / "haplotype_caller/{sample}.{library}.{chromosome}.bmk"
     conda:
-        "../envs/gatk4.yml"
+        "__environment__.yml"
     params:
         extra=params["gatk4"]["haplotype_caller"]["extra"],
         ploidy=get_ploidy_of_sample_and_chromosome,
@@ -159,7 +159,7 @@ rule gatk4_combine_gvcfs_one:
     benchmark:
         GATK / "joint_variants/{chromosome}.bmk"
     conda:
-        "../envs/gatk4.yml"
+        "__environment__.yml"
     params:
         variant_line=compose_v_line,
         extra=params["gatk4"]["combine_gvcfs"]["extra"],
@@ -196,7 +196,7 @@ rule gatk4_genotype_gvcfs_one:
     benchmark:
         GATK / "genotyped_variants/{chromosome}.bmk"
     conda:
-        "../envs/gatk4.yml"
+        "__environment__.yml"
     params:
         extra=params["gatk4"]["genotype_gvcfs"]["extra"],
     resources:
@@ -242,7 +242,7 @@ rule gatk4_calculate_genotype_posteriors_one:
     benchmark:
         GATK / "variants_posteriors/{chromosome}.bmk"
     conda:
-        "../envs/gatk4.yml"
+        "__environment__.yml"
     params:
         extra=params["gatk4"]["calculate_genotype_posteriors"]["extra"],
     resources:
@@ -281,7 +281,7 @@ rule gatk4_variant_filtration_one:
     benchmark:
         GATK / "variants_filtered/{chromosome}.bmk"
     conda:
-        "../envs/gatk4.yml"
+        "__environment__.yml"
     params:
         filter_name=params["gatk4"]["variant_filtration"]["filter_name"],
         filter_expression=params["gatk4"]["variant_filtration"]["filter_expression"],
@@ -328,7 +328,7 @@ rule gatk4_variant_filtration_all:
 #     output:
 #         vcf =  GATK / "annotated_variants.vcf.gz"
 #     log:   GATK / "annotated_variants.log"
-#     conda: "../envs/gatk4.yml"
+#     conda: "__environment__.yml"
 #     params:
 #         input_bams = compose_cnn_input_bams
 #     shell:
@@ -355,7 +355,7 @@ rule gatk4_variant_filtration_merge:
     log:
         GATK / "variants_filtered.log",
     conda:
-        "../envs/bcftools.yml"
+        "__environment__.yml"
     threads: 24
     shell:
         """
