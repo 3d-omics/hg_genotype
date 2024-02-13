@@ -6,3 +6,4 @@ channels:
 dependencies:
   - bcftools =1.19
   - samtools = 1.19
+  - fastqc =0.12.1
