@@ -5,7 +5,7 @@ rule bcftools_index_vcf_gz:
     output:
         "{prefix}.vcf.gz.csi",
     conda:
-        "../envs/bcftools.yml"
+        "__environment__.yml"
     log:
         "{prefix}.vcf.gz.csi.log",
     shell:

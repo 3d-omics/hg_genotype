@@ -7,7 +7,7 @@ rule bai:
     log:
         "{prefix}.bam.bai.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools index {input} 2> {log} 1>&2"
 
@@ -21,7 +21,7 @@ rule crai:
     log:
         "{prefix}.cram.crai.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools index {input} 2> {log} 1>&2"
 
@@ -35,7 +35,7 @@ rule dict_fa:
     log:
         "{prefix}.dict.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools dict {input} --output {output} 2> {log} 1>&2"
 
@@ -49,7 +49,7 @@ rule dict_fagz:
     log:
         "{prefix}.dict.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools dict {input} --output {output} 2> {log} 1>&2"
 
@@ -63,7 +63,7 @@ rule vcf_gz_tbi:
     log:
         "{prefix}.vcf.gz.tbi.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "tabix {input} 2> {log} 1>&2"
 
@@ -77,7 +77,7 @@ rule vcf_gz:
     log:
         "{prefix}.vcf.gz.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "bgzip {input} 2> {log} 1>&2"
 
@@ -92,7 +92,7 @@ rule samtools_stats_bam:
     log:
         "{prefix}.stats.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools stats {input.bam} > {output.tsv} 2> {log}"
 
@@ -107,7 +107,7 @@ rule samtools_stats_cram:
     log:
         "{prefix}.stats.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools stats {input.cram} > {output.tsv} 2> {log}"
 
@@ -122,7 +122,7 @@ rule samtools_flagstats_bam:
     log:
         "{prefix}.flagstats.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools flagstats {input.bam} > {output.txt} 2> {log}"
 
@@ -137,7 +137,7 @@ rule samtools_flagstats_cram:
     log:
         "{prefix}.flagstats.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools flagstats {input.cram} > {output.txt} 2> {log}"
 
@@ -152,7 +152,7 @@ rule samtools_idxstats_bam:
     log:
         "{prefix}.idxstats.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools idxstats {input.bam} > {output.tsv} 2> {log}"
 
@@ -167,6 +167,6 @@ rule samtools_idxstats_cram:
     log:
         "{prefix}.idxstats.log",
     conda:
-        "../envs/samtools.yml"
+        "__environment__.yml"
     shell:
         "samtools idxstats {input.cram} > {output.tsv} 2> {log}"
