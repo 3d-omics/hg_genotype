@@ -8,7 +8,7 @@ rule snpeff_download:
         datadir="$PWD/resources/snpeff/",
         snpeff_db="{snpeff_db}",
     conda:
-        "../envs/snpeff.yml"
+        "__environment__.yml"
     shell:
         """
         snpEff download \
@@ -32,7 +32,7 @@ rule snpeff_ann:
     log:
         SNPEFF / "variants_{snpeff_db}.log",
     conda:
-        "../envs/snpeff.yml"
+        "__environment__.yml"
     params:
         snpeff_db="{snpeff_db}",
         datadir="$PWD/resources/snpeff/",
