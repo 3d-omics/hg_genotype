@@ -17,7 +17,7 @@ rule align__map__bowtie2:
         ),
         reference=REFERENCE / "genome.fa.gz",
     output:
-        cram=protected(MAP / "{sample}.{library}.cram"),
+        cram=MAP / "{sample}.{library}.cram",
     log:
         MAP / "{sample}.{library}.log",
     params:

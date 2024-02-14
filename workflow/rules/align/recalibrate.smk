@@ -48,7 +48,7 @@ rule align__recalibrate__applybqsr:
         table=RECALIBRATE / "{sample}.{library}" / "{chromosome}.bsqr.txt",
         dict_=REFERENCE / "genome.dict",
     output:
-        bam=protected(RECALIBRATE / "{sample}.{library}" / "{chromosome}.bam"),
+        bam=RECALIBRATE / "{sample}.{library}" / "{chromosome}.bam",
     log:
         RECALIBRATE / "{sample}.{library}" / "{chromosome}.log",
     conda:
