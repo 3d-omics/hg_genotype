@@ -45,4 +45,3 @@ rule all:
     input:
         rules.report_step.input,
         rules.report_library.input,
-        rules.report_chromosome.input,
