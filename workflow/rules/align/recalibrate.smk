@@ -68,13 +68,3 @@ rule align__recalibrate__applybqsr:
             --output {output.bam} \
         2> {log} 1>&2
         """
-
-
-rule align__recalibrate__applybqsr__all:
-    """Apply the recalibration table to all libraries and chromosomes"""
-    input:
-        [
-            RECALIBRATE / f"{sample}.{library}" / f"{chromosome}.bam"
-            for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
-        ],

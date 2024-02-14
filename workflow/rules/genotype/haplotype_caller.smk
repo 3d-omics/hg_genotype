@@ -2,7 +2,7 @@ rule genotype__haplotype_caller__:
     """Call variants for a single library and chromosome"""
     input:
         reference=REFERENCE / "genome.fa.gz",
-        bam=RECALIBRATE / "{sample}.{library}" / "{chromosome}.bam",
+        bam=MERGE / "{sample}.{library}.cram",
         dict_=REFERENCE / "genome.dict",
     output:
         gvcf_gz=HAPLOTYPE_CALLER / "{sample}.{library}" / "{chromosome}.gvcf.gz",
@@ -13,6 +13,7 @@ rule genotype__haplotype_caller__:
     params:
         extra=params["gatk4"]["haplotype_caller"]["extra"],
         ploidy=get_ploidy_of_sample_and_chromosome,
+        chromosome=lambda w: w.chromosome,
     resources:
         mem_mb=8000,
         runtime=1440,
@@ -24,6 +25,7 @@ rule genotype__haplotype_caller__:
             --input {input.bam} \
             --output {output.gvcf_gz} \
             --emit-ref-confidence GVCF \
+            --intervals {params.chromosome} \
             -ploidy {params.ploidy} \
         2> {log} 1>&2
         """

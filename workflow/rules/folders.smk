@@ -10,6 +10,7 @@ MAP = ALIGN / "map"
 SPLIT = ALIGN / "split"
 MARK_DUPLICATES = ALIGN / "mark_duplicates"
 RECALIBRATE = ALIGN / "recalibrate"
+MERGE = ALIGN / "merge"
 
 
 GENOTYPE = Path("results/genotype/")
