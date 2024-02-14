@@ -22,30 +22,6 @@ rule report_step_reads:
         """
 
 
-rule report_step_fastp:
-    """Collect all reports for the fastp step"""
-    input:
-        rules.fastp_report_all.input,
-    output:
-        html=REPORT_STEP / "fastp.html",
-    log:
-        REPORT_STEP / "fastp.log",
-    conda:
-        "__environment__.yml"
-    params:
-        dir=REPORT_STEP,
-    shell:
-        """
-        multiqc \
-            --title fastp \
-            --force \
-            --filename fastp \
-            --outdir {params.dir} \
-            {input} \
-        2> {log} 1>&2
-        """
-
-
 rule report_step_bowtie2:
     """Collect all reports for the bowtie2 step"""
     input:
@@ -146,17 +122,8 @@ rule report_step:
     """Collect all per step reports for the pipeline"""
     input:
         rules.report_step_reads.output,
-        rules.report_step_fastp.output,
+        # rules.report_step_fastp.output,
         rules.report_step_bowtie2.output,
         rules.report_step_picard.output,
         rules.report_step_gatk4.output,
         rules.report_step_snpeff.output,
-
-
-localrules:
-    report_step_reads,
-    report_step_fastp,
-    report_step_bowtie2,
-    report_step_picard,
-    report_step_gatk4,
-    report_step_snpeff,

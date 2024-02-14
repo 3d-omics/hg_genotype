@@ -3,9 +3,6 @@ rule report_library_one:
     input:
         READS / "{sample}.{library}_1_fastqc.zip",
         READS / "{sample}.{library}_2_fastqc.zip",
-        FASTP / "{sample}.{library}_fastp.json",
-        FASTP / "{sample}.{library}_1_fastqc.zip",
-        FASTP / "{sample}.{library}_2_fastqc.zip",
         MAP / "{sample}.{library}.stats.tsv",
         MAP / "{sample}.{library}.flagstats.txt",
         MAP / "{sample}.{library}.idxstats.tsv",
