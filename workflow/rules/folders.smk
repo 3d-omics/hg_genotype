@@ -13,7 +13,11 @@ RECALIBRATE = ALIGN / "recalibrate"
 
 
 GENOTYPE = Path("results/genotype/")
-GATK = GENOTYPE / "gatk"
+POSTERIORS = GENOTYPE / "variant_posteriors"
+COMBINE_GVCFS = GENOTYPE / "combine_gvcfs"
+HAPLOTYPE_CALLER = GENOTYPE / "haplotype_caller"
+GENOTYPE_GVCFS = GENOTYPE / "genotype_gvcfs"
+VARIANT_FILTRATION = GENOTYPE / "variant_filtration"
 
 ANNOTATE = Path("results/annotate/")
 SNPEFF_DB = Path("resources/snpeff/")

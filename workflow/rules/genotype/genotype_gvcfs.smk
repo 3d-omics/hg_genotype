@@ -1,13 +1,13 @@
 rule genotype__genotype_gvcfs__:
     """Genotype a single chromosome"""
     input:
-        vcf_gz=GATK / "joint_variants/{chromosome}.vcf.gz",
+        vcf_gz=COMBINE_GVCFS / "{chromosome}.vcf.gz",
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
     output:
-        vcf_gz=GATK / "genotyped_variants/{chromosome}.vcf.gz",
+        vcf_gz=GENOTYPE_GVCFS / "{chromosome}.vcf.gz",
     log:
-        GATK / "genotyped_variants/{chromosome}.log",
+        GENOTYPE_GVCFS / "{chromosome}.log",
     conda:
         "__environment__.yml"
     params:
@@ -29,4 +29,4 @@ rule genotype__genotype_gvcfs__:
 rule genotype__genotype_gvcfs__all:
     """Genotype all chromosomes"""
     input:
-        [GATK / f"genotyped_variants/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
+        [GENOTYPE_GVCFS / f"{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],

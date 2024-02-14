@@ -5,9 +5,9 @@ rule genotype__combine_gvcfs__:
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
     output:
-        vcf_gz=GATK / "joint_variants" / "{chromosome}.vcf.gz",
+        vcf_gz=COMBINE_GVCFS / "{chromosome}.vcf.gz",
     log:
-        GATK / "joint_variants" / "{chromosome}.log",
+        COMBINE_GVCFS / "{chromosome}.log",
     conda:
         "__environment__.yml"
     params:
@@ -30,4 +30,4 @@ rule genotype__combine_gvcfs__:
 rule genotype__combine_gvcfs__all:
     """Get all chromosomal gVCFs"""
     input:
-        [GATK / "joint_variants" / f"{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
+        [COMBINE_GVCFS / f"{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],

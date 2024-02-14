@@ -1,13 +1,13 @@
 rule genotype__calculate_genotype_posteriors__:
     """Calculate genotype posteriors for a single chromosome"""
     input:
-        vcf=GATK / "genotyped_variants/{chromosome}.vcf.gz",
+        vcf=GENOTYPE_GVCFS / "{chromosome}.vcf.gz",
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
     output:
-        vcf=GATK / "variants_posteriors/{chromosome}.vcf.gz",
+        vcf=POSTERIORS / "{chromosome}.vcf.gz",
     log:
-        GATK / "variants_posteriors/{chromosome}.log",
+        POSTERIORS / "{chromosome}.log",
     conda:
         "__environment__.yml"
     params:
@@ -29,7 +29,4 @@ rule genotype__calculate_genotype_posteriors__:
 rule genotype__calculate_genotype_posteriors__all:
     """Calculate genotype posteriors for all chromosomes"""
     input:
-        [
-            GATK / f"variants_posteriors/{chromosome}.vcf.gz"
-            for chromosome in CHROMOSOMES
-        ],
+        [POSTERIORS / "{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],

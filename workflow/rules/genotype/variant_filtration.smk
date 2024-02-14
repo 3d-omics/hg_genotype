@@ -3,11 +3,11 @@ rule genotype__variant_filtration__:
     input:
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
-        vcf=GATK / "variants_posteriors/{chromosome}.vcf.gz",
+        vcf=POSTERIORS / "{chromosome}.vcf.gz",
     output:
-        vcf=GATK / "variants_filtered/{chromosome}.vcf.gz",
+        vcf=VARIANT_FILTRATION / "{chromosome}.vcf.gz",
     log:
-        GATK / "variants_filtered/{chromosome}.log",
+        VARIANT_FILTRATION / "{chromosome}.log",
     conda:
         "__environment__.yml"
     params:
@@ -34,13 +34,13 @@ rule genotype__variant_filtration__merge:
     """Merge all VCF chromosomes"""
     input:
         expand(
-            GATK / "variants_filtered/{chromosome}.vcf.gz",
+            VARIANT_FILTRATION / "{chromosome}.vcf.gz",
             chromosome=CHROMOSOMES,
         ),
     output:
-        GATK / "variants_filtered.vcf.gz",
+        VARIANT_FILTRATION / "variants_filtered.vcf.gz",
     log:
-        GATK / "variants_filtered.log",
+        VARIANT_FILTRATION / "variants_filtered.log",
     conda:
         "__environment__.yml"
     threads: 24

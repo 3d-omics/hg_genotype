@@ -22,7 +22,7 @@ rule annotate__snpeff__download:
 rule annotate__snpeff__annotate:
     """Annotate variants with a SNPEff database"""
     input:
-        vcf=GATK / "variants_filtered.vcf.gz",
+        vcf=VARIANT_FILTRATION / "variants_filtered.vcf.gz",
         db=SNPEFF_DB / "{snpeff_db}",
     output:
         vcf=SNPEFF / "variants_{snpeff_db}.vcf.gz",

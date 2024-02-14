@@ -5,9 +5,9 @@ rule genotype__haplotype_caller__:
         bam=RECALIBRATE / "{sample}.{library}" / "{chromosome}.bam",
         dict_=REFERENCE / "genome.dict",
     output:
-        gvcf_gz=GATK / "haplotype_caller/{sample}.{library}" / "{chromosome}.gvcf.gz",
+        gvcf_gz=HAPLOTYPE_CALLER / "{sample}.{library}" / "{chromosome}.gvcf.gz",
     log:
-        GATK / "haplotype_caller/{sample}.{library}" / "{chromosome}.log",
+        HAPLOTYPE_CALLER / "{sample}.{library}" / "{chromosome}.log",
     conda:
         "__environment__.yml"
     params:
@@ -33,7 +33,7 @@ rule genotype__haplotype_caller__all:
     """Call variants for all libraries and chromosomes"""
     input:
         [
-            GATK / f"haplotype_caller/{sample}.{library}" / f"{chromosome}.gvcf.gz"
+            HAPLOTYPE_CALLER / f"{sample}.{library}" / f"{chromosome}.gvcf.gz"
             for sample, library in SAMPLE_LIB
             for chromosome in get_sample_chromosomes(sample)
         ],
