@@ -5,7 +5,7 @@ rule align__split__:
         crai=MAP / "{sample}.{library}.cram.crai",
         reference=REFERENCE / "genome.fa.gz",
     output:
-        bam=temp(SPLIT / "{sample}.{library}" / "{chromosome}.bam"),
+        bam=SPLIT / "{sample}.{library}" / "{chromosome}.bam",
     log:
         SPLIT / "{sample}.{library}" / "{chromosome}.log",
     conda:
