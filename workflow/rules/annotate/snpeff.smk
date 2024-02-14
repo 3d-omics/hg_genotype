@@ -63,4 +63,4 @@ rule annotate__snpeff__annotate:
 rule annotate__snpeff:
     """Run SNPeff for all databases"""
     input:
-        [SNPEFF / f"snpEff_stats_{db}.csv" for db in SNPEFF_DBS],
+        [SNPEFF / f"snpEff_stats_{snpeff_db}.csv" for snpeff_db in SNPEFF_DBS],
