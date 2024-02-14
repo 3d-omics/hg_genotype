@@ -59,7 +59,17 @@ rule report__step__align:
 rule report__step__genotype:
     """Collect all reports for the gatk4 step"""
     input:
-        rules.gatk4_report.input,
+        base_recalibrator=[
+            MARK_DUPLICATES / f"{sample}.{library}" / f"{chromosome}.bam"
+            for sample, library in SAMPLE_LIB
+            for chromosome in get_sample_chromosomes(sample)
+        ],
+        bam_reports=[
+            RECALIBRATE / f"{sample}.{library}" / f"{chromosome}.{report}"
+            for sample, library in SAMPLE_LIB
+            for chromosome in CHROMOSOMES
+            for report in BAM_REPORTS
+        ],
     output:
         html=STEP / "genotype.html",
     log:

@@ -78,33 +78,3 @@ rule align__recalibrate__applybqsr__all:
             for sample, library in SAMPLE_LIB
             for chromosome in CHROMOSOMES
         ],
-
-
-# rule gatk4_apply_bqsr_report:
-#     """Generate a report for all libraries and chromosomes"""
-#     input:
-#         [
-#             RECALIBRATE / f"{sample}.{library}" / f"{chromosome}.{report}"
-#             for sample, library in SAMPLE_LIB
-#             for chromosome in CHROMOSOMES
-#             for report in BAM_REPORTS
-#         ],
-
-
-rule gatk4_report:
-    """Generate the reports for the GATK pipeline:
-    - BaseRecalibrator
-    - ApplyBQSR
-    """
-    input:
-        [
-            MARK_DUPLICATES / f"{sample}.{library}" / f"{chromosome}.bam"
-            for sample, library in SAMPLE_LIB
-            for chromosome in get_sample_chromosomes(sample)
-        ],
-        [
-            RECALIBRATE / f"{sample}.{library}" / f"{chromosome}.{report}"
-            for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
-            for report in BAM_REPORTS
-        ],

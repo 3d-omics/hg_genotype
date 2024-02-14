@@ -7,7 +7,7 @@ rule align__mark_duplicates__:
         bam=temp(MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.bam"),
         metrics=MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.metrics.tsv",
     log:
-        MARK_DUPLICATES / "{sample}.{library}/{chromosome}.log",
+        MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.log",
     conda:
         "__environment__.yml"
     resources:
