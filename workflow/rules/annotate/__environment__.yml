@@ -3,5 +3,5 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - snpeff =5.2
   - samtools =1.19.2
+  - snpeff =5.2

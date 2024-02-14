@@ -3,5 +3,5 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - gzip
+  - gzip =1.13
   - samtools =1.19.2
