@@ -1,4 +1,4 @@
-rule index:
+rule align__index__bowtie2:
     """Build bowtie2 index
 
     Let the script decide to use a small or a large index based on the size of

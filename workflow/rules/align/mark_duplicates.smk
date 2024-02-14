@@ -1,4 +1,4 @@
-rule picard_markduplicates_:
+rule align__mark_duplicates__:
     """Mark duplicates in a single chromosome from a single library"""
     input:
         bam=SPLIT / "{sample}.{library}" / "{chromosome}.bam",
@@ -26,7 +26,7 @@ rule picard_markduplicates_:
         """
 
 
-rule picard_markduplicates_all:
+rule align__mark_duplicates__all:
     """Mark duplicates in all chromosomes and all libraries"""
     input:
         [

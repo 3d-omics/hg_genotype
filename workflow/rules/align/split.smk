@@ -1,4 +1,4 @@
-rule samtools_extract_:
+rule align__split__:
     """Extract a single chromosome from a CRAM file"""
     input:
         cram=MAP / "{sample}.{library}.cram",
@@ -27,7 +27,7 @@ rule samtools_extract_:
         """
 
 
-rule picard_extract_all:
+rule align__split__all:
     """Extract all chromosomes (the ones in features.yml) from all libraries file"""
     input:
         [

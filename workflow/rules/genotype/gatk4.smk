@@ -269,16 +269,6 @@ rule gatk4_all:
         GATK / "variants_filtered.vcf.gz",
 
 
-rule gatk4_report:
-    """Generate the reports for the GATK pipeline:
-    - BaseRecalibrator
-    - ApplyBQSR
-    """
-    input:
-        rules.gatk4_base_recalibrator_all.input,
-        rules.gatk4_apply_bqsr_report.input,
-
-
 rule gatk4:
     """Run all GATK4 steps"""
     input:

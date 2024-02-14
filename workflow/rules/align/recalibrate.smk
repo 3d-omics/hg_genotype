@@ -1,4 +1,4 @@
-rule gatk4_base_recalibrator_one:
+rule align__recalibrate__baserecalibrator:
     """Compute the recalibration table for a single library and chromosome"""
     input:
         bam=MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.bam",
@@ -30,7 +30,7 @@ rule gatk4_base_recalibrator_one:
         """
 
 
-rule gatk4_base_recalibrator_all:
+rule align__recalibrate__baserecalibrator__all:
     """Compute recalibration for all chromosomes and libraries"""
     input:
         [
@@ -40,7 +40,7 @@ rule gatk4_base_recalibrator_all:
         ],
 
 
-rule gatk4_apply_bqsr_one:
+rule align__recalibrate__applybqsr:
     """Apply the recalibration table to a single library and chromosome"""
     input:
         bam=MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.bam",
@@ -70,7 +70,7 @@ rule gatk4_apply_bqsr_one:
         """
 
 
-rule gatk4_apply_bqsr_all:
+rule align__recalibrate__applybqsr__all:
     """Apply the recalibration table to all libraries and chromosomes"""
     input:
         [
@@ -80,9 +80,28 @@ rule gatk4_apply_bqsr_all:
         ],
 
 
-rule gatk4_apply_bqsr_report:
-    """Generate a report for all libraries and chromosomes"""
+# rule gatk4_apply_bqsr_report:
+#     """Generate a report for all libraries and chromosomes"""
+#     input:
+#         [
+#             RECALIBRATE / f"{sample}.{library}" / f"{chromosome}.{report}"
+#             for sample, library in SAMPLE_LIB
+#             for chromosome in CHROMOSOMES
+#             for report in BAM_REPORTS
+#         ],
+
+
+rule gatk4_report:
+    """Generate the reports for the GATK pipeline:
+    - BaseRecalibrator
+    - ApplyBQSR
+    """
     input:
+        [
+            MARK_DUPLICATES / f"{sample}.{library}" / f"{chromosome}.bam"
+            for sample, library in SAMPLE_LIB
+            for chromosome in get_sample_chromosomes(sample)
+        ],
         [
             RECALIBRATE / f"{sample}.{library}" / f"{chromosome}.{report}"
             for sample, library in SAMPLE_LIB

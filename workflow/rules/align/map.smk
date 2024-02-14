@@ -1,4 +1,4 @@
-rule bowtie2_map_one:
+rule align__map__bowtie2:
     """Map one library to reference genome using bowtie2
 
     Output SAM file is piped to samtools sort to generate a CRAM file.
@@ -53,28 +53,7 @@ rule bowtie2_map_one:
         """
 
 
-rule bowtie2_map_all:
+rule align__map__bowtie2__all:
     """Collect the results of `bowtie2_map_one` for all libraries"""
     input:
         [MAP / f"{sample}.{library}.cram" for sample, library in SAMPLE_LIB],
-
-
-rule bowtie2_report_all:
-    """Generate bowtie2 reports for all libraries:
-    - samtools stats
-    - samtools flagstats
-    - samtools idxstats
-    """
-    input:
-        [
-            MAP / f"{sample}.{library}.{report}"
-            for sample, library in SAMPLE_LIB
-            for report in BAM_REPORTS
-        ],
-
-
-rule bowtie2:
-    """Run bowtie2 on all libraries and generate reports"""
-    input:
-        rules.bowtie2_map_all.input,
-        rules.bowtie2_report_all.input,

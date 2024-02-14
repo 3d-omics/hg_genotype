@@ -25,7 +25,11 @@ rule report_step_reads:
 rule report_step_bowtie2:
     """Collect all reports for the bowtie2 step"""
     input:
-        rules.bowtie2_report_all.input,
+        [
+            MAP / f"{sample}.{library}.{report}"
+            for sample, library in SAMPLE_LIB
+            for report in BAM_REPORTS
+        ],
     output:
         html=REPORT_STEP / "bowtie2.html",
     log:
@@ -49,7 +53,12 @@ rule report_step_bowtie2:
 rule report_step_picard:
     """Collect all reports for the picard step"""
     input:
-        rules.picard_report_all.input,
+        [
+            MARK_DUPLICATES / f"{sample}.{library}" / f"{chromosome}.{report}"
+            for sample, library in SAMPLE_LIB
+            for chromosome in get_sample_chromosomes(sample)
+            for report in PICARD_REPORTS
+        ],
     output:
         html=REPORT_STEP / "picard.html",
     log:
