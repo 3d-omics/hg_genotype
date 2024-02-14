@@ -1,7 +1,7 @@
 rule report_step_reads:
     """Collect all reports for the reads step"""
     input:
-        rules.reads_fastqc_all.input,
+        rules.reads__fastqc__all.input,
     output:
         html=REPORT_STEP / "reads.html",
     log:

@@ -1,4 +1,4 @@
-rule reads_link_:
+rule reads__link__:
     """Make a link to the original file, with a prettier name than default"""
     input:
         forward_=get_forward,
@@ -17,7 +17,7 @@ rule reads_link_:
         """
 
 
-rule reads_link_all:
+rule reads__link__all:
     """Link all reads in the samples.tsv"""
     input:
         [
@@ -25,3 +25,7 @@ rule reads_link_all:
             for sample, library in SAMPLE_LIB
             for end in ["1", "2"]
         ],
+
+
+localrules:
+    reads__link__,
