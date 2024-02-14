@@ -16,7 +16,9 @@ GENOTYPE = Path("results/genotype/")
 GATK = GENOTYPE / "gatk"
 
 ANNOTATE = Path("results/annotate/")
+SNPEFF_DB = Path("resources/snpeff/")
 SNPEFF = ANNOTATE / "snpeff"
+
 
 REPORT = Path("reports/")
 STEP = REPORT / "step"

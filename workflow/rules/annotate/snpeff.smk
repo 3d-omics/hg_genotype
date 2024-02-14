@@ -1,11 +1,11 @@
 rule annotate__snpeff__download:
     """Download a SNPEff database"""
     output:
-        db=directory("resources/snpeff/{snpeff_db}/"),
+        db=directory(SNPEFF_DB / "{snpeff_db}"),
     log:
-        "resources/snpeff/{snpeff_db}.log",
+        SNPEFF_DB / "{snpeff_db}.log",
     params:
-        datadir="$PWD/resources/snpeff/",
+        datadir=SNPEFF_DB,
         snpeff_db="{snpeff_db}",
     conda:
         "__environment__.yml"
@@ -23,7 +23,7 @@ rule annotate__snpeff__annotate:
     """Annotate variants with a SNPEff database"""
     input:
         vcf=GATK / "variants_filtered.vcf.gz",
-        db="resources/snpeff/{snpeff_db}/",
+        db=SNPEFF_DB / "{snpeff_db}",
     output:
         vcf=SNPEFF / "variants_{snpeff_db}.vcf.gz",
         genes=SNPEFF / "snpEff_stats_{snpeff_db}.genes.txt",
@@ -35,7 +35,7 @@ rule annotate__snpeff__annotate:
         "__environment__.yml"
     params:
         snpeff_db="{snpeff_db}",
-        datadir="$PWD/resources/snpeff/",
+        datadir=SNPEFF_DB,
         html="snpEff_summary.html",
     resources:
         mem_mb=8000,
