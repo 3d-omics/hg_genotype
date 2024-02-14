@@ -35,7 +35,3 @@ rule report_chromosome:
     """Generate all report for all chromosomes"""
     input:
         rules.report_chromosome_all.input,
-
-
-localrules:
-    report_chromosome_one,
