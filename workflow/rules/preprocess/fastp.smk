@@ -12,8 +12,6 @@ rule fastp_trim_one:
         json=FASTP / "{sample}.{library}_fastp.json",
     log:
         FASTP / "{sample}.{library}.log",
-    benchmark:
-        FASTP / "{sample}.{library}.bmk"
     params:
         adapter_forward=get_forward_adapter,
         adapter_reverse=get_reverse_adapter,

@@ -1,6 +1,3 @@
-
-
-
 rule bowtie2_map_one:
     """Map one library to reference genome using bowtie2
 

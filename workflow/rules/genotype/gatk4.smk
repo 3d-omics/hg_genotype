@@ -92,8 +92,6 @@ rule gatk4_genotype_gvcfs_one:
         vcf_gz=GATK / "genotyped_variants/{chromosome}.vcf.gz",
     log:
         GATK / "genotyped_variants/{chromosome}.log",
-    benchmark:
-        GATK / "genotyped_variants/{chromosome}.bmk"
     conda:
         "__environment__.yml"
     params:
@@ -138,8 +136,6 @@ rule gatk4_calculate_genotype_posteriors_one:
         vcf=GATK / "variants_posteriors/{chromosome}.vcf.gz",
     log:
         GATK / "variants_posteriors/{chromosome}.log",
-    benchmark:
-        GATK / "variants_posteriors/{chromosome}.bmk"
     conda:
         "__environment__.yml"
     params:
@@ -177,8 +173,6 @@ rule gatk4_variant_filtration_one:
         vcf=GATK / "variants_filtered/{chromosome}.vcf.gz",
     log:
         GATK / "variants_filtered/{chromosome}.log",
-    benchmark:
-        GATK / "variants_filtered/{chromosome}.bmk"
     conda:
         "__environment__.yml"
     params:
