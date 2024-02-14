@@ -9,15 +9,9 @@ def get_reads(wildcards):
 
 def get_forward(wildcards):
     """Get forward reads for a sample and library."""
-    return samples[
-        (samples["sample"] == wildcards.sample)
-        & (samples["library"] == wildcards.library)
-    ]["forward"].tolist()[0]
+    return get_reads(wildcards)[0]
 
 
 def get_reverse(wildcards):
     """Get reverse reads for a sample and library."""
-    return samples[
-        (samples["sample"] == wildcards.sample)
-        & (samples["library"] == wildcards.library)
-    ]["reverse"].tolist()[0]
+    return get_reads(wildcards)[1]
