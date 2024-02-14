@@ -106,7 +106,7 @@ rule report_step_gatk4:
 rule report_step_snpeff:
     """Collect all reports for the snpeff step"""
     input:
-        rules.snpeff_report.input,
+        rules.annotate__snpeff.input,
     output:
         html=REPORT_STEP / "snpeff.html",
     log:
