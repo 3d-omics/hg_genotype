@@ -1,4 +1,4 @@
-rule report_library_one:
+rule report__library__one:
     """Make a MultiQC report for a single library"""
     input:
         READS / "{sample}.{library}_1_fastqc.zip",
@@ -10,14 +10,14 @@ rule report_library_one:
         get_gatk4_base_recalibrator_for_library_report,
         get_gatk4_apply_bqsr_for_library_report,
     output:
-        REPORT_LIBRARY / "{sample}.{library}.html",
+        LIBRARY / "{sample}.{library}.html",
     log:
-        REPORT_LIBRARY / "{sample}.{library}.log",
+        LIBRARY / "{sample}.{library}.log",
     conda:
         "__environment__.yml"
     params:
         library="{sample}.{library}",
-        out_dir=REPORT_LIBRARY,
+        out_dir=LIBRARY,
     shell:
         """
         multiqc \
@@ -33,7 +33,7 @@ rule report_library_one:
 rule report_library_all:
     """Make a MultiQC report for every library"""
     input:
-        [REPORT_LIBRARY / f"{sample}.{library}.html" for sample, library in SAMPLE_LIB],
+        [LIBRARY / f"{sample}.{library}.html" for sample, library in SAMPLE_LIB],
 
 
 rule report_library:

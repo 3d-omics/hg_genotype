@@ -1,15 +1,15 @@
-rule report_step_reads:
+rule report__step__reads:
     """Collect all reports for the reads step"""
     input:
         rules.reads__fastqc__all.input,
     output:
-        html=REPORT_STEP / "reads.html",
+        html=STEP / "reads.html",
     log:
-        REPORT_STEP / "reads.log",
+        STEP / "reads.log",
     conda:
         "__environment__.yml"
     params:
-        dir=REPORT_STEP,
+        dir=STEP,
     shell:
         """
         multiqc \
@@ -22,7 +22,7 @@ rule report_step_reads:
         """
 
 
-rule report_step_bowtie2:
+rule report__step__align:
     """Collect all reports for the bowtie2 step"""
     input:
         [
@@ -30,29 +30,6 @@ rule report_step_bowtie2:
             for sample, library in SAMPLE_LIB
             for report in BAM_REPORTS
         ],
-    output:
-        html=REPORT_STEP / "bowtie2.html",
-    log:
-        REPORT_STEP / "bowtie2.log",
-    conda:
-        "__environment__.yml"
-    params:
-        dir=REPORT_STEP,
-    shell:
-        """
-        multiqc \
-            --title bowtie2 \
-            --force \
-            --filename bowtie2 \
-            --outdir {params.dir} \
-            {input} \
-        2> {log} 1>&2
-        """
-
-
-rule report_step_picard:
-    """Collect all reports for the picard step"""
-    input:
         [
             MARK_DUPLICATES / f"{sample}.{library}" / f"{chromosome}.{report}"
             for sample, library in SAMPLE_LIB
@@ -60,67 +37,67 @@ rule report_step_picard:
             for report in PICARD_REPORTS
         ],
     output:
-        html=REPORT_STEP / "picard.html",
+        html=STEP / "align.html",
     log:
-        REPORT_STEP / "picard.log",
+        STEP / "align.log",
     conda:
         "__environment__.yml"
     params:
-        dir=REPORT_STEP,
+        dir=STEP,
     shell:
         """
         multiqc \
-            --title picard \
+            --title align \
             --force \
-            --filename picard \
+            --filename align \
             --outdir {params.dir} \
             {input} \
         2> {log} 1>&2
         """
 
 
-rule report_step_gatk4:
+rule report__step__genotype:
     """Collect all reports for the gatk4 step"""
     input:
         rules.gatk4_report.input,
     output:
-        html=REPORT_STEP / "gatk4.html",
+        html=STEP / "genotype.html",
     log:
-        REPORT_STEP / "gatk4.log",
+        STEP / "genotype.log",
     conda:
         "__environment__.yml"
     params:
-        dir=REPORT_STEP,
+        dir=STEP,
     shell:
         """
         multiqc \
-            --title gatk4 \
+            --title genotype \
             --force \
-            --filename gatk4 \
+            --filename genotype \
             --outdir {params.dir} \
             {input} \
         2> {log} 1>&2
         """
 
 
-rule report_step_snpeff:
+rule report__step__annotate:
     """Collect all reports for the snpeff step"""
     input:
         rules.annotate__snpeff.input,
     output:
-        html=REPORT_STEP / "snpeff.html",
+        html=STEP / "annotate.html",
     log:
-        REPORT_STEP / "snpeff.log",
+        STEP / "annotate.log",
     conda:
         "__environment__.yml"
     params:
-        dir=REPORT_STEP,
+        dir=STEP,
     shell:
         """
         multiqc \
-            --title snpeff \
+            --title annotate \
             --force \
-            --filename snpeff \
+            --filename annotate \
             --outdir {params.dir} \
             {input} \
         2> {log} 1>&2
@@ -130,9 +107,7 @@ rule report_step_snpeff:
 rule report_step:
     """Collect all per step reports for the pipeline"""
     input:
-        rules.report_step_reads.output,
-        # rules.report_step_fastp.output,
-        rules.report_step_bowtie2.output,
-        rules.report_step_picard.output,
-        rules.report_step_gatk4.output,
-        rules.report_step_snpeff.output,
+        rules.report__step__reads.output,
+        rules.report__step__align.output,
+        rules.report__step__genotype.output,
+        rules.report__step__annotate.output,

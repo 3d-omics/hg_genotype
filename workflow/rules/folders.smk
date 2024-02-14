@@ -18,8 +18,8 @@ GATK = GENOTYPE / "gatk"
 ANNOTATE = Path("results/annotate/")
 SNPEFF = ANNOTATE / "snpeff"
 
-REPORT_STEP = Path("reports/by_step/")
-REPORT_LIBRARY = Path("reports/by_library/")
-REPORT_CHR = Path("reports/by_chromosome/")
+REPORT = Path("reports/")
+STEP = REPORT / "step"
+LIBRARY = REPORT / "library"
 
 SWAPS = Path("results/swaps/")

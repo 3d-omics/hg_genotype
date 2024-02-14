@@ -1,4 +1,4 @@
-rule bcftools_index_vcf_gz:
+rule helpers__bcftools__index_vcf_gz__:
     """Index a vcf.gz"""
     input:
         "{prefix}.vcf.gz",

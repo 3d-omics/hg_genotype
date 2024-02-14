@@ -1,4 +1,4 @@
-rule bai:
+rule helpers__samtools__bai__:
     """Generate a bam index"""
     input:
         "{prefix}.bam",
@@ -12,7 +12,7 @@ rule bai:
         "samtools index {input} 2> {log} 1>&2"
 
 
-rule crai:
+rule helpers__samtools__crai__:
     """Generate a cram index"""
     input:
         "{prefix}.cram",
@@ -26,7 +26,7 @@ rule crai:
         "samtools index {input} 2> {log} 1>&2"
 
 
-rule dict_fa:
+rule helpers__samtools__dict_fa__:
     """Generate a dictionary from a .fa"""
     input:
         "{prefix}.fa",
@@ -40,7 +40,7 @@ rule dict_fa:
         "samtools dict {input} --output {output} 2> {log} 1>&2"
 
 
-rule dict_fagz:
+rule helpers__samtools__dict_fagz__:
     """Generate a dictionary from a fa.gz"""
     input:
         "{prefix}.fa.gz",
@@ -54,7 +54,7 @@ rule dict_fagz:
         "samtools dict {input} --output {output} 2> {log} 1>&2"
 
 
-rule vcf_gz_tbi:
+rule helpers__samtools__vcf_gz_tbi__:
     """Generate index for a vcf.gz"""
     input:
         "{prefix}.vcf.gz",
@@ -68,7 +68,7 @@ rule vcf_gz_tbi:
         "tabix {input} 2> {log} 1>&2"
 
 
-rule vcf_gz:
+rule helpers__samtools__vcf_gz__:
     """bgzip a vcf file"""
     input:
         "{prefix}.vcf",
@@ -82,7 +82,7 @@ rule vcf_gz:
         "bgzip {input} 2> {log} 1>&2"
 
 
-rule samtools_stats_bam:
+rule helpers__samtools__samtools_stats_bam__:
     """Compute stats for a bam"""
     input:
         bam="{prefix}.bam",
@@ -97,7 +97,7 @@ rule samtools_stats_bam:
         "samtools stats {input.bam} > {output.tsv} 2> {log}"
 
 
-rule samtools_stats_cram:
+rule helpers__samtools__samtools_stats_cram__:
     """Compute stats for a cram"""
     input:
         cram="{prefix}.cram",
@@ -112,7 +112,7 @@ rule samtools_stats_cram:
         "samtools stats {input.cram} > {output.tsv} 2> {log}"
 
 
-rule samtools_flagstats_bam:
+rule helpers__samtools__samtools_flagstats_bam__:
     """Compute flagstats for a bam"""
     input:
         bam="{prefix}.bam",
@@ -127,7 +127,7 @@ rule samtools_flagstats_bam:
         "samtools flagstats {input.bam} > {output.txt} 2> {log}"
 
 
-rule samtools_flagstats_cram:
+rule helpers__samtools__samtools_flagstats_cram__:
     """Compute flagstats for a cram"""
     input:
         cram="{prefix}.cram",
@@ -142,7 +142,7 @@ rule samtools_flagstats_cram:
         "samtools flagstats {input.cram} > {output.txt} 2> {log}"
 
 
-rule samtools_idxstats_bam:
+rule helpers__samtools__samtools_idxstats_bam__:
     """Compute idxstats for a bam"""
     input:
         bam="{prefix}.bam",
@@ -157,7 +157,7 @@ rule samtools_idxstats_bam:
         "samtools idxstats {input.bam} > {output.tsv} 2> {log}"
 
 
-rule samtools_idxstats_cram:
+rule helpers__samtools__samtools_idxstats_cram__:
     """Compute idxstats for a cram"""
     input:
         cram="{prefix}.cram",
