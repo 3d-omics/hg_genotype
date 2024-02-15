@@ -44,7 +44,6 @@ rule align__map__bowtie2:
             {params.extra} \
         | samtools sort \
             -l 9 \
-            -M \
             -m {params.samtools_mem} \
             -o {output.cram} \
             --reference {input.reference} \
