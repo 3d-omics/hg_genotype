@@ -24,6 +24,7 @@ CHROMOSOMES = set(
     + features["reference"]["male_chromosomes"]
     + features["reference"]["mitochondria"]
 )
+DIPLOID_CHROMOSOMES = set(features["reference"]["autosomes"])
 
 
 # Import subworkflows

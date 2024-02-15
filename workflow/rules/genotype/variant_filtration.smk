@@ -1,9 +1,18 @@
+def get_input_vcf_for_genotype__variant_filtration(wildcards):
+    chromosome = wildcards.chromosome
+    return (
+        POSTERIORS / f"{chromosome}.vcf.gz"
+        if chromosome in DIPLOID_CHROMOSOMES
+        else GENOTYPE_GVCFS / f"{chromosome}.vcf.gz"
+    )
+
+
 rule genotype__variant_filtration__:
     """Filter variants for a single chromosome"""
     input:
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
-        vcf=POSTERIORS / "{chromosome}.vcf.gz",
+        vcf=get_input_vcf_for_genotype__variant_filtration,
     output:
         vcf=VARIANT_FILTRATION / "{chromosome}.vcf.gz",
     log:
