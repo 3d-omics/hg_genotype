@@ -1,12 +1,12 @@
 rule align__recalibrate__baserecalibrator:
     """Compute the recalibration table for a single library and chromosome"""
     input:
-        bam=MARK_DUPLICATES / "{sample}.{library}.bam",
-        bai=MARK_DUPLICATES / "{sample}.{library}.bam.bai",
+        cram=MARK_DUPLICATES / "{sample}.{library}.cram",
+        crai=MARK_DUPLICATES / "{sample}.{library}.cram.crai",
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
         known_sites=REFERENCE / "known_variants.vcf.gz",
-        csi=REFERENCE / "known_variants.vcf.gz.tbi",
+        tbi=REFERENCE / "known_variants.vcf.gz.tbi",
     output:
         table=RECALIBRATE / "{sample}.{library}.bsqr.txt",
     log:
@@ -22,7 +22,7 @@ rule align__recalibrate__baserecalibrator:
         """
         gatk BaseRecalibrator \
             {params.extra} \
-            --input {input.bam} \
+            --input {input.cram} \
             --reference {input.reference} \
             --known-sites {input.known_sites} \
             --output {output.table} \
@@ -30,25 +30,15 @@ rule align__recalibrate__baserecalibrator:
         """
 
 
-rule align__recalibrate__baserecalibrator__all:
-    """Compute recalibration for all chromosomes and libraries"""
-    input:
-        [
-            RECALIBRATE / f"{sample}.{library}.bsqr.txt"
-            for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
-        ],
-
-
 rule align__recalibrate__applybqsr:
     """Apply the recalibration table to a single library and chromosome"""
     input:
-        bam=MARK_DUPLICATES / "{sample}.{library}.bam",
+        cram=MARK_DUPLICATES / "{sample}.{library}.cram",
         reference=REFERENCE / "genome.fa.gz",
         table=RECALIBRATE / "{sample}.{library}.bsqr.txt",
         dict_=REFERENCE / "genome.dict",
     output:
-        bam=RECALIBRATE / "{sample}.{library}.bam",
+        bam=pipe(RECALIBRATE / "{sample}.{library}.bam"),
     log:
         RECALIBRATE / "{sample}.{library}.log",
     conda:
@@ -62,7 +52,7 @@ rule align__recalibrate__applybqsr:
         """
         gatk ApplyBQSR \
             {params.extra} \
-            --input {input.bam} \
+            --input {input.cram} \
             --reference {input.reference} \
             --bqsr-recal-file {input.table} \
             --output {output.bam} \
@@ -70,11 +60,37 @@ rule align__recalibrate__applybqsr:
         """
 
 
-rule align__recalibrate__applybqsr__all:
+rule align__recalibrate__bam_to_cram:
+    input:
+        bam=RECALIBRATE / "{sample}.{library}.bam",
+        reference=REFERENCE / "genome.fa.gz",
+    output:
+        cram=RECALIBRATE / "{sample}.{library}.cram",
+    log:
+        RECALIBRATE / "{sample}.{library}.cram.log",
+    conda:
+        "__environment__.yml"
+    threads: 24
+    resources:
+        memory="4G",
+        runtime=1440,
+    shell:
+        """
+        samtools view \
+            --threads {threads} \
+            --output-fmt CRAM \
+            --reference {input.reference} \
+            --output {output.cram} \
+            {input.bam} \
+        2> {log} 1>&2
+        """
+
+
+rule align__recalibrate__all:
     """Compute recalibration for all chromosomes and libraries"""
     input:
         [
-            RECALIBRATE / f"{sample}.{library}.bam"
+            RECALIBRATE / f"{sample}.{library}.cram"
             for sample, library in SAMPLE_LIB
             for chromosome in CHROMOSOMES
         ],

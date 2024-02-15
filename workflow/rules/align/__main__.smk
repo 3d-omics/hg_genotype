@@ -8,4 +8,4 @@ include: "recalibrate.smk"
 rule align:
     """Run all picard steps and get all reports"""
     input:
-        rules.align__recalibrate__applybqsr__all.input,
+        rules.align__recalibrate__all.input,
