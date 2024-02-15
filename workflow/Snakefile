@@ -44,5 +44,5 @@ include: "rules/report/__main__.smk"
 rule all:
     """Run the entire pipeline"""
     input:
-        rules.report_step.input,
-        rules.report_library.input,
+        rules.report__step.input,
+        rules.report__library.input,

@@ -31,7 +31,12 @@ rule report__step__align:
             for report in BAM_REPORTS
         ],
         [
-            MERGE / f"{sample}.{library}.{report}"
+            MARK_DUPLICATES / f"{sample}.{library}.{report}"
+            for sample, library in SAMPLE_LIB
+            for report in BAM_REPORTS
+        ],
+        [
+            RECALIBRATE / f"{sample}.{library}.{report}"
             for sample, library in SAMPLE_LIB
             for report in BAM_REPORTS
         ],
@@ -57,38 +62,38 @@ rule report__step__align:
         """
 
 
-rule report__step__genotype:
-    """Collect all reports for the gatk4 step"""
-    input:
-        base_recalibrator=[
-            MARK_DUPLICATES / f"{sample}.{library}" / f"{chromosome}.bam"
-            for sample, library in SAMPLE_LIB
-            for chromosome in get_sample_chromosomes(sample)
-        ],
-        bam_reports=[
-            RECALIBRATE / f"{sample}.{library}" / f"{chromosome}.{report}"
-            for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
-            for report in BAM_REPORTS
-        ],
-    output:
-        html=STEP / "genotype.html",
-    log:
-        STEP / "genotype.log",
-    conda:
-        "__environment__.yml"
-    params:
-        dir=STEP,
-    shell:
-        """
-        multiqc \
-            --title genotype \
-            --force \
-            --filename genotype \
-            --outdir {params.dir} \
-            {input} \
-        2> {log} 1>&2
-        """
+# rule report__step__genotype:
+#     """Collect all reports for the gatk4 step"""
+#     input:
+#         base_recalibrator=[
+#             MARK_DUPLICATES / f"{sample}.{library}" / f"{chromosome}.bam"
+#             for sample, library in SAMPLE_LIB
+#             for chromosome in get_sample_chromosomes(sample)
+#         ],
+#         bam_reports=[
+#             RECALIBRATE / f"{sample}.{library}" / f"{chromosome}.{report}"
+#             for sample, library in SAMPLE_LIB
+#             for chromosome in CHROMOSOMES
+#             for report in BAM_REPORTS
+#         ],
+#     output:
+#         html=STEP / "genotype.html",
+#     log:
+#         STEP / "genotype.log",
+#     conda:
+#         "__environment__.yml"
+#     params:
+#         dir=STEP,
+#     shell:
+#         """
+#         multiqc \
+#             --title genotype \
+#             --force \
+#             --filename genotype \
+#             --outdir {params.dir} \
+#             {input} \
+#         2> {log} 1>&2
+#         """
 
 
 rule report__step__annotate:
@@ -115,10 +120,10 @@ rule report__step__annotate:
         """
 
 
-rule report_step:
+rule report__step:
     """Collect all per step reports for the pipeline"""
     input:
         rules.report__step__reads.output,
         rules.report__step__align.output,
-        rules.report__step__genotype.output,
+        # rules.report__step__genotype.output,
         rules.report__step__annotate.output,

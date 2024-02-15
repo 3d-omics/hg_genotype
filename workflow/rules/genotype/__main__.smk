@@ -8,4 +8,4 @@ include: "variant_filtration.smk"
 
 rule genotype:
     input:
-        rules.genotype__variant_filtration.input,
+        rules.genotype__variant_filtration__all.input,

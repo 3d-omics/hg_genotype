@@ -1,16 +1,16 @@
 rule align__recalibrate__baserecalibrator:
     """Compute the recalibration table for a single library and chromosome"""
     input:
-        bam=MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.bam",
-        bai=MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.bam.bai",
+        bam=MARK_DUPLICATES / "{sample}.{library}.bam",
+        bai=MARK_DUPLICATES / "{sample}.{library}.bam.bai",
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
         known_sites=REFERENCE / "known_variants.vcf.gz",
         csi=REFERENCE / "known_variants.vcf.gz.tbi",
     output:
-        table=RECALIBRATE / "{sample}.{library}" / "{chromosome}.bsqr.txt",
+        table=RECALIBRATE / "{sample}.{library}.bsqr.txt",
     log:
-        RECALIBRATE / "{sample}.{library}" / "{chromosome}.log",
+        RECALIBRATE / "{sample}.{library}.log",
     conda:
         "__environment__.yml"
     params:
@@ -34,7 +34,7 @@ rule align__recalibrate__baserecalibrator__all:
     """Compute recalibration for all chromosomes and libraries"""
     input:
         [
-            RECALIBRATE / f"{sample}.{library}" / f"{chromosome}.bsqr.txt"
+            RECALIBRATE / f"{sample}.{library}.bsqr.txt"
             for sample, library in SAMPLE_LIB
             for chromosome in CHROMOSOMES
         ],
@@ -43,14 +43,14 @@ rule align__recalibrate__baserecalibrator__all:
 rule align__recalibrate__applybqsr:
     """Apply the recalibration table to a single library and chromosome"""
     input:
-        bam=MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.bam",
+        bam=MARK_DUPLICATES / "{sample}.{library}.bam",
         reference=REFERENCE / "genome.fa.gz",
-        table=RECALIBRATE / "{sample}.{library}" / "{chromosome}.bsqr.txt",
+        table=RECALIBRATE / "{sample}.{library}.bsqr.txt",
         dict_=REFERENCE / "genome.dict",
     output:
-        bam=RECALIBRATE / "{sample}.{library}" / "{chromosome}.bam",
+        bam=RECALIBRATE / "{sample}.{library}.bam",
     log:
-        RECALIBRATE / "{sample}.{library}" / "{chromosome}.log",
+        RECALIBRATE / "{sample}.{library}.log",
     conda:
         "__environment__.yml"
     params:
@@ -68,3 +68,13 @@ rule align__recalibrate__applybqsr:
             --output {output.bam} \
         2> {log} 1>&2
         """
+
+
+rule align__recalibrate__applybqsr__all:
+    """Compute recalibration for all chromosomes and libraries"""
+    input:
+        [
+            RECALIBRATE / f"{sample}.{library}.bam"
+            for sample, library in SAMPLE_LIB
+            for chromosome in CHROMOSOMES
+        ],

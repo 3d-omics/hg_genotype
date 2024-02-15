@@ -29,4 +29,4 @@ rule genotype__calculate_genotype_posteriors__:
 rule genotype__calculate_genotype_posteriors__all:
     """Calculate genotype posteriors for all chromosomes"""
     input:
-        [POSTERIORS / "{chromosome}.vcf.gz" for chromosome in DIPLOID_CHROMOSOMES],
+        [POSTERIORS / f"{chromosome}.vcf.gz" for chromosome in DIPLOID_CHROMOSOMES],

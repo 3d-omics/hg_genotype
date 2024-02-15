@@ -64,6 +64,6 @@ rule genotype__variant_filtration__merge:
         """
 
 
-rule genotype__variant_filtration:
+rule genotype__variant_filtration__all:
     input:
         rules.genotype__variant_filtration__merge.output,

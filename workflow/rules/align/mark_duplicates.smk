@@ -1,13 +1,13 @@
 rule align__mark_duplicates__:
     """Mark duplicates in a single chromosome from a single library"""
     input:
-        bam=SPLIT / "{sample}.{library}" / "{chromosome}.bam",
+        bam=MAP / "{sample}.{library}.cram",
         reference=REFERENCE / "genome.fa.gz",
     output:
-        bam=MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.bam",
-        metrics=MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.metrics.tsv",
+        bam=MARK_DUPLICATES / "{sample}.{library}.bam",
+        metrics=MARK_DUPLICATES / "{sample}.{library}.metrics.tsv",
     log:
-        MARK_DUPLICATES / "{sample}.{library}" / "{chromosome}.log",
+        MARK_DUPLICATES / "{sample}.{library}.log",
     conda:
         "__environment__.yml"
     resources:
@@ -30,7 +30,7 @@ rule align__mark_duplicates__all:
     """Mark duplicates in all chromosomes and all libraries"""
     input:
         [
-            MARK_DUPLICATES / f"{sample}.{library}" / f"{chromosome}.bam"
+            MARK_DUPLICATES / f"{sample}.{library}.bam"
             for sample, library in SAMPLE_LIB
             for chromosome in get_sample_chromosomes(sample)
         ],
