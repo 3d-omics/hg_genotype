@@ -31,10 +31,9 @@ rule report__step__align:
             for report in BAM_REPORTS
         ],
         [
-            MARK_DUPLICATES / f"{sample}.{library}" / f"{chromosome}.{report}"
+            MERGE / f"{sample}.{library}.{report}"
             for sample, library in SAMPLE_LIB
-            for chromosome in get_sample_chromosomes(sample)
-            for report in PICARD_REPORTS
+            for report in BAM_REPORTS
         ],
     output:
         html=STEP / "align.html",
@@ -49,6 +48,8 @@ rule report__step__align:
         multiqc \
             --title align \
             --force \
+            --dirs \
+            --dirs-depth 1 \
             --filename align \
             --outdir {params.dir} \
             {input} \
