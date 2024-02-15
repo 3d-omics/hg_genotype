@@ -1,21 +1,9 @@
-rule align__index__bowtie2:
-    """Build bowtie2 index
-
-    Let the script decide to use a small or a large index based on the size of
-    the reference genome.
-    """
+rule align__index__bwa:
+    """Build genome index with bwa"""
     input:
         reference=REFERENCE / "genome.fa.gz",
     output:
-        multiext(
-            f"{INDEX}/genome",
-            ".1.bt2",
-            ".2.bt2",
-            ".3.bt2",
-            ".4.bt2",
-            ".rev.1.bt2",
-            ".rev.2.bt2",
-        ),
+        multiext(f"{INDEX}/genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
     log:
         INDEX / "build.log",
     conda:
@@ -26,10 +14,9 @@ rule align__index__bowtie2:
     threads: 8
     shell:
         """
-        bowtie2-build \
-            --threads {threads} \
-            {params.extra} \
+        bwa index \
+            -p {params.output_path} \
             {input.reference} \
-            {params.output_path} \
+            {params.extra} \
         2> {log} 1>&2
         """

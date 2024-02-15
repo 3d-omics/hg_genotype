@@ -3,6 +3,6 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - bowtie2 =2.5.3
+  - bwa >=0
   - gatk4 =4.5.0.0
   - samtools =1.19.2

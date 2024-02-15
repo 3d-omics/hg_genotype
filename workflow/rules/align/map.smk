@@ -1,4 +1,4 @@
-rule align__map__bowtie2:
+rule align__map__bwamem__:
     """Map one library to reference genome using bowtie2
 
     Output SAM file is piped to samtools sort to generate a CRAM file.
@@ -6,15 +6,7 @@ rule align__map__bowtie2:
     input:
         forward_=READS / "{sample}.{library}_1.fq.gz",
         reverse_=READS / "{sample}.{library}_2.fq.gz",
-        idx=multiext(
-            f"{INDEX}/genome",
-            ".1.bt2",
-            ".2.bt2",
-            ".3.bt2",
-            ".4.bt2",
-            ".rev.1.bt2",
-            ".rev.2.bt2",
-        ),
+        idx=multiext(f"{INDEX}/genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
         reference=REFERENCE / "genome.fa.gz",
     output:
         cram=MAP / "{sample}.{library}.cram",
@@ -24,8 +16,7 @@ rule align__map__bowtie2:
         index_prefix=INDEX / "genome",
         extra=params["bowtie2"]["extra"],
         samtools_mem=params["bowtie2"]["samtools"]["mem_per_thread"],
-        rg_id=compose_rg_id,
-        rg_extra=compose_rg_extra,
+        read_group_header=compose_read_group_header,
     threads: 24
     conda:
         "__environment__.yml"
@@ -34,16 +25,14 @@ rule align__map__bowtie2:
         runtime=1440,
     shell:
         """
-        (bowtie2 \
-            -x {params.index_prefix} \
-            -1 {input.forward_} \
-            -2 {input.reverse_} \
-            --threads {threads} \
-            --rg-id '{params.rg_id}' \
-            --rg '{params.rg_extra}' \
+        (bwa mem \
+            -t {threads} \
+            -R '{params.read_group_header}' \
+            {params.index_prefix} \
             {params.extra} \
+            {input.forward_} \
+            {input.reverse_} \
         | samtools sort \
-            -l 9 \
             -m {params.samtools_mem} \
             -o {output.cram} \
             --reference {input.reference} \
@@ -52,7 +41,7 @@ rule align__map__bowtie2:
         """
 
 
-rule align__map__bowtie2__all:
+rule align__map__bwamem__all:
     """Collect the results of `bowtie2_map_one` for all libraries"""
     input:
         [MAP / f"{sample}.{library}.cram" for sample, library in SAMPLE_LIB],
