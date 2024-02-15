@@ -1,17 +1,3 @@
-rule helpers__samtools__bai__:
-    """Generate a bam index"""
-    input:
-        "{prefix}.bam",
-    output:
-        "{prefix}.bam.bai",
-    log:
-        "{prefix}.bam.bai.log",
-    conda:
-        "__environment__.yml"
-    shell:
-        "samtools index {input} 2> {log} 1>&2"
-
-
 rule helpers__samtools__crai__:
     """Generate a cram index"""
     input:
@@ -82,21 +68,6 @@ rule helpers__samtools__vcf_gz__:
         "bgzip {input} 2> {log} 1>&2"
 
 
-rule helpers__samtools__samtools_stats_bam__:
-    """Compute stats for a bam"""
-    input:
-        bam="{prefix}.bam",
-        bai="{prefix}.bam.bai",
-    output:
-        tsv="{prefix}.stats.tsv",
-    log:
-        "{prefix}.stats.log",
-    conda:
-        "__environment__.yml"
-    shell:
-        "samtools stats {input.bam} > {output.tsv} 2> {log}"
-
-
 rule helpers__samtools__samtools_stats_cram__:
     """Compute stats for a cram"""
     input:
@@ -112,21 +83,6 @@ rule helpers__samtools__samtools_stats_cram__:
         "samtools stats {input.cram} > {output.tsv} 2> {log}"
 
 
-rule helpers__samtools__samtools_flagstats_bam__:
-    """Compute flagstats for a bam"""
-    input:
-        bam="{prefix}.bam",
-        bai="{prefix}.bam.bai",
-    output:
-        txt="{prefix}.flagstats.txt",
-    log:
-        "{prefix}.flagstats.log",
-    conda:
-        "__environment__.yml"
-    shell:
-        "samtools flagstats {input.bam} > {output.txt} 2> {log}"
-
-
 rule helpers__samtools__samtools_flagstats_cram__:
     """Compute flagstats for a cram"""
     input:
@@ -140,21 +96,6 @@ rule helpers__samtools__samtools_flagstats_cram__:
         "__environment__.yml"
     shell:
         "samtools flagstats {input.cram} > {output.txt} 2> {log}"
-
-
-rule helpers__samtools__samtools_idxstats_bam__:
-    """Compute idxstats for a bam"""
-    input:
-        bam="{prefix}.bam",
-        bai="{prefix}.bam.bai",
-    output:
-        tsv="{prefix}.idxstats.tsv",
-    log:
-        "{prefix}.idxstats.log",
-    conda:
-        "__environment__.yml"
-    shell:
-        "samtools idxstats {input.bam} > {output.tsv} 2> {log}"
 
 
 rule helpers__samtools__samtools_idxstats_cram__:
