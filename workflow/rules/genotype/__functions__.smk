@@ -1,8 +1,8 @@
 def get_files_to_genotype(wildcards):
     """Get files to genotype for a sample, library and chromosome"""
     return [
-        HAPLOTYPE_CALLER / f"{sample}.{library}" / f"{wildcards.chromosome}.gvcf.gz"
-        for sample, library in SAMPLE_LIB
+        HAPLOTYPE_CALLER / sample / f"{wildcards.chromosome}.gvcf.gz"
+        for sample in SAMPLES
     ]
 
 
@@ -18,11 +18,8 @@ def compose_v_line(wildcards):
 def get_ploidy_of_sample_and_chromosome(wildcards):
     """Get the ploidy of a sample and chromosome"""
     sample = wildcards.sample
-    library = wildcards.library
     chromosome = wildcards.chromosome
-    sex = samples[(samples["sample"] == sample) & (samples["library"] == library)][
-        ["sex"]
-    ]
+    sex = samples[samples["sample"] == sample][["sex"]]
 
     male_chrs = features["reference"]["male_chromosomes"]
     female_chrs = features["reference"]["female_chromosomes"]

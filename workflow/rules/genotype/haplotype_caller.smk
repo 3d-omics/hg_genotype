@@ -2,12 +2,13 @@ rule genotype__haplotype_caller__:
     """Call variants for a single library and chromosome"""
     input:
         reference=REFERENCE / "genome.fa.gz",
-        cram=RECALIBRATE / "{sample}.{library}.cram",
+        cram=RECALIBRATE / "{sample}.cram",
+        crai=RECALIBRATE / "{sample}.cram.crai",
         dict_=REFERENCE / "genome.dict",
     output:
-        gvcf_gz=HAPLOTYPE_CALLER / "{sample}.{library}" / "{chromosome}.gvcf.gz",
+        gvcf_gz=HAPLOTYPE_CALLER / "{sample}" / "{chromosome}.gvcf.gz",
     log:
-        HAPLOTYPE_CALLER / "{sample}.{library}" / "{chromosome}.log",
+        HAPLOTYPE_CALLER / "{sample}" / "{chromosome}.log",
     conda:
         "__environment__.yml"
     params:
@@ -35,7 +36,7 @@ rule genotype__haplotype_caller__all:
     """Call variants for all libraries and chromosomes"""
     input:
         [
-            HAPLOTYPE_CALLER / f"{sample}.{library}" / f"{chromosome}.gvcf.gz"
-            for sample, library in SAMPLE_LIB
+            HAPLOTYPE_CALLER / f"{sample}" / f"{chromosome}.gvcf.gz"
+            for sample in SAMPLES
             for chromosome in get_sample_chromosomes(sample)
         ],
