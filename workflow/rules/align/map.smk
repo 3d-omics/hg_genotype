@@ -41,6 +41,10 @@ rule align__map__bwamem__:
         """
 
 
+# There is no point in separating bwa from samtools since they switch between
+# aligning and sorting
+
+
 rule align__map__bwamem__all:
     """Collect the results of `bowtie2_map_one` for all libraries"""
     input:
