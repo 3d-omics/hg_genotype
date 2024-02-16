@@ -1,16 +1,16 @@
 rule align__recalibrate__baserecalibrator:
     """Compute the recalibration table for a single library and chromosome"""
     input:
-        cram=MARK_DUPLICATES / "{sample}.{library}.cram",
-        crai=MARK_DUPLICATES / "{sample}.{library}.cram.crai",
+        cram=MARK_DUPLICATES / "{sample}.cram",
+        crai=MARK_DUPLICATES / "{sample}.cram.crai",
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
         known_sites=REFERENCE / "known_variants.vcf.gz",
         tbi=REFERENCE / "known_variants.vcf.gz.tbi",
     output:
-        table=RECALIBRATE / "{sample}.{library}.bsqr.txt",
+        table=RECALIBRATE / "{sample}.bsqr.txt",
     log:
-        RECALIBRATE / "{sample}.{library}.log",
+        RECALIBRATE / "{sample}.log",
     conda:
         "__environment__.yml"
     params:
@@ -33,14 +33,14 @@ rule align__recalibrate__baserecalibrator:
 rule align__recalibrate__applybqsr:
     """Apply the recalibration table to a single library and chromosome"""
     input:
-        cram=MARK_DUPLICATES / "{sample}.{library}.cram",
+        cram=MARK_DUPLICATES / "{sample}.cram",
         reference=REFERENCE / "genome.fa.gz",
-        table=RECALIBRATE / "{sample}.{library}.bsqr.txt",
+        table=RECALIBRATE / "{sample}.bsqr.txt",
         dict_=REFERENCE / "genome.dict",
     output:
-        bam=pipe(RECALIBRATE / "{sample}.{library}.bam"),
+        bam=pipe(RECALIBRATE / "{sample}.bam"),
     log:
-        RECALIBRATE / "{sample}.{library}.log",
+        RECALIBRATE / "{sample}.log",
     conda:
         "__environment__.yml"
     params:
@@ -63,12 +63,12 @@ rule align__recalibrate__applybqsr:
 
 rule align__recalibrate__bam_to_cram:
     input:
-        bam=RECALIBRATE / "{sample}.{library}.bam",
+        bam=RECALIBRATE / "{sample}.bam",
         reference=REFERENCE / "genome.fa.gz",
     output:
-        cram=RECALIBRATE / "{sample}.{library}.cram",
+        cram=RECALIBRATE / "{sample}.cram",
     log:
-        RECALIBRATE / "{sample}.{library}.cram.log",
+        RECALIBRATE / "{sample}.cram.log",
     conda:
         "__environment__.yml"
     threads: 24
@@ -90,8 +90,4 @@ rule align__recalibrate__bam_to_cram:
 rule align__recalibrate__all:
     """Compute recalibration for all chromosomes and libraries"""
     input:
-        [
-            RECALIBRATE / f"{sample}.{library}.cram"
-            for sample, library in SAMPLE_LIB
-            for chromosome in CHROMOSOMES
-        ],
+        [RECALIBRATE / f"{sample}.cram" for sample in SAMPLES],
