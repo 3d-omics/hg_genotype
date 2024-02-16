@@ -27,6 +27,6 @@ SNPEFF = ANNOTATE / "snpeff"
 
 REPORT = Path("reports/")
 STEP = REPORT / "step"
-LIBRARY = REPORT / "library"
+SAMPLE = REPORT / "sample"
 
 SWAPS = Path("results/swaps/")

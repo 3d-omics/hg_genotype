@@ -31,12 +31,12 @@ rule report__step__align:
             for report in BAM_REPORTS
         ],
         [
-            MARK_DUPLICATES / f"{sample}.{library}.{report}"
-            for sample, library in SAMPLE_LIB
+            MARK_DUPLICATES / f"{sample}.{report}"
+            for sample in SAMPLES
             for report in BAM_REPORTS
         ],
         [
-            RECALIBRATE / f"{sample}.{library}.{report}"
+            RECALIBRATE / f"{sample}.{report}"
             for sample, library in SAMPLE_LIB
             for report in BAM_REPORTS
         ],
