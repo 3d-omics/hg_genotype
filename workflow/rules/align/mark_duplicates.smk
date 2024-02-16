@@ -36,6 +36,8 @@ rule align__mark_duplicates__bam_to_cram:
     log:
         MARK_DUPLICATES / "{sample}.{library}.cram.log",
     threads: 24
+    conda:
+        "__environment__.yml"
     shell:
         """
         samtools view \
