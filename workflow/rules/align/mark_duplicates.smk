@@ -1,13 +1,15 @@
 rule align__mark_duplicates__:
     """Mark duplicates in a single chromosome from a single library"""
     input:
-        cram=MAP / "{sample}.{library}.cram",
+        cram=get_crams_for_mark_duplicates,
         reference=REFERENCE / "genome.fa.gz",
     output:
-        bam=pipe(MARK_DUPLICATES / "{sample}.{library}.bam"),
-        metrics=MARK_DUPLICATES / "{sample}.{library}.metrics.tsv",
+        bam=pipe(MARK_DUPLICATES / "{sample}.bam"),
+        metrics=MARK_DUPLICATES / "{sample}.metrics.tsv",
     log:
-        MARK_DUPLICATES / "{sample}.{library}.bam.log",
+        MARK_DUPLICATES / "{sample}.bam.log",
+    params:
+        input_cram=compose_input_line_for_mark_duplicates,
     conda:
         "__environment__.yml"
     resources:
@@ -17,7 +19,7 @@ rule align__mark_duplicates__:
     shell:
         """
         gatk MarkDuplicates \
-            --INPUT {input.cram} \
+            {params.input_cram} \
             --OUTPUT {output.bam} \
             --METRICS_FILE {output.metrics} \
             --ASSUME_SORT_ORDER coordinate \
@@ -29,12 +31,12 @@ rule align__mark_duplicates__:
 
 rule align__mark_duplicates__bam_to_cram:
     input:
-        bam=MARK_DUPLICATES / "{sample}.{library}.bam",
+        bam=MARK_DUPLICATES / "{sample}.bam",
         reference=REFERENCE / "genome.fa.gz",
     output:
-        MARK_DUPLICATES / "{sample}.{library}.cram",
+        MARK_DUPLICATES / "{sample}.cram",
     log:
-        MARK_DUPLICATES / "{sample}.{library}.cram.log",
+        MARK_DUPLICATES / "{sample}.cram.log",
     threads: 24
     conda:
         "__environment__.yml"
@@ -53,8 +55,4 @@ rule align__mark_duplicates__bam_to_cram:
 rule align__mark_duplicates__all:
     """Mark duplicates in all chromosomes and all libraries"""
     input:
-        [
-            MARK_DUPLICATES / f"{sample}.{library}.cram"
-            for sample, library in SAMPLE_LIB
-            for chromosome in get_sample_chromosomes(sample)
-        ],
+        [MARK_DUPLICATES / f"{sample}.cram" for sample in SAMPLES],
