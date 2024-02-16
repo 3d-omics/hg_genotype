@@ -13,6 +13,7 @@ rule align__mark_duplicates__:
     resources:
         mem_mb=8000,
         runtime=360,
+    threads: 0
     shell:
         """
         gatk MarkDuplicates \

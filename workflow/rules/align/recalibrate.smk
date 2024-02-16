@@ -48,6 +48,7 @@ rule align__recalibrate__applybqsr:
     resources:
         mem_mb=8000,
         runtime=1440,
+    threads: 0
     shell:
         """
         gatk ApplyBQSR \
