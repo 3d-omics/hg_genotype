@@ -6,7 +6,7 @@ rule annotate__snpeff__download:
         SNPEFF_DB / "{snpeff_db}.log",
     params:
         datadir=SNPEFF_DB,
-        snpeff_db="{snpeff_db}",
+        snpeff_db=lambda w: "{w.snpeff_db}",
     conda:
         "__environment__.yml"
     shell:
