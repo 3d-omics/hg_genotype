@@ -34,3 +34,12 @@ def get_ploidy_of_sample_and_chromosome(wildcards):
         # ZW will trigger, XY won't
         return 1
     return 2
+
+
+def get_input_vcf_for_genotype__variant_filtration(wildcards):
+    chromosome = wildcards.chromosome
+    return (
+        POSTERIORS / f"{chromosome}.vcf.gz"
+        if chromosome in DIPLOID_CHROMOSOMES
+        else GENOTYPE_GVCFS / f"{chromosome}.vcf.gz"
+    )
