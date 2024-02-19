@@ -1,13 +1,13 @@
 rule genotype__combine_gvcfs__:
-    """Combine gVCFs to get a chromosome"""
+    """Combine gVCFs to get a region"""
     input:
         vcf_gzs=get_files_to_genotype,
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
     output:
-        vcf_gz=COMBINE_GVCFS / "{chromosome}.vcf.gz",
+        vcf_gz=COMBINE_GVCFS / "{region}.vcf.gz",
     log:
-        COMBINE_GVCFS / "{chromosome}.log",
+        COMBINE_GVCFS / "{region}.log",
     conda:
         "__environment__.yml"
     params:
@@ -30,4 +30,4 @@ rule genotype__combine_gvcfs__:
 rule genotype__combine_gvcfs__all:
     """Get all chromosomal gVCFs"""
     input:
-        [COMBINE_GVCFS / f"{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
+        [COMBINE_GVCFS / f"{region}.vcf.gz" for region in REGIONS],

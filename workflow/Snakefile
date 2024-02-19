@@ -19,12 +19,27 @@ MAX_THREADS = params["max_threads"]
 SNPEFF_DBS = features["snpeff"]["genome"]
 BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
 PICARD_REPORTS = BAM_REPORTS + ["metrics.tsv"]
-CHROMOSOMES = set(
-    features["reference"]["autosomes"]
-    + features["reference"]["male_chromosomes"]
+# CHROMOSOMES = set(
+#     features["reference"]["autosomes"]
+#     + features["reference"]["male_chromosomes"]
+#     + features["reference"]["mitochondria"]
+# )
+REGIONS_BED4 = pd.read_table(
+    features["reference"]["regions"],
+    dtype="str",
+    comment="#",
+    names=["chrom", "chromStart", "chromEnd", "name"],
+)
+REGIONS = REGIONS_BED4.name
+
+NON_AUTOSOMES = set(
+    features["reference"]["male_chromosomes"]
+    + features["reference"]["female_chromosomes"]
     + features["reference"]["mitochondria"]
 )
-DIPLOID_CHROMOSOMES = set(features["reference"]["autosomes"])
+
+DIPLOID_REGIONS = REGIONS_BED4.query("chrom not in @NON_AUTOSOMES").name
+print(DIPLOID_REGIONS.values)
 
 
 # Import subworkflows

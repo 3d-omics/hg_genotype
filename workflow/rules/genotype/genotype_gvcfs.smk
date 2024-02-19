@@ -1,13 +1,13 @@
 rule genotype__genotype_gvcfs__:
-    """Genotype a single chromosome"""
+    """Genotype a single region"""
     input:
-        vcf_gz=COMBINE_GVCFS / "{chromosome}.vcf.gz",
+        vcf_gz=COMBINE_GVCFS / "{region}.vcf.gz",
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
     output:
-        vcf_gz=GENOTYPE_GVCFS / "{chromosome}.vcf.gz",
+        vcf_gz=GENOTYPE_GVCFS / "{region}.vcf.gz",
     log:
-        GENOTYPE_GVCFS / "{chromosome}.log",
+        GENOTYPE_GVCFS / "{region}.log",
     conda:
         "__environment__.yml"
     params:
@@ -29,4 +29,4 @@ rule genotype__genotype_gvcfs__:
 rule genotype__genotype_gvcfs__all:
     """Genotype all chromosomes"""
     input:
-        [GENOTYPE_GVCFS / f"{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
+        [GENOTYPE_GVCFS / f"{region}.vcf.gz" for region in DIPLOID_REGIONS],

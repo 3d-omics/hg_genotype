@@ -6,15 +6,15 @@ rule genotype__haplotype_caller__:
         crai=RECALIBRATE / "{sample_id}.cram.crai",
         dict_=REFERENCE / "genome.dict",
     output:
-        gvcf_gz=HAPLOTYPE_CALLER / "{sample_id}" / "{chromosome}.gvcf.gz",
+        gvcf_gz=HAPLOTYPE_CALLER / "{sample_id}" / "{region}.gvcf.gz",
     log:
-        HAPLOTYPE_CALLER / "{sample_id}" / "{chromosome}.log",
+        HAPLOTYPE_CALLER / "{sample_id}" / "{region}.log",
     conda:
         "__environment__.yml"
     params:
         extra=params["gatk4"]["haplotype_caller"]["extra"],
         ploidy=get_ploidy_of_sample_and_chromosome,
-        chromosome=lambda w: w.chromosome,
+        interval=get_interval_for_haplotype_caller,
     resources:
         mem_mb=8000,
         runtime=1440,
@@ -26,7 +26,7 @@ rule genotype__haplotype_caller__:
             --input {input.cram} \
             --output {output.gvcf_gz} \
             --emit-ref-confidence GVCF \
-            --intervals {params.chromosome} \
+            --intervals {params.interval} \
             -ploidy {params.ploidy} \
         2> {log} 1>&2
         """
@@ -36,7 +36,7 @@ rule genotype__haplotype_caller__all:
     """Call variants for all libraries and chromosomes"""
     input:
         [
-            HAPLOTYPE_CALLER / f"{sample_id}" / f"{chromosome}.gvcf.gz"
+            HAPLOTYPE_CALLER / f"{sample_id}" / f"{region}.gvcf.gz"
             for sample_id in SAMPLES
-            for chromosome in get_sample_chromosomes(sample_id)
+            for region in REGIONS
         ],

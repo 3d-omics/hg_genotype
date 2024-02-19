@@ -5,9 +5,9 @@ rule genotype__variant_filtration__:
         dict_=REFERENCE / "genome.dict",
         vcf=get_input_vcf_for_genotype__variant_filtration,
     output:
-        vcf=VARIANT_FILTRATION / "{chromosome}.vcf.gz",
+        vcf=VARIANT_FILTRATION / "{region}.vcf.gz",
     log:
-        VARIANT_FILTRATION / "{chromosome}.log",
+        VARIANT_FILTRATION / "{region}.log",
     conda:
         "__environment__.yml"
     params:
@@ -34,8 +34,8 @@ rule genotype__variant_filtration__merge:
     """Merge all VCF chromosomes"""
     input:
         expand(
-            VARIANT_FILTRATION / "{chromosome}.vcf.gz",
-            chromosome=CHROMOSOMES,
+            VARIANT_FILTRATION / "{region}.vcf.gz",
+            region=DIPLOID_REGIONS,
         ),
     output:
         VARIANT_FILTRATION / "variants_filtered.vcf.gz",

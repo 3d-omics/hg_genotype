@@ -1,7 +1,7 @@
 def get_files_to_genotype(wildcards):
     """Get files to genotype for a sample, library and chromosome"""
     return [
-        HAPLOTYPE_CALLER / sample_id / f"{wildcards.chromosome}.gvcf.gz"
+        HAPLOTYPE_CALLER / sample_id / f"{wildcards.region}.gvcf.gz"
         for sample_id in SAMPLES
     ]
 
@@ -18,7 +18,8 @@ def compose_v_line(wildcards):
 def get_ploidy_of_sample_and_chromosome(wildcards):
     """Get the ploidy of a sample and chromosome"""
     sample_id = wildcards.sample_id
-    chromosome = wildcards.chromosome
+    region = wildcards.region
+    chromosome = REGIONS_BED4[REGIONS_BED4.name == region].chrom.values[0]
     sex = samples[samples["sample_id"] == sample_id][["sex"]]
 
     male_chrs = features["reference"]["male_chromosomes"]
@@ -37,9 +38,17 @@ def get_ploidy_of_sample_and_chromosome(wildcards):
 
 
 def get_input_vcf_for_genotype__variant_filtration(wildcards):
-    chromosome = wildcards.chromosome
+    region = wildcards.region
     return (
-        POSTERIORS / f"{chromosome}.vcf.gz"
-        if chromosome in DIPLOID_CHROMOSOMES
-        else GENOTYPE_GVCFS / f"{chromosome}.vcf.gz"
+        POSTERIORS / f"{region}.vcf.gz"
+        if region in DIPLOID_REGIONS
+        else GENOTYPE_GVCFS / f"{region}.vcf.gz"
     )
+
+
+def get_interval_for_haplotype_caller(wildcards):
+    region = wildcards.region
+    chrom, chrom_start, chrom_end, _ = REGIONS_BED4[REGIONS_BED4.name == region].values[
+        0
+    ]
+    return f"{chrom}:{chrom_start}-{chrom_end}"
