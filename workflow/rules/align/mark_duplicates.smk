@@ -8,14 +8,16 @@ rule align__mark_duplicates__:
         metrics=MARK_DUPLICATES / "{sample_id}.metrics.tsv",
     log:
         MARK_DUPLICATES / "{sample_id}.bam.log",
-    params:
-        input_cram=compose_input_line_for_mark_duplicates,
     conda:
         "__environment__.yml"
+    params:
+        input_cram=compose_input_line_for_mark_duplicates,
     resources:
         mem_mb=8000,
         runtime=360,
     threads: 0
+    group:
+        "align"
     shell:
         """
         gatk MarkDuplicates \
@@ -37,9 +39,11 @@ rule align__mark_duplicates__bam_to_cram:
         MARK_DUPLICATES / "{sample_id}.cram",
     log:
         MARK_DUPLICATES / "{sample_id}.cram.log",
-    threads: 24
     conda:
         "__environment__.yml"
+    threads: 24
+    group:
+        "align"
     shell:
         """
         samtools view \

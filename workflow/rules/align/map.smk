@@ -12,17 +12,19 @@ rule align__map__bwamem__:
         cram=MAP / "{sample_id}.{library_id}.cram",
     log:
         MAP / "{sample_id}.{library_id}.log",
+    conda:
+        "__environment__.yml"
     params:
         index_prefix=INDEX / "genome",
         extra=params["bowtie2"]["extra"],
         samtools_mem=params["bowtie2"]["samtools"]["mem_per_thread"],
         read_group_header=compose_read_group_header,
     threads: 24
-    conda:
-        "__environment__.yml"
     resources:
         mem_mb=30000,
         runtime=1440,
+    group:
+        "align"
     shell:
         """
         (bwa mem \

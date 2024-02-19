@@ -18,6 +18,8 @@ rule genotype__haplotype_caller__:
     resources:
         mem_mb=8000,
         runtime=1440,
+    group:
+        "genotype"
     shell:
         """
         gatk HaplotypeCaller \

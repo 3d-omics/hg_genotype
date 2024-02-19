@@ -49,6 +49,8 @@ rule align__recalibrate__applybqsr:
         mem_mb=8000,
         runtime=1440,
     threads: 0
+    group:
+        "align"
     shell:
         """
         gatk ApplyBQSR \
@@ -75,6 +77,8 @@ rule align__recalibrate__bam_to_cram:
     resources:
         memory="4G",
         runtime=1440,
+    group:
+        "align"
     shell:
         """
         samtools view \

@@ -15,6 +15,8 @@ rule genotype__calculate_genotype_posteriors__:
     resources:
         mem_mb=8000,
         runtime=1440,
+    group:
+        "genotype"
     shell:
         """
         gatk CalculateGenotypePosteriors \

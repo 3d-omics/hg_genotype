@@ -15,6 +15,8 @@ rule genotype__genotype_gvcfs__:
     resources:
         mem_mb=8000,
         runtime=1440,
+    group:
+        "genotype"
     shell:
         """
         gatk GenotypeGVCFs \
