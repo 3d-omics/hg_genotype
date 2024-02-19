@@ -1,8 +1,0 @@
-# bcftools.yml: process vcf/bcf
----
-channels:
-  - conda-forge
-  - bioconda
-  - nodefaults
-dependencies:
-  - bcftools=1.17

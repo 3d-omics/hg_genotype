@@ -1,15 +1,32 @@
 READS = Path("results/reads/")
 REFERENCE = Path("results/reference/")
-FASTP = Path("results/fastp/")
-BOWTIE2 = Path("results/bowtie2/")
-PICARD = Path("results/picard/")
-GATK = Path("results/gatk4/")
-SNPEFF = Path("results/snpeff/")
 
-REPORT_STEP = Path("reports/by_step/")
-REPORT_LIBRARY = Path("reports/by_library/")
-REPORT_CHR = Path("reports/by_chromosome/")
+PRE = Path("results/preprocess/")
+FASTP = PRE / "fastp"
+
+ALIGN = Path("results/align/")
+INDEX = ALIGN / "index"
+MAP = ALIGN / "map"
+SPLIT = ALIGN / "split"
+MARK_DUPLICATES = ALIGN / "mark_duplicates"
+RECALIBRATE = ALIGN / "recalibrate"
+MERGE = ALIGN / "merge"
+
+
+GENOTYPE = Path("results/genotype/")
+POSTERIORS = GENOTYPE / "variant_posteriors"
+COMBINE_GVCFS = GENOTYPE / "combine_gvcfs"
+HAPLOTYPE_CALLER = GENOTYPE / "haplotype_caller"
+GENOTYPE_GVCFS = GENOTYPE / "genotype_gvcfs"
+VARIANT_FILTRATION = GENOTYPE / "variant_filtration"
+
+ANNOTATE = Path("results/annotate/")
+SNPEFF_DB = Path("resources/snpeff/")
+SNPEFF = ANNOTATE / "snpeff"
+
+
+REPORT = Path("reports/")
+STEP = REPORT / "step"
+SAMPLE = REPORT / "sample"
 
 SWAPS = Path("results/swaps/")
-
-SOMALIER = Path("results/somalier/")

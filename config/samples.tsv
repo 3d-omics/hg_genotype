@@ -1,6 +1,6 @@
-sample	library	forward	reverse	forward_adapter	reverse_adapter	sex
-sample1	1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT	male
-sample1	2	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT	male
-sample2	1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz	AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT	female
-#sample3	1	resources/reads/sample3_1.fq.gz	resources/reads/sample3_2.fq.gz	AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT	female
-#sample4	1	resources/reads/sample4_1.fq.gz	resources/reads/sample4_2.fq.gz	AGATCGGAAGAGCACACGTCTGAACTCCAGTCA	AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT	male
+sample_id	library_id	forward_filename	reverse_filename	sex
+sample1	lib1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	F
+sample1	lib2	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	F
+sample2	lib1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz	M
+#sample3	lib1	resources/reads/sample3_1.fq.gz	resources/reads/sample3_2.fq.gz	M
+#sample4	lib1	resources/reads/sample4_1.fq.gz	resources/reads/sample4_2.fq.gz	F
