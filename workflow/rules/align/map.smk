@@ -4,14 +4,14 @@ rule align__map__bwamem__:
     Output SAM file is piped to samtools sort to generate a CRAM file.
     """
     input:
-        forward_=READS / "{sample}.{library}_1.fq.gz",
-        reverse_=READS / "{sample}.{library}_2.fq.gz",
+        forward_=READS / "{sample_id}.{library_id}_1.fq.gz",
+        reverse_=READS / "{sample_id}.{library_id}_2.fq.gz",
         idx=multiext(f"{INDEX}/genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
         reference=REFERENCE / "genome.fa.gz",
     output:
-        cram=MAP / "{sample}.{library}.cram",
+        cram=MAP / "{sample_id}.{library_id}.cram",
     log:
-        MAP / "{sample}.{library}.log",
+        MAP / "{sample_id}.{library_id}.log",
     params:
         index_prefix=INDEX / "genome",
         extra=params["bowtie2"]["extra"],
@@ -48,4 +48,7 @@ rule align__map__bwamem__:
 rule align__map__bwamem__all:
     """Collect the results of `bowtie2_map_one` for all libraries"""
     input:
-        [MAP / f"{sample}.{library}.cram" for sample, library in SAMPLE_LIB],
+        [
+            MAP / f"{sample_id}.{library_id}.cram"
+            for sample_id, library_id in SAMPLE_LIBRARY
+        ],

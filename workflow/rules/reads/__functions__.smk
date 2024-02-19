@@ -1,9 +1,9 @@
 def get_reads(wildcards):
     """Get reads for a sample and library."""
     forward_, reverse_ = samples[
-        (samples["sample"] == wildcards.sample)
-        & (samples["library"] == wildcards.library)
-    ][["forward", "reverse"]].values[0]
+        (samples["sample_id"] == wildcards.sample_id)
+        & (samples["library_id"] == wildcards.library_id)
+    ][["forward_filename", "reverse_filename"]].values[0]
     return forward_, reverse_
 
 

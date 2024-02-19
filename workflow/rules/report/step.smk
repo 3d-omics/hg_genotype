@@ -26,18 +26,18 @@ rule report__step__align:
     """Collect all reports for the bowtie2 step"""
     input:
         [
-            MAP / f"{sample}.{library}.{report}"
-            for sample, library in SAMPLE_LIB
+            MAP / f"{sample_id}.{library_id}.{report}"
+            for sample_id, library_id in SAMPLE_LIBRARY
             for report in BAM_REPORTS
         ],
         [
-            MARK_DUPLICATES / f"{sample}.{report}"
-            for sample in SAMPLES
+            MARK_DUPLICATES / f"{sample_id}.{report}"
+            for sample_id in SAMPLES
             for report in BAM_REPORTS
         ],
         [
-            RECALIBRATE / f"{sample}.{report}"
-            for sample, library in SAMPLE_LIB
+            RECALIBRATE / f"{sample_id}.{report}"
+            for sample_id, library_id in SAMPLE_LIBRARY
             for report in BAM_REPORTS
         ],
     output:
@@ -66,12 +66,12 @@ rule report__step__align:
 #     """Collect all reports for the gatk4 step"""
 #     input:
 #         base_recalibrator=[
-#             MARK_DUPLICATES / f"{sample}.{library}" / f"{chromosome}.bam"
+#             MARK_DUPLICATES / f"{sample_id}.{library_id}" / f"{chromosome}.bam"
 #             for sample, library in SAMPLE_LIB
 #             for chromosome in get_sample_chromosomes(sample)
 #         ],
 #         bam_reports=[
-#             RECALIBRATE / f"{sample}.{library}" / f"{chromosome}.{report}"
+#             RECALIBRATE / f"{sample_id}.{library_id}" / f"{chromosome}.{report}"
 #             for sample, library in SAMPLE_LIB
 #             for chromosome in CHROMOSOMES
 #             for report in BAM_REPORTS

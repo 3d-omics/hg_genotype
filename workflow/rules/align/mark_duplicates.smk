@@ -4,10 +4,10 @@ rule align__mark_duplicates__:
         cram=get_crams_for_mark_duplicates,
         reference=REFERENCE / "genome.fa.gz",
     output:
-        bam=pipe(MARK_DUPLICATES / "{sample}.bam"),
-        metrics=MARK_DUPLICATES / "{sample}.metrics.tsv",
+        bam=pipe(MARK_DUPLICATES / "{sample_id}.bam"),
+        metrics=MARK_DUPLICATES / "{sample_id}.metrics.tsv",
     log:
-        MARK_DUPLICATES / "{sample}.bam.log",
+        MARK_DUPLICATES / "{sample_id}.bam.log",
     params:
         input_cram=compose_input_line_for_mark_duplicates,
     conda:
@@ -31,12 +31,12 @@ rule align__mark_duplicates__:
 
 rule align__mark_duplicates__bam_to_cram:
     input:
-        bam=MARK_DUPLICATES / "{sample}.bam",
+        bam=MARK_DUPLICATES / "{sample_id}.bam",
         reference=REFERENCE / "genome.fa.gz",
     output:
-        MARK_DUPLICATES / "{sample}.cram",
+        MARK_DUPLICATES / "{sample_id}.cram",
     log:
-        MARK_DUPLICATES / "{sample}.cram.log",
+        MARK_DUPLICATES / "{sample_id}.cram.log",
     threads: 24
     conda:
         "__environment__.yml"
@@ -55,4 +55,4 @@ rule align__mark_duplicates__bam_to_cram:
 rule align__mark_duplicates__all:
     """Mark duplicates in all chromosomes and all libraries"""
     input:
-        [MARK_DUPLICATES / f"{sample}.cram" for sample in SAMPLES],
+        [MARK_DUPLICATES / f"{sample_id}.cram" for sample_id in SAMPLES],

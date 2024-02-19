@@ -1,7 +1,9 @@
 def get_sex(sample):
     """From a sample name, get it's sex from the samples table"""
     sex = (
-        samples[samples["sample"] == sample]["sex"].drop_duplicates().values.tolist()[0]
+        samples[samples["sample_id"] == sample]["sex"]
+        .drop_duplicates()
+        .values.tolist()[0]
     )
     return sex
 

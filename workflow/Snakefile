@@ -13,8 +13,8 @@ samples = pd.read_table("config/samples.tsv", comment="#", dtype="str")
 
 
 # Generate useful variables
-SAMPLES = samples["sample"].drop_duplicates().values.tolist()
-SAMPLE_LIB = samples[["sample", "library"]].values.tolist()
+SAMPLES = samples["sample_id"].drop_duplicates().values.tolist()
+SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
 MAX_THREADS = params["max_threads"]
 SNPEFF_DBS = features["snpeff"]["genome"]
 BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]

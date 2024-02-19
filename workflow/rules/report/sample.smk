@@ -4,16 +4,16 @@ rule report__sample__:
         get_reads_fastqc_for_library_report,
         get_reports_from_bwa_for_library_report,
         get_picard_markduplicates_for_library_report,
-        RECALIBRATE / "{sample}.bsqr.txt",
+        RECALIBRATE / "{sample_id}.bsqr.txt",
         get_gatk4_apply_bqsr_for_library_report,
     output:
-        SAMPLE / "{sample}.html",
+        SAMPLE / "{sample_id}.html",
     log:
-        SAMPLE / "{sample}.log",
+        SAMPLE / "{sample_id}.log",
     conda:
         "__environment__.yml"
     params:
-        title=lambda w: f"{w.sample}",
+        title=lambda w: f"{w.sample_id}",
         out_dir=SAMPLE,
     shell:
         """
@@ -32,7 +32,7 @@ rule report__sample__:
 rule report__sample__all:
     """Make a MultiQC report for every library"""
     input:
-        [SAMPLE / f"{sample}.html" for sample in SAMPLES],
+        [SAMPLE / f"{sample_id}.html" for sample_id in SAMPLES],
 
 
 rule report__sample:

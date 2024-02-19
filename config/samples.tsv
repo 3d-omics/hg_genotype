@@ -1,4 +1,4 @@
-sample	library	forward	reverse	sex
+sample_id	library_id	forward_filename	reverse_filename	sex
 sample1	lib1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	F
 sample1	lib2	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	F
 sample2	lib1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz	M

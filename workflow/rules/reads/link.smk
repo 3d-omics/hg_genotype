@@ -4,10 +4,10 @@ rule reads__link__:
         forward_=get_forward,
         reverse_=get_reverse,
     output:
-        forward_=READS / "{sample}.{library}_1.fq.gz",
-        reverse_=READS / "{sample}.{library}_2.fq.gz",
+        forward_=READS / "{sample_id}.{library_id}_1.fq.gz",
+        reverse_=READS / "{sample_id}.{library_id}_2.fq.gz",
     log:
-        READS / "{sample}.{library}.log",
+        READS / "{sample_id}.{library_id}.log",
     conda:
         "__environment__.yml"
     shell:
@@ -21,8 +21,8 @@ rule reads__link__all:
     """Link all reads in the samples.tsv"""
     input:
         [
-            READS / f"{sample}.{library}_{end}.fq.gz"
-            for sample, library in SAMPLE_LIB
+            READS / f"{sample_id}.{library_id}_{end}.fq.gz"
+            for sample_id, library_id in SAMPLE_LIBRARY
             for end in ["1", "2"]
         ],
 
