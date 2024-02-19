@@ -39,7 +39,6 @@ NON_AUTOSOMES = set(
 )
 
 DIPLOID_REGIONS = REGIONS_BED4.query("chrom not in @NON_AUTOSOMES").name
-print(DIPLOID_REGIONS.values)
 
 
 # Import subworkflows
