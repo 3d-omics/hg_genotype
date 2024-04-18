@@ -3,4 +3,4 @@ channels:
   - bioconda
   - nodefaults
 dependencies:
-  - coreutils =9.4
+  - coreutils =9.5
