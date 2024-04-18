@@ -14,7 +14,7 @@ rule swaps_rename_library_one:
         "__environment__.yml"
     shell:
         """
-        picard AddOrReplaceReadGroups \
+        gatk AddOrReplaceReadGroups \
             --INPUT {input.bam} \
             --OUTPUT {output.bam} \
             --RGLB {params.sample_library} \
@@ -49,7 +49,7 @@ rule swaps_call_one_chromosome:
         "__environment__.yml"
     shell:
         """
-        (bcftools mpileup \
+        ( bcftools mpileup \
             --output-type z9 \
             --fasta-ref {input.reference} \
             {input} \
