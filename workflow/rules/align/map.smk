@@ -1,4 +1,4 @@
-rule align__map__bwamem__:
+rule align__map__:
     """Map one library to reference genome using bowtie2
 
     Output SAM file is piped to samtools sort to generate a CRAM file.
@@ -6,7 +6,7 @@ rule align__map__bwamem__:
     input:
         forward_=READS / "{sample_id}.{library_id}_1.fq.gz",
         reverse_=READS / "{sample_id}.{library_id}_2.fq.gz",
-        idx=multiext(f"{INDEX}/genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+        idx=multiext(f"{INDEX}/genome", ".amb", ".bwt.2bit.64", ".pac", ".0123", ".ann"),
         reference=REFERENCE / "genome.fa.gz",
     output:
         cram=MAP / "{sample_id}.{library_id}.cram",
@@ -27,7 +27,7 @@ rule align__map__bwamem__:
         "align"
     shell:
         """
-        (bwa mem \
+        (bwa-mem2 mem \
             -t {threads} \
             -R '{params.read_group_header}' \
             {params.index_prefix} \
@@ -47,7 +47,7 @@ rule align__map__bwamem__:
 # aligning and sorting
 
 
-rule align__map__bwamem__all:
+rule align__map:
     """Collect the results of `bowtie2_map_one` for all libraries"""
     input:
         [

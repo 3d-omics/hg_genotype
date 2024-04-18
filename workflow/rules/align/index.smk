@@ -1,9 +1,9 @@
-rule align__index__bwa:
+rule align__index:
     """Build genome index with bwa"""
     input:
         reference=REFERENCE / "genome.fa.gz",
     output:
-        multiext(f"{INDEX}/genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+        multiext(f"{INDEX}/genome", ".amb", ".bwt.2bit.64", ".pac", ".0123", ".ann"),
     log:
         INDEX / "build.log",
     conda:
@@ -14,7 +14,7 @@ rule align__index__bwa:
     threads: 8
     shell:
         """
-        bwa index \
+        bwa-mem2 index \
             -p {params.output_path} \
             {input.reference} \
             {params.extra} \
