@@ -15,7 +15,7 @@ rule align__mark_duplicates__:
     resources:
         mem_mb=8000,
         runtime=360,
-    threads: 0
+    threads: 0  # pipe!
     group:
         "align"
     shell:
@@ -31,7 +31,7 @@ rule align__mark_duplicates__:
         """
 
 
-rule align__mark_duplicates__bam_to_cram:
+rule align__mark_duplicates__bam_to_cram__:
     input:
         bam=MARK_DUPLICATES / "{sample_id}.bam",
         reference=REFERENCE / "genome.fa.gz",
@@ -41,7 +41,6 @@ rule align__mark_duplicates__bam_to_cram:
         MARK_DUPLICATES / "{sample_id}.cram.log",
     conda:
         "__environment__.yml"
-    threads: 24
     group:
         "align"
     shell:
@@ -56,7 +55,7 @@ rule align__mark_duplicates__bam_to_cram:
         """
 
 
-rule align__mark_duplicates__all:
+rule align__mark_duplicates:
     """Mark duplicates in all chromosomes and all libraries"""
     input:
         [MARK_DUPLICATES / f"{sample_id}.cram" for sample_id in SAMPLES],

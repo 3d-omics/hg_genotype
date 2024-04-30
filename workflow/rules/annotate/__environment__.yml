@@ -5,3 +5,4 @@ channels:
 dependencies:
   - samtools =1.20
   - snpeff =5.2
+  - ensembl-vep =111.0

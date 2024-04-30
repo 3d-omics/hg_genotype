@@ -29,7 +29,7 @@ rule genotype__combine_gvcfs__:
         """
 
 
-rule genotype__combine_gvcfs__all:
+rule genotype__combine_gvcfs:
     """Get all chromosomal gVCFs"""
     input:
         [COMBINE_GVCFS / f"{region}.vcf.gz" for region in REGIONS],

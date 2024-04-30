@@ -50,6 +50,7 @@ include: "rules/align/__main__.smk"
 include: "rules/genotype/__main__.smk"
 include: "rules/annotate/__main__.smk"
 include: "rules/report/__main__.smk"
+include: "rules/swaps/__main__.smk"
 
 
 # include: "rules/swaps/__main__.smk"

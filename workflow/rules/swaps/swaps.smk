@@ -1,4 +1,4 @@
-rule swaps_rename_library_one:
+rule swaps__swaps__rename__:
     """Replace the read group information so intead of showing the sample, it shows the library ID.
     """
     input:
@@ -26,7 +26,7 @@ rule swaps_rename_library_one:
         """
 
 
-rule swaps_rename_library_all:
+rule swaps__swaps__rename:
     """Replace RG tags to library ids over all the libraries"""
     input:
         [
@@ -36,15 +36,15 @@ rule swaps_rename_library_all:
         ],
 
 
-rule swaps_call_one_chromosome:
+rule swaps__swaps__bcftools__:
     """Call variants for a single chromosome"""
     input:
         bams=get_bams_for_bcftools_call,
         reference=REFERENCE / "genome.fa.gz",
     output:
-        vcf=SWAPS / "call/{chromosome}.vcf.gz",
+        vcf=SWAPS / "call" / "{chromosome}.vcf.gz",
     log:
-        SWAPS / "call/{chromosome}.log",
+        SWAPS / "call" / "{chromosome}.log",
     conda:
         "__environment__.yml"
     shell:
@@ -62,20 +62,20 @@ rule swaps_call_one_chromosome:
         """
 
 
-rule swaps_call_all:
+rule swaps__swaps__bcftools:
     """Collect variants from all chromosomes"""
     input:
-        [SWAPS / f"bcftools_mpileup/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
+        [SWAPS / "call" / "{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
 
 
-rule swaps_filter_one:
+rule swaps__swaps__filter__:
     """Filter variants on one chromosome"""
     input:
-        vcf=SWAPS / "call/{chromosome}.vcf.gz",
+        vcf=SWAPS / "call" / "{chromosome}.vcf.gz",
     output:
-        vcf=SWAPS / "filter/{chromosome}.vcf.gz",
+        vcf=SWAPS / "filter" / "{chromosome}.vcf.gz",
     log:
-        SWAPS / "filter/{chromosome}.log",
+        SWAPS / "filter" / "{chromosome}.log",
     conda:
         "__environment__.yml"
     params:
@@ -91,13 +91,13 @@ rule swaps_filter_one:
         """
 
 
-rule swaps_filter_all:
+rule swaps__swaps__filter:
     """Collect filtered variants from all chromosomes"""
     input:
         [SWAPS / f"call/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
 
 
-rule swaps_merge:
+rule swaps__swaps__merge__:
     """Merge all chromosomes into one file"""
     input:
         vcf=[SWAPS / f"filter/{chromosome}.vcf.gz" for chromosome in CHROMOSOMES],
@@ -117,7 +117,7 @@ rule swaps_merge:
         """
 
 
-rule swaps_process:
+rule swaps__swaps__gtcheck__:
     """Run bcftools gtcheck"""
     input:
         vcf=SWAPS / "merge.vcf.gz",
@@ -135,7 +135,7 @@ rule swaps_process:
         """
 
 
-rule swaps_plot:
+rule swaps__swaps__plot__:
     """Plot the results of bcftools gtcheck"""
     input:
         tsv=SWAPS / "gtcheck.tsv",

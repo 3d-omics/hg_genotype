@@ -1,4 +1,4 @@
-rule align__index:
+rule align__index__:
     """Build genome index with bwa"""
     input:
         reference=REFERENCE / "genome.fa.gz",
@@ -11,7 +11,6 @@ rule align__index:
     params:
         output_path=INDEX / "genome",
         extra=params["bowtie2"]["extra"],
-    threads: 8
     shell:
         """
         bwa-mem2 index \
@@ -20,3 +19,8 @@ rule align__index:
             {params.extra} \
         2> {log} 1>&2
         """
+
+
+rule align__index:
+    input:
+        rules.align__index__.input,

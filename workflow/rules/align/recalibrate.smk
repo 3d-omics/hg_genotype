@@ -1,4 +1,4 @@
-rule align__recalibrate__baserecalibrator:
+rule align__recalibrate__baserecalibrator__:
     """Compute the recalibration table for a single library and chromosome"""
     input:
         cram=MARK_DUPLICATES / "{sample}.cram",
@@ -15,9 +15,6 @@ rule align__recalibrate__baserecalibrator:
         "__environment__.yml"
     params:
         extra=params["gatk4"]["base_recalibrator"]["extra"],
-    resources:
-        mem_mb=8000,
-        runtime=1440,
     shell:
         """
         gatk BaseRecalibrator \
@@ -30,7 +27,7 @@ rule align__recalibrate__baserecalibrator:
         """
 
 
-rule align__recalibrate__applybqsr:
+rule align__recalibrate__applybqsr__:
     """Apply the recalibration table to a single library and chromosome"""
     input:
         cram=MARK_DUPLICATES / "{sample}.cram",
@@ -45,10 +42,7 @@ rule align__recalibrate__applybqsr:
         "__environment__.yml"
     params:
         extra=params["gatk4"]["apply_bqsr"]["extra"],
-    resources:
-        mem_mb=8000,
-        runtime=1440,
-    threads: 0
+    threads: 0  # pipe!
     group:
         "align"
     shell:
@@ -63,7 +57,7 @@ rule align__recalibrate__applybqsr:
         """
 
 
-rule align__recalibrate__bam_to_cram:
+rule align__recalibrate__bam_to_cram__:
     input:
         bam=RECALIBRATE / "{sample}.bam",
         reference=REFERENCE / "genome.fa.gz",
@@ -73,10 +67,6 @@ rule align__recalibrate__bam_to_cram:
         RECALIBRATE / "{sample}.cram.log",
     conda:
         "__environment__.yml"
-    threads: 24
-    resources:
-        memory="4G",
-        runtime=1440,
     group:
         "align"
     shell:
@@ -91,7 +81,7 @@ rule align__recalibrate__bam_to_cram:
         """
 
 
-rule align__recalibrate__all:
+rule align__recalibrate:
     """Compute recalibration for all chromosomes and libraries"""
     input:
         [RECALIBRATE / f"{sample}.cram" for sample in SAMPLES],

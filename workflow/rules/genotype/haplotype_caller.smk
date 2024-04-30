@@ -15,9 +15,6 @@ rule genotype__haplotype_caller__:
         extra=params["gatk4"]["haplotype_caller"]["extra"],
         ploidy=get_ploidy_of_sample_and_chromosome,
         interval=get_interval_for_haplotype_caller,
-    resources:
-        mem_mb=8000,
-        runtime=1440,
     group:
         "genotype"
     shell:
@@ -34,7 +31,7 @@ rule genotype__haplotype_caller__:
         """
 
 
-rule genotype__haplotype_caller__all:
+rule genotype__haplotype_caller:
     """Call variants for all libraries and chromosomes"""
     input:
         [

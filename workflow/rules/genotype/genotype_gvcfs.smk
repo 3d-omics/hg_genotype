@@ -28,7 +28,7 @@ rule genotype__genotype_gvcfs__:
         """
 
 
-rule genotype__genotype_gvcfs__all:
+rule genotype__genotype_gvcfs:
     """Genotype all chromosomes"""
     input:
         [GENOTYPE_GVCFS / f"{region}.vcf.gz" for region in DIPLOID_REGIONS],

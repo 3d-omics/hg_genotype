@@ -1,4 +1,4 @@
-rule annotate__snpeff__download:
+rule annotate__snpeff__download__:
     """Download a SNPEff database"""
     output:
         db=directory(SNPEFF_DB / "{snpeff_db}"),
@@ -6,7 +6,7 @@ rule annotate__snpeff__download:
         SNPEFF_DB / "{snpeff_db}.log",
     params:
         datadir=SNPEFF_DB,
-        snpeff_db=lambda w: "{w.snpeff_db}",
+        snpeff_db=lambda w: w.snpeff_db,
     conda:
         "__environment__.yml"
     shell:
@@ -19,7 +19,7 @@ rule annotate__snpeff__download:
         """
 
 
-rule annotate__snpeff__annotate:
+rule annotate__snpeff__annotate__:
     """Annotate variants with a SNPEff database"""
     input:
         vcf=VARIANT_FILTRATION / "variants_filtered.vcf.gz",
@@ -37,12 +37,9 @@ rule annotate__snpeff__annotate:
         snpeff_db="{snpeff_db}",
         datadir=SNPEFF_DB,
         html="snpEff_summary.html",
-    resources:
-        mem_mb=8000,
-        runtime=24 * 60,
     shell:
         """
-        (snpEff ann \
+        ( snpEff ann \
             {params.snpeff_db} \
             -dataDir {params.datadir} \
             -csvStats {output.csv} \

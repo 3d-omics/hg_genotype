@@ -8,3 +8,4 @@ dependencies:
   - r-getopt =1.20.4
   - r-tidyverse =2.0.0
   - samtools =1.20
+  - verifybamid2 =2

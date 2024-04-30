@@ -19,10 +19,6 @@ rule align__map__:
         extra=params["bowtie2"]["extra"],
         samtools_mem=params["bowtie2"]["samtools"]["mem_per_thread"],
         read_group_header=compose_read_group_header,
-    threads: 24
-    resources:
-        mem_mb=30000,
-        runtime=1440,
     group:
         "align"
     shell:

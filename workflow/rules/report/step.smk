@@ -62,40 +62,6 @@ rule report__step__align:
         """
 
 
-# rule report__step__genotype:
-#     """Collect all reports for the gatk4 step"""
-#     input:
-#         base_recalibrator=[
-#             MARK_DUPLICATES / f"{sample_id}.{library_id}" / f"{chromosome}.bam"
-#             for sample, library in SAMPLE_LIB
-#             for chromosome in get_sample_chromosomes(sample)
-#         ],
-#         bam_reports=[
-#             RECALIBRATE / f"{sample_id}.{library_id}" / f"{chromosome}.{report}"
-#             for sample, library in SAMPLE_LIB
-#             for chromosome in CHROMOSOMES
-#             for report in BAM_REPORTS
-#         ],
-#     output:
-#         html=STEP / "genotype.html",
-#     log:
-#         STEP / "genotype.log",
-#     conda:
-#         "__environment__.yml"
-#     params:
-#         dir=STEP,
-#     shell:
-#         """
-#         multiqc \
-#             --title genotype \
-#             --force \
-#             --filename genotype \
-#             --outdir {params.dir} \
-#             {input} \
-#         2> {log} 1>&2
-#         """
-
-
 rule report__step__annotate:
     """Collect all reports for the snpeff step"""
     input:

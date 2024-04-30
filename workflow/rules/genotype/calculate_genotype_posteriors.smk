@@ -12,9 +12,6 @@ rule genotype__calculate_genotype_posteriors__:
         "__environment__.yml"
     params:
         extra=params["gatk4"]["calculate_genotype_posteriors"]["extra"],
-    resources:
-        mem_mb=8000,
-        runtime=1440,
     group:
         "genotype"
     shell:

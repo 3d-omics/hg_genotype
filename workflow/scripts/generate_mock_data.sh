@@ -13,10 +13,17 @@ wget \
     https://ftp.ensembl.org/pub/release-111/fasta/gallus_gallus/dna/Gallus_gallus.bGalGal1.mat.broiler.GRCg7b.dna.toplevel.fa.gz
 
 
+# Download annotation
+wget \
+    --continue \
+    https://ftp.ensembl.org/pub/release-111/gtf/gallus_gallus/Gallus_gallus.bGalGal1.mat.broiler.GRCg7b.111.gtf.gz
+
+
 # known variants
 wget \
     --continue \
     https://ftp.ensembl.org/pub/release-111/variation/vcf/gallus_gallus/gallus_gallus.vcf.gz
+
 
 
 # Recompress with bgzip
@@ -37,9 +44,19 @@ gzip \
 > ggal.vcf.gz
 
 
+gzip \
+    --decompress \
+    --stdout \
+    Gallus_gallus.bGalGal1.mat.broiler.GRCg7b.111.gtf.gz \
+| bgzip \
+    --threads 8 \
+> ggal.gtf.gz
+
+
 # Index
 samtools faidx ggal.fa.gz
 bcftools index ggal.vcf.gz
+bgzip --index  ggal.gtf.gz
 
 
 # Slice the dataset
@@ -75,7 +92,31 @@ bcftools view \
 > ggal.mock.vcf.gz
 
 
+for chromosome in 1 2 Z W ; do
+    gzip -dc ggal.gtf.gz \
+    | awk \
+        -v CHR=$chromosome \
+        '$1 == CHR && $4 > 490000 && $5 < 500000' \
+    | awk \
+        -F '\t' \
+        'BEGIN {OFS=FS} {$4 = $4 - 490000; $5 = $5 - 490000; print $0}' \
+    > ggal.$chromosome.gtf
+done
+
+gzip -dc ggal.gtf.gz \
+| awk '$1 == "MT"' \
+> ggal.MT.gtf
+
+cat ggal.{1,2,Z,W,MT}.gtf \
+| bgzip --threads 8 \
+> ggal.mock.gtf.gz
+
+rm -rf ggal.{1,2,Z,W,MT}.gtf
+
 popd
+
+
+
 
 
 # Simulate reads with wgsim. Different seed means different individuals

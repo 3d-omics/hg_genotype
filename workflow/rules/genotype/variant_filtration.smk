@@ -14,9 +14,6 @@ rule genotype__variant_filtration__:
         filter_name=params["gatk4"]["variant_filtration"]["filter_name"],
         filter_expression=params["gatk4"]["variant_filtration"]["filter_expression"],
         extra=params["gatk4"]["variant_filtration"]["extra"],
-    resources:
-        mem_mb=8000,
-        runtime=1440,
     group:
         "genotype"
     shell:
@@ -32,7 +29,7 @@ rule genotype__variant_filtration__:
         """
 
 
-rule genotype__variant_filtration__merge:
+rule genotype__variant_filtration__merge__:
     """Merge all VCF chromosomes"""
     input:
         expand(
@@ -45,18 +42,17 @@ rule genotype__variant_filtration__merge:
         VARIANT_FILTRATION / "variants_filtered.log",
     conda:
         "__environment__.yml"
-    threads: 24
     shell:
         """
         bcftools concat \
             --output {output} \
-            --output-type z9 \
+            --output-type z \
             --threads {threads} \
             {input} \
         2> {log} 1>&2
         """
 
 
-rule genotype__variant_filtration__all:
+rule genotype__variant_filtration:
     input:
-        rules.genotype__variant_filtration__merge.output,
+        rules.genotype__variant_filtration__merge__.output,

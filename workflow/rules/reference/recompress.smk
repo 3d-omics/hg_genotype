@@ -8,12 +8,12 @@ rule reference__recompress__genome:
         REFERENCE / "genome.log",
     conda:
         "__environment__.yml"
-    threads: 8
     shell:
         """
         (gzip \
             --decompres \
-            --stdout {input.fa_gz} \
+            --stdout \
+            {input.fa_gz} \
         | bgzip \
             --threads {threads} \
             --stdout \
@@ -33,13 +33,41 @@ rule reference__recompress__vcf:
         REFERENCE / "known_variants.log",
     conda:
         "__environment__.yml"
-    threads: 8
     shell:
         """
-        (gzip -dc {input.vcf_gz} \
-        | bgzip --threads {threads} \
+        ( gzip \
+            --decompress \
+            --stdout \
+            {input.vcf_gz} \
+        | bgzip \
+            --threads {threads} \
         > {output.vcf_gz}) \
         2> {log}
+        """
+
+
+rule reference__recompress__gtf:
+    """Extract the vcf.gz on config.yaml into known_variants.vcf.gz with bgzip"""
+    input:
+        gtf_gz=features["reference"]["gtf"],
+    output:
+        gtf_gz=REFERENCE / "annotation.gtf.gz",
+    log:
+        REFERENCE / "annotation.log",
+    conda:
+        "__environment__.yml"
+    shell:
+        """
+        ( gzip \
+            --decompress \
+            --stdout \
+            {input.gtf_gz} \
+        | sort \
+            -k1,1 -k4,4n -k5,5n \
+        | bgzip \
+            --threads {threads} \
+        > {output.gtf_gz} \
+        ) 2> {log}
         """
 
 
@@ -47,3 +75,4 @@ rule reference__recompress:
     input:
         rules.reference__recompress__genome.output,
         rules.reference__recompress__vcf.output,
+        rules.reference__recompress__gtf.output,

@@ -23,7 +23,7 @@ VARIANT_FILTRATION = GENOTYPE / "variant_filtration"
 ANNOTATE = Path("results/annotate/")
 SNPEFF_DB = Path("resources/snpeff/")
 SNPEFF = ANNOTATE / "snpeff"
-
+VEP = ANNOTATE / "vep"
 
 REPORT = Path("reports/")
 STEP = REPORT / "step"

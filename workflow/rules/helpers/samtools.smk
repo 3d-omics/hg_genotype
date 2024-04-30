@@ -111,3 +111,16 @@ rule helpers__samtools__samtools_idxstats_cram__:
         "__environment__.yml"
     shell:
         "samtools idxstats {input.cram} > {output.tsv} 2> {log}"
+
+
+rule helpers__samtools__tabix_gtf_gz__:
+    input:
+        gtf_gz="{prefix}.gtf.gz",
+    output:
+        tbi="{prefix}.gtf.gz.tbi",
+    log:
+        "{prefix}.gtf.gz.tbi.log",
+    conda:
+        "__environment__.yml"
+    shell:
+        "tabix -p gff {input.gtf_gz} 2> {log}"

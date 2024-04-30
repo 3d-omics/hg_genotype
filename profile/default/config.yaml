@@ -1,0 +1,69 @@
+__use_yte__: true
+
+default-resources:
+    runtime: 1h
+    mem_mb: 1024
+    disk_mb: 1 * 1024
+
+set-threads:
+    # reads
+    # reference
+    reference__recompress__genome: 8
+    reference__recompress__vcf: 8
+    # align
+    align__index: 8
+    align__map__: 24
+    align__mark_duplicates__bam_to_cram__: 24
+    align__recalibrate__bam_to_cram__: 24
+    # genotype
+    genotype__variant_filtration__merge__: 24
+    # annotate
+    # swaps
+    # report
+
+
+set-resources:
+    # helpers
+    # reads
+    # reference
+    # align
+    align__index:
+        mem_mb: 32 * 1024
+        runtime: 24 * 60
+    align__map__:
+        mem_mb: 32 * 1024
+        runtime: 24 * 60
+    align__mark_duplicates__bam_to_cram__:
+        mem_mb: 8 * 1024
+        runtime: 12 * 60
+    align__recalibrate__baserecalibrator__:
+        mem_mb: 8 * 1024
+        runtime: 24 * 60
+    align__recalibrate__applybqsr__:
+        mem_mb: 8 * 1024
+        runtime: 24 * 60
+    align__recalibrate__bam_to_cram__:
+        mem_mb: 4 * 1024
+        runtime: 24 * 60
+    # genotype
+    genotype__haplotype_caller__:
+        mem_mb: 8 * 1024
+        runtime: 24 * 60
+    genotype__combine_gvcfs__:
+        mem_mb: 8 * 1024
+        runtime: 24 * 60
+    genotype__genotype_gvcfs__:
+        mem_mb: 8 * 1024
+        runtime: 24 * 60
+    genotype__calculate_genotype_posteriors__:
+        mem_mb: 8 * 1024
+        runtime: 24 * 60
+    genotype__variant_filtration__:
+        mem_mb: 8 * 1024
+        runtime: 24 * 60
+    # annotate
+    annotate__snpeff__annotate__:
+        mem_mb: 8 * 1024
+        runtime: 24 * 60
+    # swaps
+    # report
