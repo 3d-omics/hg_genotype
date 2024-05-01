@@ -13,12 +13,9 @@ rule align__recalibrate__baserecalibrator__:
         RECALIBRATE / "{sample}.log",
     conda:
         "__environment__.yml"
-    params:
-        extra=params["gatk4"]["base_recalibrator"]["extra"],
     shell:
         """
         gatk BaseRecalibrator \
-            {params.extra} \
             --input {input.cram} \
             --reference {input.reference} \
             --known-sites {input.known_sites} \
@@ -40,15 +37,12 @@ rule align__recalibrate__applybqsr__:
         RECALIBRATE / "{sample}.log",
     conda:
         "__environment__.yml"
-    params:
-        extra=params["gatk4"]["apply_bqsr"]["extra"],
     threads: 0  # pipe!
     group:
         "align"
     shell:
         """
         gatk ApplyBQSR \
-            {params.extra} \
             --input {input.cram} \
             --reference {input.reference} \
             --bqsr-recal-file {input.table} \

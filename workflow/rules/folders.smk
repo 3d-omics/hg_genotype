@@ -13,12 +13,11 @@ RECALIBRATE = ALIGN / "recalibrate"
 MERGE = ALIGN / "merge"
 
 
-GENOTYPE = Path("results/genotype/")
-POSTERIORS = GENOTYPE / "variant_posteriors"
-COMBINE_GVCFS = GENOTYPE / "combine_gvcfs"
-HAPLOTYPE_CALLER = GENOTYPE / "haplotype_caller"
-GENOTYPE_GVCFS = GENOTYPE / "genotype_gvcfs"
-VARIANT_FILTRATION = GENOTYPE / "variant_filtration"
+VARIANTS = Path("results/variants/")
+CALL = VARIANTS / "call"
+GENOTYPE = VARIANTS / "genotype"
+FILTER = VARIANTS / "filter"
+POSTERIORS = VARIANTS / "posteriors"
 
 ANNOTATE = Path("results/annotate/")
 SNPEFF_DB = Path("resources/snpeff/")

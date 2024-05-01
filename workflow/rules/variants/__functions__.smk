@@ -1,9 +1,6 @@
 def get_files_to_genotype(wildcards):
     """Get files to genotype for a sample, library and chromosome"""
-    return [
-        HAPLOTYPE_CALLER / sample_id / f"{wildcards.region}.gvcf.gz"
-        for sample_id in SAMPLES
-    ]
+    return [CALL / sample_id / f"{wildcards.region}.gvcf.gz" for sample_id in SAMPLES]
 
 
 def compose_v_line(wildcards):
@@ -42,7 +39,7 @@ def get_input_vcf_for_genotype__variant_filtration(wildcards):
     return (
         POSTERIORS / f"{region}.vcf.gz"
         if region in DIPLOID_REGIONS
-        else GENOTYPE_GVCFS / f"{region}.vcf.gz"
+        else GENOTYPE / f"{region}.vcf.gz"
     )
 
 
@@ -52,3 +49,9 @@ def get_interval_for_haplotype_caller(wildcards):
         0
     ]
     return f"{chrom}:{chrom_start}-{chrom_end}"
+
+
+def compose_merge_vcfs_input_line(wildcards):
+    files = [CALL / f"{region}.vcf.gz" for region in REGIONS]
+    string = " ".join(f"--INPUT {file}" for file in files)
+    return string

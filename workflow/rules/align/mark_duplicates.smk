@@ -12,10 +12,6 @@ rule align__mark_duplicates__:
         "__environment__.yml"
     params:
         input_cram=compose_input_line_for_mark_duplicates,
-    resources:
-        mem_mb=8000,
-        runtime=360,
-    threads: 0  # pipe!
     group:
         "align"
     shell:

@@ -1,6 +1,6 @@
 rule annotate__vep__:
     input:
-        vcf=VARIANT_FILTRATION / "variants_filtered.vcf.gz",
+        vcf=FILTER / "all.filtered.vcf.gz",
         fa=REFERENCE / "genome.fa.gz",
         gtf=REFERENCE / "annotation.gtf.gz",
         gtf_tbi=REFERENCE / "annotation.gtf.gz.tbi",

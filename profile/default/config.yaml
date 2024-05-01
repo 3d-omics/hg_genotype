@@ -13,6 +13,7 @@ set-threads:
     # align
     align__index: 8
     align__map__: 24
+    align__mark_duplicates__: 0  # pipe!
     align__mark_duplicates__bam_to_cram__: 24
     align__recalibrate__bam_to_cram__: 24
     # genotype
@@ -33,6 +34,9 @@ set-resources:
     align__map__:
         mem_mb: 32 * 1024
         runtime: 24 * 60
+    align__mark_duplicates__:
+        mem_mb: 8 * 1024
+        runtime: 6 * 60
     align__mark_duplicates__bam_to_cram__:
         mem_mb: 8 * 1024
         runtime: 12 * 60
