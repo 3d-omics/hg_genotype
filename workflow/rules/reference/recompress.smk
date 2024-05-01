@@ -10,7 +10,7 @@ rule reference__recompress__genome:
         "__environment__.yml"
     shell:
         """
-        (gzip \
+        ( gzip \
             --decompres \
             --stdout \
             {input.fa_gz} \
