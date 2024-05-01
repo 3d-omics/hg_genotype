@@ -1,34 +1,34 @@
 rule swaps__verifybamid__generate__:
     input:
-        vcf=VARIANT_FILTRATION / "variants_filtered.vcf.gz",
-        reference=REFERENCE / "genome.fa.gz",
+        vcf=REFERENCE / "known_variants.vcf.gz",
+        fasta=REFERENCE / "genome.fa.gz",
     output:
-        ud=SWAPS / "variants_filtered.UD",
-        mu=SWAPS / "variants_filtered.mu",
-        bed=SWAPS / "variants_filtered.bed",
-        vcf=SWAPS / "variants_filtered.vcf.gz",
+        ud=SWAPS / "known_variants.UD",
+        mu=SWAPS / "known_variants.mu",
+        bed=SWAPS / "known_variants.bed",
+        vcf=SWAPS / "known_variants.vcf.gz",
     params:
-        out_prefix=SWAPS / "variants_filtered",
+        out_prefix=SWAPS / "known_variants",
     log:
-        SWAPS / "variants_filtered.log",
+        SWAPS / "known_variants.log",
     conda:
         "__environment__.yml"
     shell:
         """
-        ln --symbolic {input.vcf} {output.vcf}
+        rsync -Pravt {input.vcf} {output.vcf} 2> {log}
 
         verifybamid2 \
-            --RefVCF    {input.vcf} \
-            --Reference {input.reference} \
-        2> {log} 1>&2
+            --RefVCF    {output.vcf} \
+            --Reference {input.fasta} \
+        2>> {log} 1>&2
         """
 
 
 rule swaps__verifybamid__run__:
     input:
-        ud=SWAPS / "variants_filtered.UD",
-        mu=SWAPS / "variants_filtered.mu",
-        bed=SWAPS / "variants_filtered.bed",
+        ud=SWAPS / "known_variants.UD",
+        mu=SWAPS / "known_variants.mu",
+        bed=SWAPS / "known_variants.bed",
         cram=MAP / "{sample_id}.{library_id}.cram",
     output:
         SWAPS / "{sample_id}.{library_id}.selfSM",
