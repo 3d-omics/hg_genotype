@@ -46,12 +46,6 @@ include: "rules/annotate/__main__.smk"
 include: "rules/report/__main__.smk"
 
 
-# include: "rules/swaps/__main__.smk"
-
-
-# include: "rules/swaps/__main__.smk"
-
-
 rule all:
     """Run the entire pipeline"""
     input:
