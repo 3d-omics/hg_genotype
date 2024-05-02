@@ -1,5 +1,3 @@
-max_threads: 96
-
 fastp:
   extra: "--trim_poly_g --trim_poly_x"
 
