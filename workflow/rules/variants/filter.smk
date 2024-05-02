@@ -3,6 +3,7 @@ rule variants__filter__select_variants__:
     input:
         vcf=GENOTYPE / "all.vcf.gz",
         reference=REFERENCE / "genome.fa.gz",
+        tbi=GENOTYPE / "all.vcf.gz.tbi",
     output:
         vcf=FILTER / "{variant_type}.raw.vcf.gz",
     log:

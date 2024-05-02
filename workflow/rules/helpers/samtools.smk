@@ -40,20 +40,6 @@ rule helpers__samtools__dict_fagz__:
         "samtools dict {input} --output {output} 2> {log} 1>&2"
 
 
-rule helpers__samtools__vcf_gz_tbi__:
-    """Generate index for a vcf.gz"""
-    input:
-        "{prefix}.vcf.gz",
-    output:
-        "{prefix}.vcf.gz.tbi",
-    log:
-        "{prefix}.vcf.gz.tbi.log",
-    conda:
-        "__environment__.yml"
-    shell:
-        "tabix {input} 2> {log} 1>&2"
-
-
 rule helpers__samtools__vcf_gz__:
     """bgzip a vcf file"""
     input:

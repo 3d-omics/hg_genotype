@@ -1,4 +1,4 @@
-rule helpers__bcftools__index_vcf_gz__:
+rule helpers__bcftools__index_vcf_csi__:
     """Index a vcf.gz"""
     input:
         "{prefix}.vcf.gz",
@@ -9,4 +9,18 @@ rule helpers__bcftools__index_vcf_gz__:
     log:
         "{prefix}.vcf.gz.csi.log",
     shell:
-        "bcftools index {input} 2> {log} 1>&2"
+        "bcftools index --csi {input} 2> {log} 1>&2"
+
+
+rule helpers__bcftools__index_vcf_tbi__:
+    """Index a vcf.gz in tbi format"""
+    input:
+        "{prefix}.vcf.gz",
+    output:
+        "{prefix}.vcf.gz.tbi",
+    conda:
+        "__environment__.yml"
+    log:
+        "{prefix}.vcf.gz.tbi.log",
+    shell:
+        "bcftools index --tbi {input} 2> {log} 1>&2"
