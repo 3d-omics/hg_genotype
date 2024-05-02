@@ -1,4 +1,4 @@
-include: "snpeff.smk"
+# include: "snpeff.smk"
 include: "vep.smk"
 
 
