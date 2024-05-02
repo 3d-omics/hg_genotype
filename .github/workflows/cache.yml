@@ -1,6 +1,6 @@
 # Cache .snakemake/conda each sunday / monday night
 ---
-# name: Cache conda packages weekly
+name: Cache
 on:  # yamllint disable-line rule:truthy
   schedule:
     - cron: '0 0 * * 1'
