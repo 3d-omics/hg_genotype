@@ -6,6 +6,7 @@ rule report__sample__:
         get_picard_markduplicates_for_library_report,
         RECALIBRATE / "{sample_id}.bsqr.txt",
         get_gatk4_apply_bqsr_for_library_report,
+        VEP / "{sample_id}.html",
     output:
         SAMPLE / "{sample_id}.html",
     log:

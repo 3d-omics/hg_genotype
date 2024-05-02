@@ -65,7 +65,7 @@ rule report__step__align:
 rule report__step__annotate:
     """Collect all reports for the snpeff step"""
     input:
-        rules.annotate__snpeff.input,
+        rules.annotate__vep__reports.input,
     output:
         html=STEP / "annotate.html",
     log:
@@ -91,5 +91,4 @@ rule report__step:
     input:
         rules.report__step__reads.output,
         rules.report__step__align.output,
-        # rules.report__step__genotype.output,
         rules.report__step__annotate.output,
