@@ -14,25 +14,35 @@ rule variants__call__haplotype_caller__:
     params:
         ploidy=get_ploidy_of_sample_and_chromosome,
         interval=get_interval_for_haplotype_caller,
+        mock_interval=generate_mock_interval,
     shell:
         """
-        gatk HaplotypeCaller \
-            --reference {input.reference} \
-            --input {input.cram} \
-            --output {output.gvcf_gz} \
-            --emit-ref-confidence GVCF \
-            --intervals {params.interval} \
-            -ploidy {params.ploidy} \
-        2> {log} 1>&2
+        if [[ {params.ploidy} -eq 0 ]] ; then
+            gatk HaplotypeCaller \
+                --reference {input.reference} \
+                --input {input.cram} \
+                --output {output.gvcf_gz} \
+                --emit-ref-confidence GVCF \
+                --intervals {params.mock_interval} \
+                --sample-ploidy 1 \
+            2> {log} 1>&2
+        else
+            gatk HaplotypeCaller \
+                --reference {input.reference} \
+                --input {input.cram} \
+                --output {output.gvcf_gz} \
+                --emit-ref-confidence GVCF \
+                --intervals {params.interval} \
+                --sample-ploidy {params.ploidy} \
+            2> {log} 1>&2
+        fi
         """
 
 
 rule variants__call__combine_gvcfs__:
     """Combine gVCFs from multiple samples and one region"""
     input:
-        vcf_gzs=lambda w: [
-            CALL / sample_id / f"{w.region}.gvcf.gz" for sample_id in SAMPLES
-        ],
+        vcf_gzs=get_files_to_genotype,
         reference=REFERENCE / "genome.fa.gz",
         dict_=REFERENCE / "genome.dict",
     output:

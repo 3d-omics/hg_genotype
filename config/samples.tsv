@@ -1,6 +1,6 @@
 sample_id	library_id	forward_filename	reverse_filename	sex
-sample1	lib1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	F
-sample1	lib2	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	F
-sample2	lib1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz	M
-#sample3	lib1	resources/reads/sample3_1.fq.gz	resources/reads/sample3_2.fq.gz	M
-#sample4	lib1	resources/reads/sample4_1.fq.gz	resources/reads/sample4_2.fq.gz	F
+sample1	lib1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	female
+sample1	lib2	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	female
+sample2	lib1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz	male
+#sample3	lib1	resources/reads/sample3_1.fq.gz	resources/reads/sample3_2.fq.gz	male
+#sample4	lib1	resources/reads/sample4_1.fq.gz	resources/reads/sample4_2.fq.gz	female
