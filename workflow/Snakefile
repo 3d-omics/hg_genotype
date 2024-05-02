@@ -15,15 +15,9 @@ samples = pd.read_table("config/samples.tsv", comment="#", dtype="str")
 # Generate useful variables
 SAMPLES = samples["sample_id"].drop_duplicates().values.tolist()
 SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
-MAX_THREADS = params["max_threads"]
 SNPEFF_DBS = features["snpeff"]["genome"]
 BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
 PICARD_REPORTS = BAM_REPORTS + ["metrics.tsv"]
-# CHROMOSOMES = set(
-#     features["reference"]["autosomes"]
-#     + features["reference"]["male_chromosomes"]
-#     + features["reference"]["mitochondria"]
-# )
 REGIONS_BED4 = pd.read_table(
     features["reference"]["regions"],
     dtype="str",
@@ -50,7 +44,9 @@ include: "rules/align/__main__.smk"
 include: "rules/variants/__main__.smk"
 include: "rules/annotate/__main__.smk"
 include: "rules/report/__main__.smk"
-include: "rules/swaps/__main__.smk"
+
+
+# include: "rules/swaps/__main__.smk"
 
 
 # include: "rules/swaps/__main__.smk"
