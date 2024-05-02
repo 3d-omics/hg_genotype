@@ -1,0 +1,11 @@
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - bcftools =1.20
+  - gatk4 =4.5.0.0
+  - r-getopt =1.20.4
+  - r-tidyverse =2.0.0
+  - samtools =1.20
+  - verifybamid2 =2

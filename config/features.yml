@@ -1,7 +1,10 @@
 reference:
+    name: GRCg6a
     dna: resources/reference/ggal.mock.fa.gz
+    gtf: resources/reference/ggal.mock.gtf.gz
     known_vcf: resources/reference/ggal.mock.vcf.gz
-    autosomes: [1, 2]
+    regions: resources/reference/ggal.mock.bed4
+    # autosomes: [1, 2]
     male_chromosomes: [Z]  # [X, Y]
     female_chromosomes: [Z,W]  # [X]
     mitochondria: [MT]

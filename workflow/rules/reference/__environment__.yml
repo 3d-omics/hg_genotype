@@ -1,0 +1,7 @@
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - gzip =1.13
+  - samtools =1.20

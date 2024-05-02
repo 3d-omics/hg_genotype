@@ -1,5 +1,3 @@
-max_threads: 96
-
 fastp:
   extra: "--trim_poly_g --trim_poly_x"
 
@@ -10,26 +8,9 @@ bowtie2:
 
 picard:
 
-gatk4:
-  base_recalibrator:
-    extra: ""
-  apply_bqsr:
-    extra: ""
-  haplotype_caller:
-    extra: ""
-  combine_gvcfs:
-    extra: ""
-  genotype_gvcfs:
-    extra: ""
-  calculate_genotype_posteriors:
-    extra: ""
-  variant_filtration:
-    extra: ""
-    filter_name: "HardFilter"
-    filter_expression:
-      "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0"
-  variant_annotation:
-    extra: ""
-    annotations: Coverage
+variants:
+  filter:
+    SNP: "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0"
+    INDEL: "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0"
 
 snpeff:

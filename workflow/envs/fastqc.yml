@@ -1,8 +1,0 @@
-# fasqtc: generate reports for raw and trimmed files
----
-channels:
-  - conda-forge
-  - bioconda
-  - nodefaults
-dependencies:
-  - fastqc=0.11.9

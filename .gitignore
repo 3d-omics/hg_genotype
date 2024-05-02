@@ -1,8 +1,9 @@
 results/**
-resources/**
 logs/**
 .snakemake
 .snakemake/**
 **/.DS_Store
 reports/**
 .Rproj.user
+renv/
+renv.lock

@@ -1,9 +1,0 @@
-# snpeff: annotate vcf from gatk4
----
-channels:
-  - conda-forge
-  - bioconda
-  - nodefaults
-dependencies:
-  - snpeff=5.1
-  - samtools=1.17  # just for bgzip
