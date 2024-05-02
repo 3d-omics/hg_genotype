@@ -13,7 +13,7 @@ jobs:
   Pre-Commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           lfs: 'true'
       - name: Run pre-commit on all files
@@ -26,12 +26,12 @@ jobs:
     needs:
       - Pre-Commit
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           lfs: 'true'
 
       - name: Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .snakemake/conda
           key: snakemake-conda
