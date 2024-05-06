@@ -16,6 +16,8 @@ rule align__mark_duplicates__:
         "align"
     shell:
         """
+        mkdir --parents {output.bam}.tmp
+
         gatk MarkDuplicates \
             {params.input_cram} \
             --OUTPUT {output.bam} \
@@ -23,7 +25,10 @@ rule align__mark_duplicates__:
             --ASSUME_SORT_ORDER coordinate \
             --COMPRESSION_LEVEL 0 \
             --REFERENCE_SEQUENCE {input.reference} \
+            --TMP_DIR {output.bam}.tmp \
         2> {log} 1>&2
+
+        rm -rf {output.bam}.tmp
         """
 
 
