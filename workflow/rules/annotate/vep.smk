@@ -18,7 +18,7 @@ rule annotate__vep__:
         """
         bcftools view \
             --samples {params.sample} \
-            --output-type z \
+            --output-type z1 \
             --output-file {output.tmp} \
             --trim-alt-alleles \
             {input.vcf} \
