@@ -7,7 +7,7 @@ rule annotate__vep__:
     output:
         vcf=VEP / "{sample}.vcf.gz",
         tmp=temp(VEP / "{sample}.tmp.vcf.gz"),
-        html=VEP / "{sample}.html",
+        html=VEP / "{sample}.vep.html",
     log:
         VEP / "{sample}.log",
     conda:
@@ -31,13 +31,14 @@ rule annotate__vep__:
             --gtf {input.gtf} \
             --compress_output bgzip \
             --stats_file {output.html} \
+            --buffer_size 500 \
         2>> {log} 1>&2
         """
 
 
 rule annotate__vep__reports:
     input:
-        [VEP / f"{sample}.html" for sample in SAMPLES],
+        [VEP / f"{sample}.vep.html" for sample in SAMPLES],
 
 
 rule annotate__vep:
