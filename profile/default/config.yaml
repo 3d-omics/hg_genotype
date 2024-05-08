@@ -76,4 +76,6 @@ set-resources:
         mem_mb: 8G
         runtime: 4h
     # swaps
+    swaps__somalier__find_sites__:
+        mem_mb: 8G
     # report
