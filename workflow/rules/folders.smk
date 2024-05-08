@@ -29,3 +29,4 @@ STEP = REPORT / "step"
 SAMPLE = REPORT / "sample"
 
 SWAPS = Path("results/swaps/")
+SOMALIER = SWAPS / "somalier"

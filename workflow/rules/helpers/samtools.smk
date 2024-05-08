@@ -1,3 +1,17 @@
+rule helpers__samtools__gzfai__:
+    """Index fa.gz"""
+    input:
+        "{prefix}.fa.gz",
+    output:
+        "{prefix}.fa.gz.fai",
+    log:
+        "{prefix}.fa.gz.fai.log",
+    conda:
+        "__environment__.yml"
+    shell:
+        "samtools faidx {input} 2> {log} 1>&2"
+
+
 rule helpers__samtools__crai__:
     """Generate a cram index"""
     input:
