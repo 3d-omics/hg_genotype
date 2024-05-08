@@ -58,12 +58,8 @@ rule reference__recompress__gtf:
         "__environment__.yml"
     shell:
         """
-        ( gzip \
-            --decompress \
-            --stdout \
-            {input.gtf_gz} \
-        | sort \
-            -k1,1 -k4,4n -k5,5n \
+        ( bedtools sort \
+            -i {input.gtf_gz} \
         | bgzip \
             --threads {threads} \
         > {output.gtf_gz} \
