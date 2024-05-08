@@ -53,14 +53,13 @@ rule swaps__somalier__relate__:
             SOMALIER / "extracted" / f"{sample_id}.somalier" for sample_id in SAMPLES
         ],
     output:
-        groups=SOMALIER / "relate.groups.tsv",
-        html=SOMALIER / "relate.hmtl",
+        html=SOMALIER / "relate.html",
         pairs=SOMALIER / "relate.pairs.tsv",
         samples=SOMALIER / "relate.samples.tsv",
     log:
         SOMALIER / "relate.log",
     conda:
-        "__environment__.log"
+        "__environment__.yml"
     params:
         output_prefix=SOMALIER / "relate",
     shell:

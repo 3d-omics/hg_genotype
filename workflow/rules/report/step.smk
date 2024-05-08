@@ -103,7 +103,7 @@ rule report__step__swaps:
             --title swaps \
             --force \
             --filename swaps \
-            --outpdir {params.dir} \
+            --outdir {params.dir} \
             {input} \
         2> {log} 1>&2
         """
