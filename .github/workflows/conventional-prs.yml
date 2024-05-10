@@ -1,5 +1,7 @@
+# Check that pull requests have proper names
+---
 name: PR
-on:
+on:  # yamllint disable-line rule:truthy
   pull_request_target:
     types:
       - opened
@@ -11,7 +13,7 @@ jobs:
   title-format:
     runs-on: ubuntu-latest
     steps:
-      - uses: amannn/action-semantic-pull-request@v3.4.0
+      - uses: amannn/action-semantic-pull-request@v5.5.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:

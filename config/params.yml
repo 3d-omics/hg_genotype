@@ -1,1 +1,16 @@
-max_threads: 96
+fastp:
+  extra: "--trim_poly_g --trim_poly_x"
+
+bowtie2:
+  extra: ""
+  samtools:
+    mem_per_thread: 1G
+
+picard:
+
+variants:
+  filter:
+    SNP: "QD < 2.0 || FS > 60.0 || MQ < 40.0 || MQRankSum < -12.5 || ReadPosRankSum < -8.0"
+    INDEL: "QD < 2.0 || FS > 200.0 || ReadPosRankSum < -20.0"
+
+snpeff:

@@ -13,39 +13,42 @@ samples = pd.read_table("config/samples.tsv", comment="#", dtype="str")
 
 
 # Generate useful variables
-SAMPLES = samples["sample"].drop_duplicates().values.tolist()
-SAMPLE_LIB = samples[["sample", "library"]].values.tolist()
-MAX_THREADS = params["max_threads"]
+SAMPLES = samples["sample_id"].drop_duplicates().values.tolist()
+SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
+SNPEFF_DBS = features["snpeff"]["genome"]
+BAM_REPORTS = ["stats.tsv", "flagstats.txt", "idxstats.tsv"]
+PICARD_REPORTS = BAM_REPORTS + ["metrics.tsv"]
+REGIONS_BED4 = pd.read_table(
+    features["reference"]["regions"],
+    dtype="str",
+    comment="#",
+    names=["chrom", "chromStart", "chromEnd", "name"],
+)
+REGIONS = REGIONS_BED4.name
 
-# shell.prefix("set -euxo pipefail;")
+NON_AUTOSOMES = set(
+    features["reference"]["male_chromosomes"]
+    + features["reference"]["female_chromosomes"]
+    + features["reference"]["mitochondria"]
+)
+
+DIPLOID_REGIONS = REGIONS_BED4.query("chrom not in @NON_AUTOSOMES").name
 
 
 # Import subworkflows
 include: "rules/folders.smk"
-include: "rules/common.smk"
-include: "rules/samtools.smk"
-include: "rules/bcftools.smk"
-include: "rules/reads.smk"
-include: "rules/reference.smk"
-include: "rules/fastqc.smk"
-include: "rules/fastp.smk"
-include: "rules/bowtie2.smk"
-include: "rules/picard.smk"
-include: "rules/gatk4.smk"
-include: "rules/snpeff.smk"
-include: "rules/report_by_sample.smk"
-include: "rules/report_by_step.smk"
+include: "rules/helpers/__main__.smk"
+include: "rules/reads/__main__.smk"
+include: "rules/reference/__main__.smk"
+include: "rules/align/__main__.smk"
+include: "rules/variants/__main__.smk"
+include: "rules/annotate/__main__.smk"
+include: "rules/swaps/__main__.smk"
+include: "rules/report/__main__.smk"
 
 
 rule all:
+    """Run the entire pipeline"""
     input:
-        # rules.reads_link.input,
-        # rules.reads_fastqc.input,
-        # rules.reference.input,
-        # rules.fastp.input,
-        # rules.bowtie2.input,
-        # rules.picard.input,
-        # rules.gatk4_all.input,
-        rules.snpeff.input,
-        # rules.report_by_sample.input,
-        rules.reports_step.input,
+        rules.report__step.input,
+        rules.report__sample.input,
