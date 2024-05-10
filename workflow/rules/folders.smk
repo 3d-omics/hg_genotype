@@ -9,6 +9,7 @@ INDEX = ALIGN / "index"
 MAP = ALIGN / "map"
 SPLIT = ALIGN / "split"
 MARK_DUPLICATES = ALIGN / "mark_duplicates"
+BCFTOOLS = ALIGN / "bcftools"
 RECALIBRATE = ALIGN / "recalibrate"
 MERGE = ALIGN / "merge"
 

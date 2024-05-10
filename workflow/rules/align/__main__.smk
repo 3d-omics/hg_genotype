@@ -2,6 +2,7 @@ include: "__functions__.smk"
 include: "index.smk"
 include: "map.smk"
 include: "mark_duplicates.smk"
+include: "bcftools.smk"
 include: "recalibrate.smk"
 
 
