@@ -24,4 +24,4 @@ rule align__index__:
 
 rule align__index:
     input:
-        rules.align__index__.input,
+        rules.align__index__.output,
