@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.1.0](https://github.com/3d-omics/hg_genotype/compare/v1.0.0...v1.1.0) (2024-05-13)
+
+
+### Features
+
+* add bwa index to cache ([33d45a4](https://github.com/3d-omics/hg_genotype/commit/33d45a4e5f3ff2dee058f5f521a874c6373afad1))
+* add cache rule ([f64131f](https://github.com/3d-omics/hg_genotype/commit/f64131f5125790a7c03e94f448d05f8ecde795c3))
+* add cache to reference rules ([2ebb95d](https://github.com/3d-omics/hg_genotype/commit/2ebb95d7c4d9abf7ee8f6f02bbd508f6a3a132eb))
+
+
+### Bug Fixes
+
+* correct input for metarule align__index ([37fbc97](https://github.com/3d-omics/hg_genotype/commit/37fbc972ddcc9fe74d79b2e49280ec0fdc731ddb))
+
 ## 1.0.0 (2024-05-10)
 
 
