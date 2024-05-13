@@ -11,6 +11,7 @@ rule align__index__:
     params:
         output_path=INDEX / "genome",
         extra=params["bowtie2"]["extra"],
+    cache: True
     shell:
         """
         bwa-mem2 index \
