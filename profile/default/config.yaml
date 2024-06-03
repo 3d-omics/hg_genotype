@@ -56,16 +56,10 @@ set-resources:
     variants__call__haplotype_caller__:
         mem_mb: 8G
         runtime: 1d
-    variants__combine_gvcfs__:
+    variants__call__combine_gvcfs__:
         mem_mb: 8G
         runtime: 1d
-    variants__genotype_gvcfs__:
-        mem_mb: 8G
-        runtime: 1d
-    variants__calculate_genotype_posteriors__:
-        mem_mb: 8G
-        runtime: 1d
-    variants__variant_filtration__:
+    variants__genotype__genotype_gvcfs__:
         mem_mb: 8G
         runtime: 1d
     # annotate
