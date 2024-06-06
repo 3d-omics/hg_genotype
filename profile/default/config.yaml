@@ -41,7 +41,7 @@ set-resources:
         mem_mb: 8G
         runtime: 6h
     align__mark_duplicates__bam_to_cram__:
-        mem_mb: 8G
+        mem_mb: 8G  # this must match align__mark_duplicates__
         runtime: 12h
     align__bcftools__call__:
         mem_mb: 8G
@@ -53,7 +53,7 @@ set-resources:
         mem_mb: 8G
         runtime: 1d
     align__recalibrate__bam_to_cram__:
-        mem_mb: 4G
+        mem_mb: 8G  # this should match align__recalibrate__applybqsr__
         runtime: 6h
     # variants
     variants__call__haplotype_caller__:
