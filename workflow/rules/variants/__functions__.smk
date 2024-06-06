@@ -43,18 +43,23 @@ def get_ploidy_of_sample_and_chromosome(wildcards):
         return 1
     if chromosome in autosomes:
         return 2
-    if sex == "male" and chromosome not in male_chromosomes:
-        return 0
-    if sex == "female" and chromosome not in female_chromosomes:
-        return 0
-    if chromosome in male_chromosomes and len(male_chromosomes) == 1:
-        return 2
-    if chromosome in female_chromosomes and len(female_chromosomes) == 1:
-        return 2
-    if chromosome in male_chromosomes and len(male_chromosomes) == 2:
+    if sex == "male" and len(male_chromosomes) == 2 and chromosome in male_chromosomes:
         return 1
-    if chromosome in female_chromosomes and len(female_chromosomes) == 2:
+    if sex == "male" and len(male_chromosomes) == 1 and chromosome in male_chromosomes:
+        return 2
+    if (
+        sex == "female"
+        and len(female_chromosomes) == 2
+        and chromosome in female_chromosomes
+    ):
         return 1
+    if (
+        sex == "female"
+        and len(female_chromosomes) == 1
+        and chromosome in female_chromosomes
+    ):
+        return 2
+    return 0
 
 
 def generate_mock_interval(wildcards):

@@ -32,40 +32,37 @@ set-resources:
         mem_mb: 4G
     # align
     align__index__:
-        mem_mb: 64 * 1024
-        runtime: 24 * 60
+        mem_mb: 64G
+        runtime: 1d
     align__map__:
-        mem_mb: 64 * 1024
-        runtime: 24 * 60
+        mem_mb: 64G
+        runtime: 1d
     align__mark_duplicates__:
-        mem_mb: 8 * 1024
-        runtime: 6 * 60
+        mem_mb: 8G
+        runtime: 6h
     align__mark_duplicates__bam_to_cram__:
-        mem_mb: 8 * 1024
-        runtime: 12 * 60
+        mem_mb: 8G
+        runtime: 12h
+    align__bcftools__call__:
+        mem_mb: 8G
+        runtime: 1d
     align__recalibrate__baserecalibrator__:
-        mem_mb: 8 * 1024
-        runtime: 24 * 60
+        mem_mb: 8G
+        runtime: 1d
     align__recalibrate__applybqsr__:
-        mem_mb: 8 * 1024
-        runtime: 24 * 60
+        mem_mb: 8G
+        runtime: 1d
     align__recalibrate__bam_to_cram__:
-        mem_mb: 4 * 1024
-        runtime: 24 * 60
+        mem_mb: 4G
+        runtime: 6h
     # variants
     variants__call__haplotype_caller__:
         mem_mb: 8G
         runtime: 1d
-    variants__combine_gvcfs__:
+    variants__call__combine_gvcfs__:
         mem_mb: 8G
         runtime: 1d
-    variants__genotype_gvcfs__:
-        mem_mb: 8G
-        runtime: 1d
-    variants__calculate_genotype_posteriors__:
-        mem_mb: 8G
-        runtime: 1d
-    variants__variant_filtration__:
+    variants__genotype__genotype_gvcfs__:
         mem_mb: 8G
         runtime: 1d
     # annotate

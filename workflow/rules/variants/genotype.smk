@@ -1,4 +1,4 @@
-rule variants__genotype_gvcfs__:
+rule variants__genotype__genotype_gvcfs__:
     """Genotype a single region"""
     input:
         vcf_gz=CALL / "{region}.vcf.gz",
@@ -22,7 +22,7 @@ rule variants__genotype_gvcfs__:
         """
 
 
-rule variants__genotype_gvcfs__merge_vcfs__:
+rule variants__genotype__merge_vcfs__:
     """Join all the GVCFs into a single one
 
     Mysterioustly MergeVcfs fucks up the file
