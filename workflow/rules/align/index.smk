@@ -9,7 +9,7 @@ rule align__index__:
     conda:
         "__environment__.yml"
     params:
-        output_path=INDEX / "genome",
+        output_path=str(INDEX / "genome"),
         extra=params["bowtie2"]["extra"],
     cache: True
     shell:
