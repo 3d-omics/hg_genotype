@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/3d-omics/hg_genotype/compare/v1.1.0...v1.1.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* infer properly sex chromosomes when only one is in the reference ([e89e48c](https://github.com/3d-omics/hg_genotype/commit/e89e48c110c9f6f5d5809105a7d1695ac8656194))
+* put all rule on top of cache ([d404cb6](https://github.com/3d-omics/hg_genotype/commit/d404cb65b5239022db2c4a17be18b7f37d379bc5))
+
 ## [1.1.0](https://github.com/3d-omics/hg_genotype/compare/v1.0.0...v1.1.0) (2024-05-13)
 
 
