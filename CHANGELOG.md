@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.2](https://github.com/3d-omics/hg_genotype/compare/v1.1.1...v1.1.2) (2024-06-06)
+
+
+### Bug Fixes
+
+* convert param from path to string ([1cb8ca3](https://github.com/3d-omics/hg_genotype/commit/1cb8ca39bf10944900d4d97fea4914bab86238f1))
+* match resources between piped rules ([19b5a41](https://github.com/3d-omics/hg_genotype/commit/19b5a41cf66f66b8c179619697f5c8e00742df47))
+
 ## [1.1.1](https://github.com/3d-omics/hg_genotype/compare/v1.1.0...v1.1.1) (2024-06-06)
 
 
