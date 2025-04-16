@@ -7,3 +7,8 @@ def get_crams_for_mark_duplicates(wildcards):
         MAP / f"{wildcards.sample_id}.{library_id}.cram" for library_id in libraries
     ]
     return crams
+
+
+def get_crais_for_mark_duplicates(wildcards):
+    crais = get_crams_for_mark_duplicates(wildcards)
+    return [f"{cram_filename}.crai" for cram_filename in crais]
