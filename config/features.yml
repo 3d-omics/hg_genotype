@@ -8,7 +8,3 @@ reference:
     male_chromosomes: [Z]  # [X, Y]
     female_chromosomes: [Z,W]  # [X]
     mitochondria: [MT]
-
-snpeff:
-    genome:
-        - GRCg6a.105
