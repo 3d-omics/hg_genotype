@@ -8,7 +8,7 @@ rule annotate__multiqc:
     log:
         RESULTS / "annotate.log",
     params:
-        extra="--title annotate --dirs --fullnames --force",
+        extra="--title annotate --dirs --fullnames --fn_as_s_name --force",
     wrapper:
         "v5.1.0/bio/multiqc"
 

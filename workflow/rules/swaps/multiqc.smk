@@ -8,7 +8,7 @@ rule swaps__multiqc:
     log:
         RESULTS / "swaps.log",
     params:
-        extra="--title swaps --dirs --fullnames --force",
+        extra="--title swaps --dirs --fullnames --fn_as_s_name --force",
     wrapper:
         "v5.1.0/bio/multiqc"
 
