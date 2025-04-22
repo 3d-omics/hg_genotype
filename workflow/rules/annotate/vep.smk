@@ -3,9 +3,9 @@ rule annotate__vep__tmp_vcf:
     input:
         FILTER / "all.filtered.vcf.gz",
     output:
-        temp(VEP / "{sample}.vcf.gz"),
+        temp(VEP / "{sample}.bcf"),
     log:
-        VEP / "{sample}.tmp_vcf.log",
+        VEP / "{sample}.bcf.log",
     params:
         extra=lambda w: f"--samples {w.sample} --trim-alt-alleles",
     threads: 8
@@ -26,10 +26,10 @@ rule annotate__vep__downlaod_plugins:
 rule annotate__vep:
     """Annotate the VCF file with VEP"""
     input:
-        calls=VEP / "{sample}.vcf.gz",
+        calls=VEP / "{sample}.bcf",
         fasta=REFERENCE / f"{HOST_NAME}.fa.gz",
-        gff=REFERENCE / f"{HOST_NAME}.gtf.gz",
-        gtf_tbi=REFERENCE / f"{HOST_NAME}.gtf.gz.tbi",
+        gff=REFERENCE / f"{HOST_NAME}.gff.gz",
+        gff_tbi=REFERENCE / f"{HOST_NAME}.gff.gz.tbi",
         plugins=VEP / "plugins",
     output:
         calls=VEP / "{sample}.vcf.gz",
