@@ -21,7 +21,7 @@ rule align__multiqc:
     log:
         RESULTS / "align.log",
     params:
-        extra="--title align --dirs --dirs-depth 1 --fullnames --force",
+        extra="--title align --dirs --fullnames --force",
     resources:
         mem_mb=8 * 1024,
         runtime=2 * 60,
