@@ -6,7 +6,7 @@ rule annotate__vep__tmp_vcf:
     log:
         VEP / "{sample}.tmp_vcf.log",
     params:
-        sample=lambda w: f"--samples {w.sample} --trim-alt-alleles",
+        extra=lambda w: f"--samples {w.sample} --trim-alt-alleles",
     wrapper:
         "v5.2.1/bio/bcftools/view"
 
