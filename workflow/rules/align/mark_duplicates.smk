@@ -5,7 +5,7 @@ rule align__mark_duplicates:
     """Mark duplicates for all contigs and merging samples from different libraries"""
     input:
         bams=get_crams_for_mark_duplicates,
-        crais=get_bais_for_mark_duplicates,
+        crais=get_crais_for_mark_duplicates,
     output:
         bam=MARK_DUPLICATES / "{sample_id}.cram",
         metrics=MARK_DUPLICATES / "{sample_id}.metrics.tsv",
