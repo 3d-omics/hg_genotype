@@ -26,7 +26,7 @@ rule align__multiqc:
         mem_mb=8 * 1024,
         runtime=2 * 60,
     wrapper:
-        "v5.1.0/bio/multiqc"
+        "v6.0.0/bio/multiqc"
 
 
 rule align__multiqc__all:

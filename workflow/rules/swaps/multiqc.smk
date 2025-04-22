@@ -10,7 +10,7 @@ rule swaps__multiqc:
     params:
         extra="--title swaps --dirs --fullnames --fn_as_s_name --force",
     wrapper:
-        "v5.1.0/bio/multiqc"
+        "v6.0.0/bio/multiqc"
 
 
 rule swaps__multiqc__all:
