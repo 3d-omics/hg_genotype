@@ -1,31 +1,35 @@
 rule annotate__vep__tmp_vcf:
+    """Slice the VCF file to only include the sample of interest."""
     input:
         FILTER / "all.filtered.vcf.gz",
     output:
-        temp(VEP / "{sample}.vcf"),
+        temp(VEP / "{sample}.bcf"),
     log:
-        VEP / "{sample}.tmp_vcf.log",
+        VEP / "{sample}.bcf.log",
     params:
-        sample=lambda w: f"--samples {w.sample} --trim-alt-alleles",
+        extra=lambda w: f"--samples {w.sample} --trim-alt-alleles",
+    threads: 2
     wrapper:
-        "v5.2.1/bio/bcftools/view"
+        "v7.9.1/bio/bcftools/view"
 
 
-rule annotate__vep__downlaod_plugins:
+rule annotate__vep__download_plugins:
+    """Download the VEP plugins"""
     output:
         directory(VEP / "plugins"),
     params:
         release=100,
     wrapper:
-        "v5.2.1/bio/vep/plugins"
+        "v7.9.1/bio/vep/plugins"
 
 
 rule annotate__vep:
+    """Annotate the VCF file with VEP"""
     input:
-        calls=VEP / "{sample}.vcf",
+        calls=VEP / "{sample}.bcf",
         fasta=REFERENCE / f"{HOST_NAME}.fa.gz",
-        gff=REFERENCE / f"{HOST_NAME}.gtf.gz",
-        gtf_tbi=REFERENCE / f"{HOST_NAME}.gtf.gz.tbi",
+        gff=REFERENCE / f"{HOST_NAME}.gff.gz",
+        gff_tbi=REFERENCE / f"{HOST_NAME}.gff.gz.tbi",
         plugins=VEP / "plugins",
     output:
         calls=VEP / "{sample}.vcf.gz",
@@ -39,9 +43,10 @@ rule annotate__vep:
         mem_mb=16 * 1024,
         runtime=8 * 60,
     wrapper:
-        "v5.2.1/bio/vep/annotate"
+        "v7.9.1/bio/vep/annotate"
 
 
 rule annotate__vep__all:
+    """Annotate all vcf files with VEP"""
     input:
         [VEP / f"{sample}.vcf.gz" for sample in SAMPLES],

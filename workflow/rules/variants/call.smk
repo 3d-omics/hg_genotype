@@ -20,7 +20,7 @@ rule variants__call__haplotype_caller:
         mock_interval=generate_mock_interval,
     resources:
         mem_mb=8 * 1024,
-        time_min=24 * 60,
+        runtime=24 * 60,
     shell:
         """
         if [[ {params.ploidy} -eq 0 ]] ; then
@@ -71,7 +71,7 @@ rule variants__call__combine_gvcfs:
         mem_mb=16 * 1024,
         runtime=24 * 60,
     wrapper:
-        "v5.2.1/bio/gatk/combinegvcfs"
+        "v7.9.1/bio/gatk/combinegvcfs"
 
 
 rule variants__call__combine_gvcfs__all:

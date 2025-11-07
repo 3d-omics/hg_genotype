@@ -11,13 +11,11 @@ rule align__recalibrate__baserecalibrator:
         recal_table=RECALIBRATE / "{sample_id}.bsqr.txt",
     log:
         RECALIBRATE / "{sample_id}.log",
-    group:
-        "align_{sample_id}"
     resources:
         mem_mb=8 * 1024,
         runtime=24 * 60,
     wrapper:
-        "v5.2.1/bio/gatk/baserecalibrator"
+        "v7.9.1/bio/gatk/baserecalibrator"
 
 
 rule align__recalibrate__applybqsr:
@@ -31,13 +29,11 @@ rule align__recalibrate__applybqsr:
         bam=RECALIBRATE / "{sample_id}.cram",
     log:
         RECALIBRATE / "{sample_id}.log",
-    group:
-        "align_{sample_id}"
     resources:
         mem_mb=8 * 1024,
         runtime=24 * 60,
     wrapper:
-        "v5.2.1/bio/gatk/applybqsr"
+        "v7.9.1/bio/gatk/applybqsr"
 
 
 rule align__recalibrate__all:

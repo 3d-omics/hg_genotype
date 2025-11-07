@@ -50,14 +50,14 @@ rule reference__recompress__vcf:
         """
 
 
-rule reference__recompress__gtf:
-    """Extract the vcf.gz on config.yaml into known_variants.vcf.gz with bgzip"""
+rule reference__recompress__gff:
+    """Sort and compress the GFF file from config.yaml into a .gff.gz file with bedtools sort and bgzip"""
     input:
-        gtf_gz=features["reference"]["gtf"],
+        gff_gz=features["reference"]["gff"],
     output:
-        gtf_gz=REFERENCE / f"{HOST_NAME}.gtf.gz",
+        gff_gz=REFERENCE / f"{HOST_NAME}.gff.gz",
     log:
-        REFERENCE / f"{HOST_NAME}.gtf.log",
+        REFERENCE / f"{HOST_NAME}.gff.log",
     conda:
         "../../environments/reference.yml"
     cache: "omit-software"
@@ -67,10 +67,10 @@ rule reference__recompress__gtf:
     shell:
         """
         ( bedtools sort \
-            -i {input.gtf_gz} \
+            -i {input.gff_gz} \
         | bgzip \
             --threads {threads} \
-        > {output.gtf_gz} \
+        > {output.gff_gz} \
         ) 2> {log}
         """
 
@@ -79,4 +79,4 @@ rule reference__recompress__all:
     input:
         rules.reference__recompress__genome.output,
         rules.reference__recompress__vcf.output,
-        rules.reference__recompress__gtf.output,
+        rules.reference__recompress__gff.output,

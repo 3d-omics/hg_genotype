@@ -21,9 +21,10 @@ SAMPLES = samples["sample_id"].drop_duplicates().values.tolist()
 SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
 
 HOST_NAME = features["reference"]["name"]
-SNPEFF_DBS = features["snpeff"]["genome"]
+
 BAM_REPORTS = ["stats.tsv"]  # + ["flagstats.txt", "idxstats.tsv"]
 PICARD_REPORTS = BAM_REPORTS + ["metrics.tsv"]
+
 REGIONS_BED4 = pd.read_table(
     features["reference"]["regions"],
     dtype="str",
@@ -43,7 +44,7 @@ DIPLOID_REGIONS = REGIONS_BED4.query("chrom not in @NON_AUTOSOMES").name
 
 module helpers:
     snakefile:
-        github("jlanga/snakehelpers", path="workflow/Snakefile", branch="devel")
+        github("jlanga/snakehelpers", path="workflow/Snakefile", branch="main")
     config:
         params
 
@@ -69,3 +70,9 @@ rule all:
         rules.variants__all.input,
         rules.annotate__all.input,
         rules.swaps__all.input,
+
+
+rule cache:
+    input:
+        rules.reference__recompress__all.input,
+        rules.align__bwamem2__index__all.input,

@@ -21,12 +21,12 @@ rule align__multiqc:
     log:
         RESULTS / "align.log",
     params:
-        extra="--title align --dirs --dirs-depth 1 --fullnames --force",
+        extra="--title align --dirs --fullnames --fn_as_s_name --force",
     resources:
         mem_mb=8 * 1024,
         runtime=2 * 60,
     wrapper:
-        "v5.1.0/bio/multiqc"
+        "v7.9.1/bio/multiqc"
 
 
 rule align__multiqc__all:

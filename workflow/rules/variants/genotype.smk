@@ -13,9 +13,9 @@ rule variants__genotype__genotype_gvcfs:
         GENOTYPE / "{region}.log",
     resources:
         mem_mb=8 * 1024,
-        runtime=24 * 60,
+        runtime=7 * 24 * 60,
     wrapper:
-        "v5.2.1/bio/gatk/genotypegvcfs"
+        "v7.9.1/bio/gatk/genotypegvcfs"
 
 
 rule variants__genotype__genotype_gvcfs__all:
@@ -26,7 +26,7 @@ rule variants__genotype__genotype_gvcfs__all:
 rule variants__genotype__merge_vcfs:
     """Join all the GVCFs into a single one
 
-    Mysterioustly MergeVcfs fucks up the file
+    Mysteriously MergeVcfs fucks up the file
     """
     input:
         calls=[GENOTYPE / f"{region}.vcf.gz" for region in REGIONS],
@@ -36,7 +36,7 @@ rule variants__genotype__merge_vcfs:
     log:
         GENOTYPE / "all.log",
     wrapper:
-        "v5.2.1/bio/bcftools/concat"
+        "v7.9.1/bio/bcftools/concat"
 
 
 rule variants__genotype__merge_vcfs__all:

@@ -11,7 +11,7 @@ rule variants__filter__select_variants:
     params:
         extra=lambda w: f"--select-type-to-include {w.variant_type}",
     wrapper:
-        "v5.2.1/bio/gatk/selectvariants"
+        "v7.9.1/bio/gatk/selectvariants"
 
 
 rule variants__filter__select_variants__all:
@@ -34,7 +34,7 @@ rule variants__filter__variant_filtration:
     params:
         filters=lambda w: {w.variant_type: params["variants"]["filter"][w.variant_type]},
     wrapper:
-        "v5.2.1/bio/gatk/variantfiltration"
+        "v7.9.1/bio/gatk/variantfiltration"
 
 
 rule variants__filter__variant_filtration__all:
