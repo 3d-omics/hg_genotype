@@ -35,6 +35,7 @@ rule reference__recompress__vcf:
         REFERENCE / f"{HOST_NAME}.vcf.log",
     conda:
         "../../environments/reference.yml"
+    cache: "omit-software"
     threads: 8
     shell:
         """
