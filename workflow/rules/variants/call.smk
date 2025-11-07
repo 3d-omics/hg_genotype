@@ -71,7 +71,7 @@ rule variants__call__combine_gvcfs:
         mem_mb=16 * 1024,
         runtime=24 * 60,
     wrapper:
-        "v5.2.1/bio/gatk/combinegvcfs"
+        "v7.9.1/bio/gatk/combinegvcfs"
 
 
 rule variants__call__combine_gvcfs__all:
