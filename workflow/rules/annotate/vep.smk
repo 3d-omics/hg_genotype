@@ -13,7 +13,7 @@ rule annotate__vep__tmp_vcf:
         "v7.9.1/bio/bcftools/view"
 
 
-rule annotate__vep__downlaod_plugins:
+rule annotate__vep__download_plugins:
     """Download the VEP plugins"""
     output:
         directory(VEP / "plugins"),
