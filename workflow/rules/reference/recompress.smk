@@ -50,7 +50,7 @@ rule reference__recompress__vcf:
 
 
 rule reference__recompress__gff:
-    """Extract the vcf.gz on config.yaml into known_variants.vcf.gz with bgzip"""
+    """Sort and compress the GFF file from config.yaml into a .gff.gz file with bedtools sort and bgzip"""
     input:
         gff_gz=features["reference"]["gff"],
     output:
