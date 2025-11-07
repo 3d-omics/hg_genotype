@@ -26,7 +26,7 @@ rule variants__genotype__genotype_gvcfs__all:
 rule variants__genotype__merge_vcfs:
     """Join all the GVCFs into a single one
 
-    Mysterioustly MergeVcfs fucks up the file
+    Mysteriously MergeVcfs fucks up the file
     """
     input:
         calls=[GENOTYPE / f"{region}.vcf.gz" for region in REGIONS],
