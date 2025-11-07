@@ -1,5 +1,57 @@
 # Changelog
 
+## [1.3.0](https://github.com/3d-omics/hg_genotype/compare/v1.2.0...v1.3.0) (2025-11-07)
+
+
+### Features
+
+* add cache rule ([d74ea7a](https://github.com/3d-omics/hg_genotype/commit/d74ea7acc858433d88a92f93edcfc405432af483))
+* add launchers ([0564e10](https://github.com/3d-omics/hg_genotype/commit/0564e1004926514e76dd139cbb6e6a0a066eaa75))
+* cache reference vcf ([0cb8956](https://github.com/3d-omics/hg_genotype/commit/0cb89564c3cc8e1148d5056eb1a27a00cbc47d7a))
+* **combine_gvcfs:** use wrapper ([f3645cd](https://github.com/3d-omics/hg_genotype/commit/f3645cd0a923268024c4539dd80a5a6961717d0c))
+* **recalibrate:** use wrapper ([ffffc43](https://github.com/3d-omics/hg_genotype/commit/ffffc4319341ad5e87c320561c1de434b69e6f1e))
+* **recalibrate:** use wrapper ([ea42be6](https://github.com/3d-omics/hg_genotype/commit/ea42be6ae320808d1b445de023988c304b22b8ba))
+* replace bcftools concat ([651d5bd](https://github.com/3d-omics/hg_genotype/commit/651d5bd188100f44865dfc15671cc0530c14787c))
+* replace bcftools view ([6a31136](https://github.com/3d-omics/hg_genotype/commit/6a311361b04327d2985d9b4e2f889b7efb248bed))
+* replace GenotypeGVCFs ([57bf148](https://github.com/3d-omics/hg_genotype/commit/57bf14829d2d9f37e4e3c8ec939963e64ec278ca))
+* replace multiqc in align ([3778be8](https://github.com/3d-omics/hg_genotype/commit/3778be85fbeae820f732b966250aaee49fd78f6a))
+* replace multiqc in annotate ([57ef2d9](https://github.com/3d-omics/hg_genotype/commit/57ef2d98a28fae9a7eafd46a6cfca663a47cc4b7))
+* replace multiqc in swaps ([f966381](https://github.com/3d-omics/hg_genotype/commit/f966381b8bd3da22bf3b7f6eba616793a826f541))
+* replace SelectVatiants and VariantFiltration ([5e8d4ea](https://github.com/3d-omics/hg_genotype/commit/5e8d4eaea6dfae255e57ac8187412dec45de3e43))
+* replace snpeff ([fbe13aa](https://github.com/3d-omics/hg_genotype/commit/fbe13aad401abeebd7d1185a6e96cc0b97e8a05c))
+* replace snpeff download ([4e48a74](https://github.com/3d-omics/hg_genotype/commit/4e48a74a47cd13924ea75a3a0836f8fa7eb8afed))
+* replace vep and add vep_plugins ([0be0fa9](https://github.com/3d-omics/hg_genotype/commit/0be0fa9a98b76bf859c42be5951842f223e17dcb))
+* substitute markduplicates with a wrapper ([acf4663](https://github.com/3d-omics/hg_genotype/commit/acf46639fa7ec35b57174dc6ea2861670dfc8706))
+* update tools, fix some things ([23c9786](https://github.com/3d-omics/hg_genotype/commit/23c9786569b6ff54c97d1d9b8a4d934f4afab329))
+* use bwamem2 from wrapper ([0dfbab5](https://github.com/3d-omics/hg_genotype/commit/0dfbab52442e1a5b21f59291edb9652768472fc0))
+* use full filenames in multiqc ([f09f8f9](https://github.com/3d-omics/hg_genotype/commit/f09f8f98ba83bca40106abe97747f29caf8e241d))
+* use log name rather than filename ([d401a44](https://github.com/3d-omics/hg_genotype/commit/d401a4401e2a12377766df7b2ca57fa825e47c0d))
+
+
+### Bug Fixes
+
+* bcftools all should point to the correct file ([1229aac](https://github.com/3d-omics/hg_genotype/commit/1229aaca954afe06db509b9c66dd6c99bea46317))
+* change from gtf to gff ([5ab93be](https://github.com/3d-omics/hg_genotype/commit/5ab93be6e664baf9bc7e61d70aad5e7ee8ef85dd))
+* fix function name ([dc5cac5](https://github.com/3d-omics/hg_genotype/commit/dc5cac535435d2db23c16b52c79c6bc31837d764))
+* it is gff, not gtf ([7ed6bf5](https://github.com/3d-omics/hg_genotype/commit/7ed6bf59a8282dbd4c5757ca200d8b005ec21320))
+* param is extra, not sample ([148cbf9](https://github.com/3d-omics/hg_genotype/commit/148cbf9a25f1a1df676d0b0e3393461f5be54564))
+* point snakehelpers to main branch ([48aab07](https://github.com/3d-omics/hg_genotype/commit/48aab077dfa0c071f122e32ff7119db84efb4c07))
+* remove groups, crais as input for markduplicates ([220b78c](https://github.com/3d-omics/hg_genotype/commit/220b78ceaf8947503360884e12ac6e598779975c))
+* typo in runtime ([2d21522](https://github.com/3d-omics/hg_genotype/commit/2d21522cdaa07648a4baaa95454b9a5882c117f7))
+
+
+### Performance Improvements
+
+* raise time because of big chromosomes ([0754103](https://github.com/3d-omics/hg_genotype/commit/07541035f677ddceeaa85bcbeac49628cab3cc56))
+* remove known_vcf from cache ([560ba22](https://github.com/3d-omics/hg_genotype/commit/560ba22f9f528b3950820a4b19454b442a00d8cb))
+* update multiqc wrappers ([e225209](https://github.com/3d-omics/hg_genotype/commit/e225209398a1f5be446e04035d2aed938f3a8dc0))
+* update some wrappers for the align submodule ([ef71147](https://github.com/3d-omics/hg_genotype/commit/ef711476075849cdec9ad9f6cc2e604d9249371b))
+* update wrappers for the annotate submodule ([ff764f1](https://github.com/3d-omics/hg_genotype/commit/ff764f13722e8e230723f3228b08ea79a078ca4c))
+* update wrappers for the swaps submodule ([4fa634c](https://github.com/3d-omics/hg_genotype/commit/4fa634c7bc8a753c36b4fe20d0c615e8c6cc3e01))
+* update wrappers for the variants submodule ([5df09b6](https://github.com/3d-omics/hg_genotype/commit/5df09b6fec4893bb8a732b60243975842b667c65))
+* **vep:** undo using threads because it is useless ([ec7c37f](https://github.com/3d-omics/hg_genotype/commit/ec7c37f40fd93f05f9b31a2602a879d9142ea0c0))
+* **vep:** use threads ([92cda08](https://github.com/3d-omics/hg_genotype/commit/92cda0801c874256a479049088eba7fc736d9401))
+
 ## [1.2.0](https://github.com/3d-omics/hg_genotype/compare/v1.1.4...v1.2.0) (2024-11-12)
 
 
