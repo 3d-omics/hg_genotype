@@ -19,6 +19,8 @@ rule align__mark_duplicates:
         runtime=6 * 60,
     wrapper:
         "v5.2.1/bio/picard/markduplicates"
+        # Do not update. samtools will output CRAM 3.1 and gatk/picard cannot
+        # read it 2025-11-07
 
 
 rule align__mark_duplicates__all:

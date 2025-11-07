@@ -15,7 +15,7 @@ rule align__recalibrate__baserecalibrator:
         mem_mb=8 * 1024,
         runtime=24 * 60,
     wrapper:
-        "v5.2.1/bio/gatk/baserecalibrator"
+        "v7.9.1/bio/gatk/baserecalibrator"
 
 
 rule align__recalibrate__applybqsr:
@@ -33,7 +33,7 @@ rule align__recalibrate__applybqsr:
         mem_mb=8 * 1024,
         runtime=24 * 60,
     wrapper:
-        "v5.2.1/bio/gatk/applybqsr"
+        "v7.9.1/bio/gatk/applybqsr"
 
 
 rule align__recalibrate__all:

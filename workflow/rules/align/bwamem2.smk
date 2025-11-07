@@ -61,6 +61,8 @@ rule align__bwamem2__map:
         runtime=24 * 60,
     wrapper:
         "v5.2.1/bio/bwa-mem2/mem"
+        # Do not update. samtools will output CRAM 3.1 and gatk/picard cannot
+        # read it 2025-11-07
 
 
 rule align__bwamem2__map__all:
