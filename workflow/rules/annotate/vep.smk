@@ -10,7 +10,7 @@ rule annotate__vep__tmp_vcf:
         extra=lambda w: f"--samples {w.sample} --trim-alt-alleles",
     threads: 2
     wrapper:
-        "v5.2.1/bio/bcftools/view"
+        "v7.9.1/bio/bcftools/view"
 
 
 rule annotate__vep__downlaod_plugins:
@@ -20,7 +20,7 @@ rule annotate__vep__downlaod_plugins:
     params:
         release=100,
     wrapper:
-        "v5.2.1/bio/vep/plugins"
+        "v7.9.1/bio/vep/plugins"
 
 
 rule annotate__vep:
@@ -43,7 +43,7 @@ rule annotate__vep:
         mem_mb=16 * 1024,
         runtime=8 * 60,
     wrapper:
-        "v5.2.1/bio/vep/annotate"
+        "v7.9.1/bio/vep/annotate"
 
 
 rule annotate__vep__all:
