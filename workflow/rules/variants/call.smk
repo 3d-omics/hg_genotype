@@ -2,7 +2,11 @@ include: "call_functions.smk"
 
 
 rule variants__call__haplotype_caller:
-    """Call variants for a single library and chromosome"""
+    """Call variants for a single library and chromosome
+
+    Note: if ploidy is correct, run it, if not (e.g. females have no Y chr) produce
+    a file genotyping an empty interval.
+    """
     input:
         reference=REFERENCE / f"{HOST_NAME}.fa.gz",
         cram=RECALIBRATE / "{sample_id}.cram",
@@ -18,8 +22,9 @@ rule variants__call__haplotype_caller:
         ploidy=get_ploidy_of_sample_and_chromosome,
         interval=get_interval_for_haplotype_caller,
         mock_interval=generate_mock_interval,
+    retries: 5
     resources:
-        mem_mb=8 * 1024,
+        mem_mb=double_ram(8 * 1024),
         runtime=24 * 60,
     shell:
         """
@@ -60,9 +65,6 @@ rule variants__call__combine_gvcfs:
     input:
         gvcfs=get_files_to_genotype,
         ref=REFERENCE / f"{HOST_NAME}.fa.gz",
-        # dict_=REFERENCE / f"{HOST_NAME}.dict",
-        # fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
-        # gzi=REFERENCE / f"{HOST_NAME}.fa.gz.gzi",
     output:
         gvcf=CALL / "{region}.vcf.gz",
     log:

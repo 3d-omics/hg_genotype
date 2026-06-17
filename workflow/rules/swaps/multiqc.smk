@@ -1,4 +1,4 @@
-rule swaps__multiqc:
+use rule helpers__multiqc as swaps__multiqc with:
     input:
         SOMALIER / "relate.pairs.tsv",
         SOMALIER / "relate.samples.tsv",
@@ -9,11 +9,9 @@ rule swaps__multiqc:
         RESULTS / "swaps.log",
     params:
         extra="--title swaps --dirs --fullnames --fn_as_s_name --force",
-    wrapper:
-        "v7.9.1/bio/multiqc"
 
 
 rule swaps__multiqc__all:
     """Collect all per step reports for the pipeline"""
     input:
-        rules.swaps__multiqc.output,
+        RESULTS / "swaps.html",

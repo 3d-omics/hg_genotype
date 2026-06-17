@@ -1,5 +1,4 @@
-rule annotate__multiqc:
-    """Collect all reports for the VEP step"""
+use rule helpers__multiqc as annotate__multiqc with:
     input:
         [VEP / f"{sample}.vep.html" for sample in SAMPLES],
     output:
@@ -9,10 +8,8 @@ rule annotate__multiqc:
         RESULTS / "annotate.log",
     params:
         extra="--title annotate --dirs --fullnames --fn_as_s_name --force",
-    wrapper:
-        "v7.9.1/bio/multiqc"
 
 
 rule annotate__multiqc__all:
     input:
-        rules.annotate__multiqc.output,
+        RESULTS / "annotate.html",

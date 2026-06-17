@@ -1,3 +1,6 @@
+BWAMEM2_INDEX_EXTENSIONS = ["amb", "bwt.2bit.64", "pac", "0123", "ann"]
+
+
 def compose_read_group_header(wildcards):
     """Compose read group header for bwa mem"""
 

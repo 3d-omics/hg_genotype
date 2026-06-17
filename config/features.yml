@@ -1,10 +1,21 @@
 reference:
     name: GRCg6a
+    species: gallus_gallus
+    release: 106
     dna: resources/reference/ggal.mock.fa.gz
-    gff: resources/reference/ggal.mock.gtf.gz  # Has to be a gff
+    gtf: resources/reference/ggal.mock.gtf.gz  # Has to be a GTF (not GFF3)
     known_vcf: resources/reference/ggal.mock.vcf.gz  # or results/align/bcftools/bcftools.vcf.gz
     regions: resources/reference/ggal.mock.bed4
-    autosomes: [1, 2]
-    male_chromosomes: [Z]  # [X, Y]
-    female_chromosomes: [Z,W]  # [X]
-    mitochondria: [MT]
+    organelles: [MT]  # Put here chloroplast if you use plants
+    # Ploidy of each non-autosomal, non-organellar chromosome, by sex.
+    # A chromosome missing from a given sex's table is treated as absent in
+    # that sex (e.g. W in males, Y in females): it is mock-called instead of
+    # using sample-ploidy below.
+    # Mammal (XY) example: {male: {X: 1, Y: 1}, female: {X: 2}}
+    # X0 example (no Y at all): {male: {X: 1}, female: {X: 2}}
+    sex_ploidy:
+      male:
+        Z: 2
+      female:
+        Z: 1
+        W: 1

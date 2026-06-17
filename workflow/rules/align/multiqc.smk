@@ -1,5 +1,4 @@
-rule align__multiqc:
-    """Collect all reports for the align submodule step"""
+use rule helpers__multiqc as align__multiqc with:
     input:
         reads=[
             READS / f"{sample_id}.{library_id}_{end}_fastqc.zip"
@@ -22,13 +21,9 @@ rule align__multiqc:
         RESULTS / "align.log",
     params:
         extra="--title align --dirs --fullnames --fn_as_s_name --force",
-    resources:
-        mem_mb=8 * 1024,
-        runtime=2 * 60,
-    wrapper:
-        "v7.9.1/bio/multiqc"
 
 
 rule align__multiqc__all:
+    """Collect all reports for the align submodule step"""
     input:
         RESULTS / "align.html",

@@ -7,7 +7,7 @@ rule align__bwamem2__index:
         reference=REFERENCE / f"{HOST_NAME}.fa.gz",
     output:
         multiext(
-            str(INDEX / HOST_NAME), ".amb", ".bwt.2bit.64", ".pac", ".0123", ".ann"
+            str(INDEX / HOST_NAME), *[f".{ext}" for ext in BWAMEM2_INDEX_EXTENSIONS]
         ),
     log:
         INDEX / f"{HOST_NAME}.log",
@@ -22,10 +22,7 @@ rule align__bwamem2__index:
 
 rule align__bwamem2__index__all:
     input:
-        [
-            INDEX / f"{HOST_NAME}.{extension}"
-            for extension in ["amb", "bwt.2bit.64", "pac", "0123", "ann"]
-        ],
+        [INDEX / f"{HOST_NAME}.{extension}" for extension in BWAMEM2_INDEX_EXTENSIONS],
 
 
 rule align__bwamem2__map:
@@ -40,11 +37,7 @@ rule align__bwamem2__map:
         ],
         idx=multiext(
             str(INDEX / f"{HOST_NAME}"),
-            ".amb",
-            ".bwt.2bit.64",
-            ".pac",
-            ".0123",
-            ".ann",
+            *[f".{ext}" for ext in BWAMEM2_INDEX_EXTENSIONS],
         ),
     output:
         MAP / "{sample_id}.{library_id}.cram",
