@@ -62,7 +62,7 @@ rule variants__filter__merge_vcfs:
             --INPUT {input.snps} \
             --INPUT {input.indels} \
             --OUTPUT {output} \
-        2> {log} 1>&2
+            2>{log} 1>&2
         """
 
 

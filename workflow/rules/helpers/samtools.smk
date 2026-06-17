@@ -16,6 +16,6 @@ rule helpers__samtools__stats_cram:
         samtools stats \
             --reference {input.reference} \
             {input.cram} \
-        > {output} \
-        2> {log}
+            >{output} \
+            2>{log}
         """

@@ -24,20 +24,21 @@ rule reference__recompress__gtf:
         gtf_gz=REFERENCE / f"{HOST_NAME}.gtf.gz",
     log:
         REFERENCE / f"{HOST_NAME}.gtf.log",
+    cache: "omit-software"
     conda:
         "../../environments/reference.yml"
-    cache: "omit-software"
     threads: 8
     resources:
         mem_mb=8 * 1024,
     shell:
         """
-        ( bedtools sort \
-            -i {input.gtf_gz} \
-        | bgzip \
-            --threads {threads} \
-        > {output.gtf_gz} \
-        ) 2> {log}
+        (
+            bedtools sort \
+                -i {input.gtf_gz} \
+                | bgzip \
+                    --threads {threads} \
+                    >{output.gtf_gz}
+        ) 2>{log}
         """
 
 

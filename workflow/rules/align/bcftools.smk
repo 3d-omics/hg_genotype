@@ -15,20 +15,21 @@ rule align__bcftools__call:
         runtime=24 * 60,
     shell:
         """
-        ( bcftools mpileup \
-            --fasta-ref {input.fasta} \
-            --region {wildcards.region} \
-            --output-type u \
-            {input.crams} \
-        | bcftools call \
-            --multiallelic-caller \
-            --variants-only \
-            --output-type u \
-        | bcftools filter \
-            --include 'QUAL > 30' \
-            --output-type b \
-            --output {output.bcf} \
-        ) 2> {log}
+        (
+            bcftools mpileup \
+                --fasta-ref {input.fasta} \
+                --region {wildcards.region} \
+                --output-type u \
+                {input.crams} \
+                | bcftools call \
+                    --multiallelic-caller \
+                    --variants-only \
+                    --output-type u \
+                | bcftools filter \
+                    --include 'QUAL > 30' \
+                    --output-type b \
+                    --output {output.bcf}
+        ) 2>{log}
         """
 
 
@@ -47,7 +48,7 @@ rule align__bcftools__concat:
             --output-type z \
             --output {output} \
             {input} \
-        2> {log}
+            2>{log}
         """
 
 

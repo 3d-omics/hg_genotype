@@ -6,9 +6,9 @@ rule annotate__vep__tmp_vcf:
         temp(VEP / "{sample}.bcf"),
     log:
         VEP / "{sample}.bcf.log",
+    threads: 2
     params:
         extra=lambda w: f"--samples {w.sample} --trim-alt-alleles",
-    threads: 2
     wrapper:
         "v7.9.1/bio/bcftools/view"
 
@@ -53,12 +53,12 @@ rule annotate__vep:
         stats=VEP / "{sample}.vep.html",
     log:
         VEP / "{sample}.log",
-    params:
-        extra="--buffer_size 500 --everything --warning_file /dev/stderr",
-        plugins=[],
     resources:
         mem_mb=16 * 1024,
         runtime=8 * 60,
+    params:
+        extra="--buffer_size 500 --everything --warning_file /dev/stderr",
+        plugins=[],
     wrapper:
         "v7.9.1/bio/vep/annotate"
 

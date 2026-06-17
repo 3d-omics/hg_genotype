@@ -45,15 +45,15 @@ rule align__bwamem2__map:
         temp(MAP / "{sample_id}.{library_id}.cram"),
     log:
         MAP / "{sample_id}.{library_id}.log",
+    threads: 24
+    resources:
+        mem_mb=64 * 1024,
+        runtime=24 * 60,
     params:
         extra=lambda w: f"-R '{compose_read_group_header(w)}'",
         sort="samtools",
         sort_order="coordinate",
         sort_extra="",
-    threads: 24
-    resources:
-        mem_mb=64 * 1024,
-        runtime=24 * 60,
     wrapper:
         "v5.2.1/bio/bwa-mem2/mem"
 

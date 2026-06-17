@@ -8,11 +8,11 @@ rule swaps__somalier__find_sites:
         SOMALIER / "sites.log",
     conda:
         "../../environments/somalier.yml"
+    resources:
+        mem_mb=16 * 1024,
     params:
         min_allele_number=5,
         min_allele_frequency=0.15,
-    resources:
-        mem_mb=16 * 1024,
     shell:
         """
         somalier find-sites \
@@ -20,7 +20,7 @@ rule swaps__somalier__find_sites:
             --min-AF {params.min_allele_frequency} \
             --output-vcf {output.vcf} \
             {input.vcf} \
-        2> {log} 1>&2
+            2>{log} 1>&2
         """
 
 
@@ -44,10 +44,10 @@ rule swaps__somalier__extract:
         """
         somalier extract \
             --out-dir {params.out_dir} \
-            --sites   {input.sites} \
-            --fasta   {input.reference} \
+            --sites {input.sites} \
+            --fasta {input.reference} \
             {input.variants} \
-        2> {log} 1>&2
+            2>{log} 1>&2
         """
 
 
@@ -72,7 +72,7 @@ rule swaps__somalier__relate:
             --output-prefix {params.output_prefix} \
             --infer \
             {input.extracted} \
-        2> {log} 1>&2
+            2>{log} 1>&2
         """
 
 

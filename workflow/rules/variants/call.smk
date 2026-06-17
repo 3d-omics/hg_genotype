@@ -16,19 +16,19 @@ rule variants__call__haplotype_caller:
         gvcf_gz=temp(CALL / "{sample_id}" / "{region}.gvcf.gz"),
     log:
         CALL / "{sample_id}" / "{region}.log",
+    retries: 5
     conda:
         "../../environments/gatk4.yml"
+    resources:
+        mem_mb=double_ram(8 * 1024),
+        runtime=24 * 60,
     params:
         ploidy=get_ploidy_of_sample_and_chromosome,
         interval=get_interval_for_haplotype_caller,
         mock_interval=generate_mock_interval,
-    retries: 5
-    resources:
-        mem_mb=double_ram(8 * 1024),
-        runtime=24 * 60,
     shell:
         """
-        if [[ {params.ploidy} -eq 0 ]] ; then
+        if [[ {params.ploidy} -eq 0 ]]; then
             gatk HaplotypeCaller \
                 --emit-ref-confidence GVCF \
                 --input {input.cram} \
@@ -36,7 +36,7 @@ rule variants__call__haplotype_caller:
                 --output {output.gvcf_gz} \
                 --reference {input.reference} \
                 --sample-ploidy 1 \
-            2> {log} 1>&2
+                2>{log} 1>&2
         else
             gatk HaplotypeCaller \
                 --emit-ref-confidence GVCF \
@@ -45,7 +45,7 @@ rule variants__call__haplotype_caller:
                 --output {output.gvcf_gz} \
                 --reference {input.reference} \
                 --sample-ploidy {params.ploidy} \
-            2> {log} 1>&2
+                2>{log} 1>&2
         fi
         """
 
