@@ -7,7 +7,7 @@ include: "align/multiqc.smk"
 
 
 rule align__all:
-    """Run all picard steps and get all reports"""
+    """Run all align steps and get all reports"""
     input:
         rules.align__reads__all.input,
         rules.align__bwamem2__all.input,

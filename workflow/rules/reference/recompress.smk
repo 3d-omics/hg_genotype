@@ -17,7 +17,7 @@ use rule helpers__recompress as reference__recompress__vcf with:
 
 
 rule reference__recompress__gtf:
-    """Sort and compress the GTF file from config.yaml with bedtools sort and bgzip"""
+    """Sort and compress the GTF file from features.yaml with bedtools sort and bgzip"""
     input:
         gtf_gz=features["reference"]["gtf"],
     output:
