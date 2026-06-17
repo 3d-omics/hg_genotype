@@ -54,7 +54,7 @@ rule annotate__vep:
     log:
         VEP / "{sample}.log",
     params:
-        extra="--buffer_size 500 --everything",
+        extra="--buffer_size 500 --everything --warning_file /dev/stderr",
         plugins=[],
     resources:
         mem_mb=16 * 1024,
