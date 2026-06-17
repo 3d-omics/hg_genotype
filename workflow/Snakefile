@@ -1,8 +1,3 @@
-# Main entrypoint of the workflow.
-# Please follow the best practices:
-# https://snakemake.readthedocs.io/en/stable/snakefiles/best_practices.html,
-# in particular regarding the standardized folder structure mentioned there.
-
 from snakemake.utils import min_version, validate
 
 min_version("8.0.0")
@@ -22,11 +17,9 @@ validate(samples, schema="schemas/samples.schema.yaml")
 
 
 # Generate useful variables
+HOST_NAME = features["name"]
 SAMPLES = samples["sample_id"].drop_duplicates().values.tolist()
 SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
-
-HOST_NAME = features["name"]
-
 REGIONS_BED4 = pd.read_table(
     features["regions"],
     dtype="str",
@@ -54,7 +47,6 @@ module helpers:
 use rule * from helpers exclude samtools__stats__bam as helpers__*
 
 
-# Import subworkflows
 include: "rules/folders.smk"
 include: "rules/helpers.smk"
 include: "rules/reference.smk"
@@ -75,6 +67,7 @@ rule all:
 
 
 rule cache:
+    """Generate only the cacheable elements: recompressed inputs and BWA-MEM2 indexes"""
     input:
         rules.reference__recompress__all.input,
         rules.align__bwamem2__index__all.input,
