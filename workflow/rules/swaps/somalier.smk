@@ -1,7 +1,7 @@
 rule swaps__somalier__find_sites:
     input:
-        vcf=VARIANTS / "filter" / "all.filtered.vcf.gz",
-        tbi=VARIANTS / "filter" / "all.filtered.vcf.gz.tbi",
+        vcf=FILTER / "all.filtered.vcf.gz",
+        tbi=FILTER / "all.filtered.vcf.gz.tbi",
     output:
         vcf=SOMALIER / "sites.vcf.gz",
     log:
