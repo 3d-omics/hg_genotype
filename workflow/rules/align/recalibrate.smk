@@ -37,6 +37,6 @@ rule align__recalibrate__applybqsr:
 
 
 rule align__recalibrate__all:
-    """Compute recalibration for all chromosomes and libraries"""
+    """Compute recalibration for all samples"""
     input:
         [RECALIBRATE / f"{sample_id}.cram" for sample_id in SAMPLES],

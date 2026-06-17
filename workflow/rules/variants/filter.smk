@@ -1,5 +1,5 @@
 rule variants__filter__select_variants:
-    """Select only snp/indes from VCF"""
+    """Select only SNPs/INDELs from VCF"""
     input:
         vcf=GENOTYPE / "all.vcf.gz",
         tbi=GENOTYPE / "all.vcf.gz.tbi",
@@ -20,7 +20,7 @@ rule variants__filter__select_variants__all:
 
 
 rule variants__filter__variant_filtration:
-    """Filter variants for a single chromosome"""
+    """Filter variants for a single variant type"""
     input:
         vcf=FILTER / "{variant_type}.raw.vcf.gz",
         ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
