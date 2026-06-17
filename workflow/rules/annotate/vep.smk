@@ -64,6 +64,8 @@ rule annotate__vep:
         stats=VEP / "{sample}.vep.html",
     log:
         VEP / "{sample}.log",
+    benchmark:
+        VEP / "{sample}.benchmark.tsv"
     resources:
         mem_mb=16 * 1024,
         runtime=8 * 60,

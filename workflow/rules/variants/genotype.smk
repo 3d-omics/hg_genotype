@@ -7,6 +7,8 @@ rule variants__genotype__genotype_gvcfs:
         vcf=temp(GENOTYPE / "{region}.vcf.gz"),
     log:
         GENOTYPE / "{region}.log",
+    benchmark:
+        GENOTYPE / "{region}.benchmark.tsv"
     retries: 5
     resources:
         mem_mb=double_ram(8 * 1024),

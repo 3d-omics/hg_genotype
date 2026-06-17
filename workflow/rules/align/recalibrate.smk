@@ -11,6 +11,8 @@ rule align__recalibrate__baserecalibrator:
         recal_table=temp(RECALIBRATE / "{sample_id}.bsqr.txt"),
     log:
         RECALIBRATE / "{sample_id}.baserecalibrator.log",
+    benchmark:
+        RECALIBRATE / "{sample_id}.baserecalibrator.benchmark.tsv"
     resources:
         mem_mb=8 * 1024,
         runtime=24 * 60,
@@ -29,6 +31,8 @@ rule align__recalibrate__applybqsr:
         bam=RECALIBRATE / "{sample_id}.cram",
     log:
         RECALIBRATE / "{sample_id}.applybqsr.log",
+    benchmark:
+        RECALIBRATE / "{sample_id}.applybqsr.benchmark.tsv"
     resources:
         mem_mb=8 * 1024,
         runtime=24 * 60,

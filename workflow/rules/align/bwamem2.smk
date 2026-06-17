@@ -11,6 +11,8 @@ rule align__bwamem2__index:
         ),
     log:
         INDEX / f"{HOST_NAME}.log",
+    benchmark:
+        INDEX / f"{HOST_NAME}.benchmark.tsv"
     cache: "omit-software"
     threads: 8
     resources:
@@ -45,6 +47,8 @@ rule align__bwamem2__map:
         temp(MAP / "{sample_id}.{library_id}.cram"),
     log:
         MAP / "{sample_id}.{library_id}.log",
+    benchmark:
+        MAP / "{sample_id}.{library_id}.benchmark.tsv"
     threads: 24
     resources:
         mem_mb=64 * 1024,

@@ -16,6 +16,8 @@ rule variants__call__haplotype_caller:
         gvcf_gz=temp(CALL / "{sample_id}" / "{region}.gvcf.gz"),
     log:
         CALL / "{sample_id}" / "{region}.log",
+    benchmark:
+        CALL / "{sample_id}" / "{region}.benchmark.tsv"
     retries: 5
     conda:
         "../../environments/gatk4.yml"
@@ -69,6 +71,8 @@ rule variants__call__combine_gvcfs:
         gvcf=temp(CALL / "{region}.vcf.gz"),
     log:
         CALL / "{region}.log",
+    benchmark:
+        CALL / "{region}.benchmark.tsv"
     resources:
         mem_mb=16 * 1024,
         runtime=24 * 60,

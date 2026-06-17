@@ -15,6 +15,8 @@ rule align__mark_duplicates:
         metrics=MARK_DUPLICATES / "{sample_id}.metrics.tsv",
     log:
         MARK_DUPLICATES / "{sample_id}.log",
+    benchmark:
+        MARK_DUPLICATES / "{sample_id}.benchmark.tsv"
     threads: 24
     resources:
         mem_mb=8 * 1024,
