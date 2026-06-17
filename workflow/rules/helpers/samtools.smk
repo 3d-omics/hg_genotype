@@ -8,7 +8,7 @@ rule helpers__samtools__stats_cram:
     output:
         "{prefix}.stats",
     log:
-        "{prefix}.stats",
+        "{prefix}.stats.log",
     conda:
         "../../environments/samtools.yml"
     shell:
