@@ -12,8 +12,6 @@ rule align__reads:
     log:
         READS / "{sample_id}.{library_id}.log",
     localrule: True
-    conda:
-        "base"
     shell:
         """
         (
