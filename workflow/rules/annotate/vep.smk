@@ -22,6 +22,7 @@ rule annotate__vep__download_cache:
         directory(VEP / "cache"),
     log:
         VEP / "cache.log",
+    cache: "omit-software"
     params:
         species=features["species"],
         release=features["release"],
@@ -36,6 +37,7 @@ rule annotate__vep__download_plugins:
         directory(VEP / "plugins"),
     log:
         VEP / "plugins.log",
+    cache: "omit-software"
     params:
         release=100,
     wrapper:
