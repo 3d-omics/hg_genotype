@@ -76,15 +76,15 @@ Describes the reference genome and how chromosomes should be treated.
 
 | Field | Required | Description |
 |---|---|---|
-| `reference.name` | yes | Short assembly name; used as a filename prefix throughout `results/` |
-| `reference.species` | yes | Lowercase species name for the VEP cache download (e.g. `homo_sapiens`) |
-| `reference.release` | yes | Ensembl release number for the VEP cache (e.g. `110`) |
-| `reference.dna` | yes | Path to the reference FASTA (`.fa.gz`) |
-| `reference.gtf` | yes | Path to the annotation GTF (`.gtf.gz`). Must be GTF, not GFF3 |
-| `reference.known_vcf` | yes | Path to a VCF of known variants for BQSR (`.vcf.gz`). Can be bootstrapped with `results/align/bcftools/bcftools.vcf.gz` |
-| `reference.regions` | yes | Path to a BED4 file listing all regions to genotype (one region per row, 4th column = region name) |
-| `reference.organelles` | yes | List of organellar chromosome names (mitochondria, chloroplast). These are called at `pool_size` ploidy regardless of individual ploidy |
-| `reference.sex_ploidy` | no | Per-sex ploidy table for sex chromosomes. Any chromosome absent from a sex's entry is mock-called (ploidy 0). Omit entirely for organisms with no sex chromosomes |
+| `name` | yes | Short assembly name; used as a filename prefix throughout `results/` |
+| `species` | yes | Lowercase species name for the VEP cache download (e.g. `homo_sapiens`) |
+| `release` | yes | Ensembl release number for the VEP cache (e.g. `110`) |
+| `dna` | yes | Path to the reference FASTA (`.fa.gz`) |
+| `gtf` | yes | Path to the annotation GTF (`.gtf.gz`). Must be GTF, not GFF3 |
+| `known_vcf` | yes | Path to a VCF of known variants for BQSR (`.vcf.gz`). Can be bootstrapped with `results/align/bcftools/bcftools.vcf.gz` |
+| `regions` | yes | Path to a BED4 file listing all regions to genotype (one region per row, 4th column = region name) |
+| `organelles` | yes | List of organellar chromosome names (mitochondria, chloroplast). These are called at `pool_size` ploidy regardless of individual ploidy |
+| `sex_ploidy` | no | Per-sex ploidy table for sex chromosomes. Any chromosome absent from a sex's entry is mock-called (ploidy 0). Omit entirely for organisms with no sex chromosomes |
 
 ### Checklist
 
@@ -102,71 +102,68 @@ Describes the reference genome and how chromosomes should be treated.
 **Birds (ZW system):**
 
 ```yaml
-reference:
-    name: GRCg6a
-    species: gallus_gallus
-    release: 106
-    dna: resources/reference/GRCg6a.fa.gz
-    gtf: resources/reference/GRCg6a.gtf.gz
-    known_vcf: resources/reference/GRCg6a.known.vcf.gz
-    regions: resources/reference/GRCg6a.bed4
-    organelles: [MT]
-    sex_ploidy:
-      male:
-        Z: 2
-      female:
-        Z: 1
-        W: 1
+name: GRCg6a
+species: gallus_gallus
+release: 106
+dna: resources/reference/GRCg6a.fa.gz
+gtf: resources/reference/GRCg6a.gtf.gz
+known_vcf: resources/reference/GRCg6a.known.vcf.gz
+regions: resources/reference/GRCg6a.bed4
+organelles: [MT]
+sex_ploidy:
+  male:
+    Z: 2
+  female:
+    Z: 1
+    W: 1
 ```
 
 **Mammals (XY system):**
 
 ```yaml
-reference:
-    name: GRCh38
-    species: homo_sapiens
-    release: 110
-    dna: resources/reference/GRCh38.fa.gz
-    gtf: resources/reference/GRCh38.gtf.gz
-    known_vcf: resources/reference/GRCh38.known.vcf.gz
-    regions: resources/reference/GRCh38.bed4
-    organelles: [MT]
-    sex_ploidy:
-      male:
-        X: 1
-        Y: 1
-      female:
-        X: 2
+name: GRCh38
+species: homo_sapiens
+release: 110
+dna: resources/reference/GRCh38.fa.gz
+gtf: resources/reference/GRCh38.gtf.gz
+known_vcf: resources/reference/GRCh38.known.vcf.gz
+regions: resources/reference/GRCh38.bed4
+organelles: [MT]
+sex_ploidy:
+  male:
+    X: 1
+    Y: 1
+  female:
+    X: 2
 ```
 
 **X0 system (no Y chromosome in reference):**
 
 ```yaml
-    sex_ploidy:
-      male:
-        X: 1
-      female:
-        X: 2
+sex_ploidy:
+  male:
+    X: 1
+  female:
+    X: 2
 ```
 
 **Haploid organism, no sex chromosomes:**
 
 ```yaml
-reference:
-    name: MyAssembly_v1
-    species: my_species
-    release: 100
-    dna: resources/reference/assembly.fa.gz
-    gtf: resources/reference/assembly.gtf.gz
-    known_vcf: resources/reference/assembly.known.vcf.gz
-    regions: resources/reference/assembly.bed4
-    organelles: [MT]
+name: MyAssembly_v1
+species: my_species
+release: 100
+dna: resources/reference/assembly.fa.gz
+gtf: resources/reference/assembly.gtf.gz
+known_vcf: resources/reference/assembly.known.vcf.gz
+regions: resources/reference/assembly.bed4
+organelles: [MT]
 ```
 
 **Plant (with chloroplast):**
 
 ```yaml
-    organelles: [MT, Pt]
+organelles: [MT, Pt]
 ```
 
 ---

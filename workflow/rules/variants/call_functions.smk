@@ -37,8 +37,8 @@ def get_ploidy_of_sample_and_chromosome(wildcards):
     """Get the ploidy of a sample and chromosome.
 
     Every chromosome is treated as autosomal (ploidy * pool_size) unless it
-    appears in features['reference']['organelles'] (→ pool_size) or in any
-    sex's features['reference']['sex_ploidy'] table (→ pool_size *
+    appears in features['organelles'] (→ pool_size) or in any
+    sex's features['sex_ploidy'] table (→ pool_size *
     sex_ploidy[sex][chromosome], or 0 when the chromosome is absent for that
     sex, e.g. W in males).  Ploidy 0 causes the calling rule to emit a mock
     GVCF placeholder instead of running HaplotypeCaller for real.
@@ -48,17 +48,17 @@ def get_ploidy_of_sample_and_chromosome(wildcards):
     ploidy = get_sample_ploidy(sample_id)
     pool_size = get_pool_size(sample_id)
 
-    if chromosome in features["reference"]["organelles"]:
+    if chromosome in features["organelles"]:
         return pool_size
 
-    sex_ploidy = features["reference"].get("sex_ploidy", {})
+    sex_ploidy = features.get("sex_ploidy", {})
     known_sex_chroms = {c for sex_chroms in sex_ploidy.values() for c in sex_chroms}
     if chromosome in known_sex_chroms:
         sex = get_sex_from_sample(sample_id)
         if sex not in sex_ploidy:
             raise ValueError(
                 f"Sample '{sample_id}' has sex '{sex}', which is not a key of "
-                f"features['reference']['sex_ploidy'] ({list(sex_ploidy)}). "
+                f"features['sex_ploidy'] ({list(sex_ploidy)}). "
                 "Add it there."
             )
         return pool_size * sex_ploidy[sex].get(chromosome, 0)
@@ -77,8 +77,8 @@ def get_interval_for_haplotype_caller(wildcards):
 def generate_mock_interval(wildcards):
     """A trivial 1bp interval on the first autosomal region in the BED4,
     used as a placeholder for absent sex chromosomes (ploidy 0)."""
-    organelles = features["reference"]["organelles"]
-    sex_ploidy = features["reference"].get("sex_ploidy", {})
+    organelles = features["organelles"]
+    sex_ploidy = features.get("sex_ploidy", {})
     known_sex_chroms = {c for sex_chroms in sex_ploidy.values() for c in sex_chroms}
     row = REGIONS_BED4[
         ~REGIONS_BED4.chrom.isin(organelles)

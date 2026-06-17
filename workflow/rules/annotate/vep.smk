@@ -20,8 +20,8 @@ rule annotate__vep__download_cache:
     log:
         VEP / "cache.log",
     params:
-        species=features["reference"]["species"],
-        release=features["reference"]["release"],
+        species=features["species"],
+        release=features["release"],
         build=HOST_NAME,
     wrapper:
         "v7.9.1/bio/vep/cache"

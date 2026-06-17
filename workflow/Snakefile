@@ -20,10 +20,10 @@ samples = pd.read_table("config/samples.tsv", comment="#", dtype="str")
 SAMPLES = samples["sample_id"].drop_duplicates().values.tolist()
 SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
 
-HOST_NAME = features["reference"]["name"]
+HOST_NAME = features["name"]
 
 REGIONS_BED4 = pd.read_table(
-    features["reference"]["regions"],
+    features["regions"],
     dtype="str",
     comment="#",
     names=["chrom", "chromStart", "chromEnd", "name"],
