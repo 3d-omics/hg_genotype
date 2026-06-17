@@ -10,7 +10,7 @@ rule align__mark_duplicates:
         bam=MARK_DUPLICATES / "{sample_id}.cram",
         metrics=MARK_DUPLICATES / "{sample_id}.metrics.tsv",
     log:
-        MARK_DUPLICATES / "{sample_id}.bam.log",
+        MARK_DUPLICATES / "{sample_id}.log",
     params:
         samtools_opts="--threads 24",
     threads: 24
@@ -24,6 +24,6 @@ rule align__mark_duplicates:
 
 
 rule align__mark_duplicates__all:
-    """Mark duplicates in all chromosomes and all libraries"""
+    """Mark duplicates for all samples"""
     input:
         [MARK_DUPLICATES / f"{sample_id}.cram" for sample_id in SAMPLES],

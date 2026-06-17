@@ -22,9 +22,6 @@ SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
 
 HOST_NAME = features["reference"]["name"]
 
-BAM_REPORTS = ["stats.tsv"]  # + ["flagstats.txt", "idxstats.tsv"]
-PICARD_REPORTS = BAM_REPORTS + ["metrics.tsv"]
-
 REGIONS_BED4 = pd.read_table(
     features["reference"]["regions"],
     dtype="str",
