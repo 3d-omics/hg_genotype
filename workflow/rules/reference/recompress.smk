@@ -1,6 +1,6 @@
 use rule helpers__recompress as reference__recompress__fasta with:
     input:
-        gz=features["dna"],
+        gz=ancient(features["dna"]),
     output:
         gz=REFERENCE / f"{HOST_NAME}.fa.gz",
     log:
@@ -9,7 +9,7 @@ use rule helpers__recompress as reference__recompress__fasta with:
 
 use rule helpers__recompress as reference__recompress__vcf with:
     input:
-        gz=features["known_vcf"],
+        gz=ancient(features["known_vcf"]),
     output:
         gz=REFERENCE / f"{HOST_NAME}.vcf.gz",
     log:
@@ -19,7 +19,7 @@ use rule helpers__recompress as reference__recompress__vcf with:
 rule reference__recompress__gtf:
     """Sort and compress the GTF file from features.yaml with bedtools sort and bgzip"""
     input:
-        gtf_gz=features["gtf"],
+        gtf_gz=ancient(features["gtf"]),
     output:
         gtf_gz=REFERENCE / f"{HOST_NAME}.gtf.gz",
     log:

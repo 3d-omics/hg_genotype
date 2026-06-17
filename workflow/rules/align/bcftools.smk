@@ -2,7 +2,7 @@ rule align__bcftools__call:
     input:
         crams=[MARK_DUPLICATES / f"{sample_id}.cram" for sample_id in SAMPLES],
         crais=[MARK_DUPLICATES / f"{sample_id}.cram.crai" for sample_id in SAMPLES],
-        fasta=REFERENCE / f"{HOST_NAME}.fa.gz",
+        fasta=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
         fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
     output:
         bcf=temp(BCFTOOLS / "{region}.bcf"),

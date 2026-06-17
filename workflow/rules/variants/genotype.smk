@@ -2,7 +2,7 @@ rule variants__genotype__genotype_gvcfs:
     """Genotype a single region"""
     input:
         gvcf=CALL / "{region}.vcf.gz",
-        ref=REFERENCE / f"{HOST_NAME}.fa.gz",
+        ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
     output:
         vcf=temp(GENOTYPE / "{region}.vcf.gz"),
     log:

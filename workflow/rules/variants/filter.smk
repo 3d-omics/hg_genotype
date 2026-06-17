@@ -3,7 +3,7 @@ rule variants__filter__select_variants:
     input:
         vcf=GENOTYPE / "all.vcf.gz",
         tbi=GENOTYPE / "all.vcf.gz.tbi",
-        ref=REFERENCE / f"{HOST_NAME}.fa.gz",
+        ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
     output:
         vcf=temp(FILTER / "{variant_type}.raw.vcf.gz"),
     log:
@@ -23,7 +23,7 @@ rule variants__filter__variant_filtration:
     """Filter variants for a single chromosome"""
     input:
         vcf=FILTER / "{variant_type}.raw.vcf.gz",
-        ref=REFERENCE / f"{HOST_NAME}.fa.gz",
+        ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
         dict_=REFERENCE / f"{HOST_NAME}.dict",
         # fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
         gzi=REFERENCE / f"{HOST_NAME}.fa.gz.gzi",

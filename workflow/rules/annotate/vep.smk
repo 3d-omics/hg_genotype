@@ -43,8 +43,8 @@ rule annotate__vep:
     """Annotate the VCF file with VEP"""
     input:
         calls=VEP / "{sample}.bcf",
-        fasta=REFERENCE / f"{HOST_NAME}.fa.gz",
-        gtf=REFERENCE / f"{HOST_NAME}.gtf.gz",
+        fasta=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
+        gtf=ancient(REFERENCE / f"{HOST_NAME}.gtf.gz"),
         gtf_tbi=REFERENCE / f"{HOST_NAME}.gtf.gz.tbi",
         cache=VEP / "cache",
         plugins=VEP / "plugins",

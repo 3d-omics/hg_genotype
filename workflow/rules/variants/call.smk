@@ -8,7 +8,7 @@ rule variants__call__haplotype_caller:
     a file genotyping an empty interval.
     """
     input:
-        reference=REFERENCE / f"{HOST_NAME}.fa.gz",
+        reference=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
         cram=RECALIBRATE / "{sample_id}.cram",
         crai=RECALIBRATE / "{sample_id}.cram.crai",
         dict_=REFERENCE / f"{HOST_NAME}.dict",
@@ -64,7 +64,7 @@ rule variants__call__combine_gvcfs:
     """Combine gVCFs from multiple samples and one region"""
     input:
         gvcfs=get_files_to_genotype,
-        ref=REFERENCE / f"{HOST_NAME}.fa.gz",
+        ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
     output:
         gvcf=temp(CALL / "{region}.vcf.gz"),
     log:

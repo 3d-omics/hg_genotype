@@ -3,9 +3,9 @@ rule align__recalibrate__baserecalibrator:
     input:
         bam=MARK_DUPLICATES / "{sample_id}.cram",
         crai=MARK_DUPLICATES / "{sample_id}.cram.crai",
-        ref=REFERENCE / f"{HOST_NAME}.fa.gz",
+        ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
         dict=REFERENCE / f"{HOST_NAME}.dict",
-        known=REFERENCE / f"{HOST_NAME}.vcf.gz",
+        known=ancient(REFERENCE / f"{HOST_NAME}.vcf.gz"),
         tbi=REFERENCE / f"{HOST_NAME}.vcf.gz.tbi",
     output:
         recal_table=temp(RECALIBRATE / "{sample_id}.bsqr.txt"),
@@ -22,7 +22,7 @@ rule align__recalibrate__applybqsr:
     """Apply the recalibration table to a single sample"""
     input:
         bam=MARK_DUPLICATES / "{sample_id}.cram",
-        ref=REFERENCE / f"{HOST_NAME}.fa.gz",
+        ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
         dict=REFERENCE / f"{HOST_NAME}.dict",
         recal_table=RECALIBRATE / "{sample_id}.bsqr.txt",
     output:
