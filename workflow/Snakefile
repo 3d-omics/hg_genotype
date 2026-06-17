@@ -11,8 +11,10 @@ import pandas as pd
 import yaml
 
 # Import configuration files
-params = yaml.load(open("config/params.yml", "r"), Loader=yaml.SafeLoader)
-features = yaml.load(open("config/features.yml", "r"), Loader=yaml.SafeLoader)
+with open("config/params.yml") as f:
+    params = yaml.load(f, Loader=yaml.SafeLoader)
+with open("config/features.yml") as f:
+    features = yaml.load(f, Loader=yaml.SafeLoader)
 samples = pd.read_table("config/samples.tsv", comment="#", dtype="str")
 
 validate(features, schema="schemas/features.schema.yaml")
