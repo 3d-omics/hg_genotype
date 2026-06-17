@@ -7,6 +7,9 @@ rule annotate__vep__tmp_vcf:
     log:
         VEP / "{sample}.bcf.log",
     threads: 2
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         extra=lambda w: f"--samples {w.sample} --trim-alt-alleles",
     wrapper:

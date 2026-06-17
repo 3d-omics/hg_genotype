@@ -56,6 +56,9 @@ rule variants__filter__merge_vcfs:
         FILTER / "all.filtered.log",
     conda:
         "../../environments/gatk4.yml"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     shell:
         """
         gatk MergeVcfs \

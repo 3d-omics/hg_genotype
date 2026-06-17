@@ -30,6 +30,7 @@ rule reference__recompress__gtf:
     threads: 8
     resources:
         mem_mb=8 * 1024,
+        runtime=1 * 60,
     shell:
         """
         (

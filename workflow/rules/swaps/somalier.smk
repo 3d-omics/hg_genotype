@@ -10,6 +10,7 @@ rule swaps__somalier__find_sites:
         "../../environments/somalier.yml"
     resources:
         mem_mb=16 * 1024,
+        runtime=1 * 60,
     params:
         min_allele_number=5,
         min_allele_frequency=0.15,
@@ -38,6 +39,9 @@ rule swaps__somalier__extract:
         SOMALIER / "extracted.log",
     conda:
         "../../environments/somalier.yml"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         out_dir=SOMALIER / "extracted",
     shell:
@@ -64,6 +68,9 @@ rule swaps__somalier__relate:
         SOMALIER / "relate.log",
     conda:
         "../../environments/somalier.yml"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         output_prefix=SOMALIER / "relate",
     shell:

@@ -42,6 +42,9 @@ rule align__bcftools__concat:
         BCFTOOLS / "bcftools.log",
     conda:
         "../../environments/bcftools.yml"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     shell:
         """
         bcftools concat \

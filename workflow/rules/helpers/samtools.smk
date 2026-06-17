@@ -11,6 +11,9 @@ rule helpers__samtools__stats_cram:
         "{prefix}.stats.log",
     conda:
         "../../environments/samtools.yml"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     shell:
         """
         samtools stats \
