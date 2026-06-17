@@ -2,7 +2,7 @@ include: "bwamem2_functions.smk"
 
 
 rule align__bwamem2__index:
-    """Build genome index with bwa"""
+    """Build genome index with bwa-mem2"""
     input:
         reference=REFERENCE / f"{HOST_NAME}.fa.gz",
     output:
