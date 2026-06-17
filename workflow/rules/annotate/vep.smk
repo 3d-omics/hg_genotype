@@ -23,6 +23,9 @@ rule annotate__vep__download_cache:
     log:
         VEP / "cache.log",
     cache: "omit-software"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         species=features["species"],
         release=features["release"],
@@ -38,6 +41,9 @@ rule annotate__vep__download_plugins:
     log:
         VEP / "plugins.log",
     cache: "omit-software"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         release=100,
     wrapper:

@@ -8,6 +8,9 @@ rule variants__filter__select_variants:
         vcf=temp(FILTER / "{variant_type}.raw.vcf.gz"),
     log:
         FILTER / "{variant_type}.raw.log",
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         extra=lambda w: f"--select-type-to-include {w.variant_type}",
     wrapper:
@@ -31,6 +34,9 @@ rule variants__filter__variant_filtration:
         vcf=temp(FILTER / "{variant_type}.filtered.vcf.gz"),
     log:
         FILTER / "{variant_type}.log",
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         filters=lambda w: {w.variant_type: params["variants"]["filter"][w.variant_type]},
     wrapper:
