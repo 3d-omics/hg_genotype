@@ -1,0 +1,40 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+description: One row per sequencing library in samples.tsv
+properties:
+  sample_id:
+    type: string
+    minLength: 1
+    description: Unique sample identifier
+  library_id:
+    type: string
+    minLength: 1
+    description: Library identifier (unique within a sample)
+  forward_filename:
+    type: string
+    minLength: 1
+    description: Path to R1 FASTQ (.fq.gz)
+  reverse_filename:
+    type: string
+    minLength: 1
+    description: Path to R2 FASTQ (.fq.gz)
+  sex:
+    type: string
+    minLength: 1
+    description: Sex label; must match a key in features.yml sex_ploidy (if defined)
+  ploidy:
+    type: string
+    pattern: "^[1-9][0-9]*$"
+    description: Per-individual autosomal ploidy (e.g. 2 for diploid)
+  pool_size:
+    type: string
+    pattern: "^[1-9][0-9]*$"
+    description: Number of pooled individuals (1 for individual samples)
+required:
+  - sample_id
+  - library_id
+  - forward_filename
+  - reverse_filename
+  - sex
+  - ploidy
+  - pool_size
+additionalProperties: false

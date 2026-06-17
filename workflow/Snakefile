@@ -3,7 +3,7 @@
 # https://snakemake.readthedocs.io/en/stable/snakefiles/best_practices.html,
 # in particular regarding the standardized folder structure mentioned there.
 
-from snakemake.utils import min_version
+from snakemake.utils import min_version, validate
 
 min_version("8.0.0")
 
@@ -14,6 +14,9 @@ import yaml
 params = yaml.load(open("config/params.yml", "r"), Loader=yaml.SafeLoader)
 features = yaml.load(open("config/features.yml", "r"), Loader=yaml.SafeLoader)
 samples = pd.read_table("config/samples.tsv", comment="#", dtype="str")
+
+validate(features, schema="schemas/features.schema.yaml")
+validate(samples, schema="schemas/samples.schema.yaml")
 
 
 # Generate useful variables

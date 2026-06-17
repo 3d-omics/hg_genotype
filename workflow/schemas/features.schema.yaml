@@ -1,0 +1,57 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+description: Reference genome and chromosome metadata (config/features.yml)
+properties:
+  name:
+    type: string
+    minLength: 1
+    description: Assembly name used as a filename prefix throughout results/
+  species:
+    type: string
+    pattern: "^[a-z][a-z_]+$"
+    description: Ensembl species slug (e.g. homo_sapiens, gallus_gallus)
+  release:
+    type: integer
+    minimum: 1
+    description: Ensembl release number for the VEP cache
+  dna:
+    type: string
+    minLength: 1
+    description: Path to the reference FASTA (.fa.gz)
+  gtf:
+    type: string
+    minLength: 1
+    description: Path to the annotation GTF (.gtf.gz); must be GTF not GFF3
+  known_vcf:
+    type: string
+    minLength: 1
+    description: Path to a VCF of known variants for BQSR (.vcf.gz)
+  regions:
+    type: string
+    minLength: 1
+    description: Path to the BED4 file listing regions to genotype
+  organelles:
+    type: array
+    minItems: 0
+    items:
+      type: string
+    description: Organellar chromosome names (MT, Pt, …)
+  sex_ploidy:
+    type: object
+    minProperties: 1
+    additionalProperties:
+      type: object
+      minProperties: 1
+      additionalProperties:
+        type: integer
+        minimum: 0
+    description: Per-sex ploidy table for sex chromosomes
+required:
+  - name
+  - species
+  - release
+  - dna
+  - gtf
+  - known_vcf
+  - regions
+  - organelles
+additionalProperties: false
