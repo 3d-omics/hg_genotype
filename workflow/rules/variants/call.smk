@@ -2,7 +2,7 @@ include: "call_functions.smk"
 
 
 rule variants__call__haplotype_caller:
-    """Call variants for a single library and chromosome
+    """Call variants for a single sample and region
 
     Note: if ploidy is correct, run it, if not (e.g. females have no Y chr) produce
     a file genotyping an empty interval.

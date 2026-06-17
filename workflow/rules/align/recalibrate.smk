@@ -1,5 +1,5 @@
 rule align__recalibrate__baserecalibrator:
-    """Compute the recalibration table for a single library and chromosome"""
+    """Compute the recalibration table for a single sample"""
     input:
         bam=MARK_DUPLICATES / "{sample_id}.cram",
         crai=MARK_DUPLICATES / "{sample_id}.cram.crai",
@@ -19,7 +19,7 @@ rule align__recalibrate__baserecalibrator:
 
 
 rule align__recalibrate__applybqsr:
-    """Apply the recalibration table to a single library and chromosome"""
+    """Apply the recalibration table to a single sample"""
     input:
         bam=MARK_DUPLICATES / "{sample_id}.cram",
         ref=REFERENCE / f"{HOST_NAME}.fa.gz",

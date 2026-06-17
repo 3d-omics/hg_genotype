@@ -88,7 +88,7 @@ def generate_mock_interval(wildcards):
 
 
 def get_files_to_genotype(wildcards):
-    """Get files to genotype for a sample, library and chromosome"""
+    """Get files to genotype for a sample and region"""
     return [
         CALL / sample_id / f"{wildcards.region}.gvcf.gz"
         for sample_id in SAMPLES

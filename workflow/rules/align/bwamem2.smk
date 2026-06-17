@@ -26,7 +26,7 @@ rule align__bwamem2__index__all:
 
 
 rule align__bwamem2__map:
-    """Map one library to reference genome using bowtie2
+    """Map one library to reference genome using bwa-mem2
 
     Output SAM file is piped to samtools sort to generate a CRAM file.
     """
@@ -59,7 +59,7 @@ rule align__bwamem2__map:
 
 
 rule align__bwamem2__map__all:
-    """Collect the results of `bowtie2_map_one` for all libraries"""
+    """Collect the results of `align__bwamem2__map` for all libraries"""
     input:
         [
             MAP / f"{sample_id}.{library_id}.cram"
