@@ -16,8 +16,9 @@ rule align__reads:
     localrule: True
     shell:
         """
-        ln --symbolic $(readlink --canonicalize {input.forward_}) {output.forward_}
-        ln --symbolic $(readlink --canonicalize {input.reverse_}) {output.reverse_}
+        ( ln --symbolic $(readlink --canonicalize {input.forward_}) {output.forward_}
+          ln --symbolic $(readlink --canonicalize {input.reverse_}) {output.reverse_}
+        ) 2> {log}
         """
 
 
