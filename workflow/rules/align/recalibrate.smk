@@ -10,7 +10,7 @@ rule align__recalibrate__baserecalibrator:
     output:
         recal_table=RECALIBRATE / "{sample_id}.bsqr.txt",
     log:
-        RECALIBRATE / "{sample_id}.log",
+        RECALIBRATE / "{sample_id}.baserecalibrator.log",
     resources:
         mem_mb=8 * 1024,
         runtime=24 * 60,
@@ -28,7 +28,7 @@ rule align__recalibrate__applybqsr:
     output:
         bam=RECALIBRATE / "{sample_id}.cram",
     log:
-        RECALIBRATE / "{sample_id}.log",
+        RECALIBRATE / "{sample_id}.applybqsr.log",
     resources:
         mem_mb=8 * 1024,
         runtime=24 * 60,
