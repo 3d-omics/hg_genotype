@@ -6,13 +6,9 @@ rule align__bwamem2__index:
     input:
         reference=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
     output:
-        multiext(
-            str(INDEX / HOST_NAME), *[f".{ext}" for ext in BWAMEM2_INDEX_EXTENSIONS]
-        ),
+        multiext(str(INDEX / HOST_NAME), *BWAMEM2_INDEX_EXTENSIONS),
     log:
         INDEX / f"{HOST_NAME}.log",
-    benchmark:
-        INDEX / f"{HOST_NAME}.benchmark.tsv"
     cache: "omit-software"
     threads: 8
     resources:
@@ -24,7 +20,7 @@ rule align__bwamem2__index:
 
 rule align__bwamem2__index__all:
     input:
-        [INDEX / f"{HOST_NAME}.{extension}" for extension in BWAMEM2_INDEX_EXTENSIONS],
+        [INDEX / f"{HOST_NAME}{extension}" for extension in BWAMEM2_INDEX_EXTENSIONS],
 
 
 rule align__bwamem2__map:
@@ -39,10 +35,7 @@ rule align__bwamem2__map:
             READS / "{sample_id}.{library_id}_1.fq.gz",
             READS / "{sample_id}.{library_id}_2.fq.gz",
         ],
-        idx=multiext(
-            str(INDEX / f"{HOST_NAME}"),
-            *[f".{ext}" for ext in BWAMEM2_INDEX_EXTENSIONS],
-        ),
+        idx=multiext(str(INDEX / f"{HOST_NAME}"), *BWAMEM2_INDEX_EXTENSIONS),
     output:
         temp(MAP / "{sample_id}.{library_id}.cram"),
     log:
