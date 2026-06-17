@@ -13,7 +13,7 @@ rule variants__call__haplotype_caller:
         crai=RECALIBRATE / "{sample_id}.cram.crai",
         dict_=REFERENCE / f"{HOST_NAME}.dict",
     output:
-        gvcf_gz=CALL / "{sample_id}" / "{region}.gvcf.gz",
+        gvcf_gz=temp(CALL / "{sample_id}" / "{region}.gvcf.gz"),
     log:
         CALL / "{sample_id}" / "{region}.log",
     conda:
@@ -66,7 +66,7 @@ rule variants__call__combine_gvcfs:
         gvcfs=get_files_to_genotype,
         ref=REFERENCE / f"{HOST_NAME}.fa.gz",
     output:
-        gvcf=CALL / "{region}.vcf.gz",
+        gvcf=temp(CALL / "{region}.vcf.gz"),
     log:
         CALL / "{region}.log",
     resources:

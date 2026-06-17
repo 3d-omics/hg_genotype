@@ -4,7 +4,7 @@ rule variants__genotype__genotype_gvcfs:
         gvcf=CALL / "{region}.vcf.gz",
         ref=REFERENCE / f"{HOST_NAME}.fa.gz",
     output:
-        vcf=GENOTYPE / "{region}.vcf.gz",
+        vcf=temp(GENOTYPE / "{region}.vcf.gz"),
     log:
         GENOTYPE / "{region}.log",
     retries: 5

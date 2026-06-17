@@ -5,7 +5,7 @@ rule variants__filter__select_variants:
         tbi=GENOTYPE / "all.vcf.gz.tbi",
         ref=REFERENCE / f"{HOST_NAME}.fa.gz",
     output:
-        vcf=FILTER / "{variant_type}.raw.vcf.gz",
+        vcf=temp(FILTER / "{variant_type}.raw.vcf.gz"),
     log:
         FILTER / "{variant_type}.raw.log",
     params:
@@ -28,7 +28,7 @@ rule variants__filter__variant_filtration:
         # fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
         gzi=REFERENCE / f"{HOST_NAME}.fa.gz.gzi",
     output:
-        vcf=FILTER / "{variant_type}.filtered.vcf.gz",
+        vcf=temp(FILTER / "{variant_type}.filtered.vcf.gz"),
     log:
         FILTER / "{variant_type}.log",
     params:

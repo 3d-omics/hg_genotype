@@ -31,7 +31,9 @@ rule swaps__somalier__extract:
         reference=REFERENCE / f"{HOST_NAME}.fa.gz",
         fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
     output:
-        [SOMALIER / "extracted" / f"{sample_id}.somalier" for sample_id in SAMPLES],
+        temp(
+            [SOMALIER / "extracted" / f"{sample_id}.somalier" for sample_id in SAMPLES]
+        ),
     log:
         SOMALIER / "extracted.log",
     conda:

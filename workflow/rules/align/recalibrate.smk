@@ -8,7 +8,7 @@ rule align__recalibrate__baserecalibrator:
         known=REFERENCE / f"{HOST_NAME}.vcf.gz",
         tbi=REFERENCE / f"{HOST_NAME}.vcf.gz.tbi",
     output:
-        recal_table=RECALIBRATE / "{sample_id}.bsqr.txt",
+        recal_table=temp(RECALIBRATE / "{sample_id}.bsqr.txt"),
     log:
         RECALIBRATE / "{sample_id}.baserecalibrator.log",
     resources:

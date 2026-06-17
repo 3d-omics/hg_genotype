@@ -5,7 +5,7 @@ rule align__bcftools__call:
         fasta=REFERENCE / f"{HOST_NAME}.fa.gz",
         fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
     output:
-        bcf=BCFTOOLS / "{region}.bcf",
+        bcf=temp(BCFTOOLS / "{region}.bcf"),
     log:
         BCFTOOLS / "{region}.log",
     conda:

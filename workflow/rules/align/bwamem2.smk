@@ -29,6 +29,8 @@ rule align__bwamem2__map:
     """Map one library to reference genome using bwa-mem2
 
     Output SAM file is piped to samtools sort to generate a CRAM file.
+    NOTE: Do not update. samtools will output CRAM 3.1 and gatk/picard cannot
+    read it 2025-11-07
     """
     input:
         reads=[
@@ -40,7 +42,7 @@ rule align__bwamem2__map:
             *[f".{ext}" for ext in BWAMEM2_INDEX_EXTENSIONS],
         ),
     output:
-        MAP / "{sample_id}.{library_id}.cram",
+        temp(MAP / "{sample_id}.{library_id}.cram"),
     log:
         MAP / "{sample_id}.{library_id}.log",
     params:
@@ -54,8 +56,6 @@ rule align__bwamem2__map:
         runtime=24 * 60,
     wrapper:
         "v5.2.1/bio/bwa-mem2/mem"
-        # Do not update. samtools will output CRAM 3.1 and gatk/picard cannot
-        # read it 2025-11-07
 
 
 rule align__bwamem2__map__all:
