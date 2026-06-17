@@ -27,7 +27,7 @@ rule swaps__somalier__find_sites:
 rule swaps__somalier__extract:
     input:
         sites=SOMALIER / "sites.vcf.gz",
-        variants=VARIANTS / "filter" / "all.filtered.vcf.gz",
+        variants=FILTE / "all.filtered.vcf.gz",
         reference=REFERENCE / f"{HOST_NAME}.fa.gz",
         fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
     output:
