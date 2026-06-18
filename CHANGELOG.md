@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.4.0](https://github.com/3d-omics/hg_genotype/compare/v1.3.0...v1.4.0) (2026-06-18)
+
+
+### Features
+
+* add default resources ([7d7b96f](https://github.com/3d-omics/hg_genotype/commit/7d7b96f572f50e1d8f664dffe22895c75307a8a7))
+* add sample and feature validators ([e74b12d](https://github.com/3d-omics/hg_genotype/commit/e74b12d8b54fa51b80659014e74b0c239ceb7e67))
+* add wildcard constraints ([ba39a9a](https://github.com/3d-omics/hg_genotype/commit/ba39a9a6611bb52e25611ede243110ff56591fc5))
+* handle haploids, polyploids, pooled samples, multiple plastids, assemblies with missing sex chromosomes, housekeeping ([8ce284a](https://github.com/3d-omics/hg_genotype/commit/8ce284a013b6c8f7a81f97241339ba1f4635c762))
+* handle haploids, pooled samples, housekeeping ([6c9dd75](https://github.com/3d-omics/hg_genotype/commit/6c9dd75fb1c3de78f00159c39143318ae414d2e9))
+* make more temp files ([a9cc407](https://github.com/3d-omics/hg_genotype/commit/a9cc407c0ca292da7addab098b9b46620dc20aba))
+
+
+### Bug Fixes
+
+* log to file ([1676130](https://github.com/3d-omics/hg_genotype/commit/1676130b9cacb039e58f9c395631c20a017ae061))
+* log to the correct file ([0176022](https://github.com/3d-omics/hg_genotype/commit/01760225eb02c971dcbd7e2a9d0de7b9f947e0ce))
+* log to the correct file ([7025121](https://github.com/3d-omics/hg_genotype/commit/70251219afa65242e64e8ff6f75a700f45a714df))
+* move stderr of vep to log instead of a file in the root folder ([23d9129](https://github.com/3d-omics/hg_genotype/commit/23d91299aebf599e1348fdf20468132b6e8f25c5))
+* remove mention to base environment ([68940b0](https://github.com/3d-omics/hg_genotype/commit/68940b01ec424899bcb541367308cd077782a3d3))
+* remove posteriors folder ([ebe663a](https://github.com/3d-omics/hg_genotype/commit/ebe663ab338bdf5b7a9e93409f4cff3a1e849d2b))
+
+
+### Performance Improvements
+
+* add benchmark directives to heavy rules ([24ed5b5](https://github.com/3d-omics/hg_genotype/commit/24ed5b5764e6fd454c67b756684b190fb5209657))
+* add default resources ([5444b2d](https://github.com/3d-omics/hg_genotype/commit/5444b2d8a2a92dfec929ffbabcab1acafa294455))
+* cache vep downloads ([9f2d423](https://github.com/3d-omics/hg_genotype/commit/9f2d423745303b5cd67e171efd62c9b45f615b06))
+
 ## [1.3.0](https://github.com/3d-omics/hg_genotype/compare/v1.2.0...v1.3.0) (2025-11-07)
 
 
