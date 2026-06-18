@@ -2,17 +2,16 @@ rule variants__genotype__genotype_gvcfs:
     """Genotype a single region"""
     input:
         gvcf=CALL / "{region}.vcf.gz",
-        ref=REFERENCE / f"{HOST_NAME}.fa.gz",
-        # dict_=REFERENCE / f"{HOST_NAME}.dict",
-        # fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
-        # gzi=REFERENCE / f"{HOST_NAME}.fa.gz.gzi",
+        ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
     output:
-        vcf=GENOTYPE / "{region}.vcf.gz",
-        # tbi=GENOTYPE / "{region}.vcf.gz.tbi",
+        vcf=temp(GENOTYPE / "{region}.vcf.gz"),
     log:
         GENOTYPE / "{region}.log",
+    benchmark:
+        GENOTYPE / "{region}.benchmark.tsv"
+    retries: 5
     resources:
-        mem_mb=8 * 1024,
+        mem_mb=double_ram(8 * 1024),
         runtime=7 * 24 * 60,
     wrapper:
         "v7.9.1/bio/gatk/genotypegvcfs"
@@ -32,9 +31,10 @@ rule variants__genotype__merge_vcfs:
         calls=[GENOTYPE / f"{region}.vcf.gz" for region in REGIONS],
     output:
         vcf_gz=GENOTYPE / "all.vcf.gz",
-        # tbi=GENOTYPE / "all.vcf.gz.tbi",
     log:
         GENOTYPE / "all.log",
+    params:
+        extra="--allow-overlaps",
     wrapper:
         "v7.9.1/bio/bcftools/concat"
 

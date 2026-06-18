@@ -1,9 +1,4 @@
-# Main entrypoint of the workflow.
-# Please follow the best practices:
-# https://snakemake.readthedocs.io/en/stable/snakefiles/best_practices.html,
-# in particular regarding the standardized folder structure mentioned there.
-
-from snakemake.utils import min_version
+from snakemake.utils import min_version, validate
 
 min_version("8.0.0")
 
@@ -11,35 +6,35 @@ import pandas as pd
 import yaml
 
 # Import configuration files
-params = yaml.load(open("config/params.yml", "r"), Loader=yaml.SafeLoader)
-features = yaml.load(open("config/features.yml", "r"), Loader=yaml.SafeLoader)
+with open("config/params.yml") as f:
+    params = yaml.load(f, Loader=yaml.SafeLoader)
+with open("config/features.yml") as f:
+    features = yaml.load(f, Loader=yaml.SafeLoader)
 samples = pd.read_table("config/samples.tsv", comment="#", dtype="str")
+
+validate(features, schema="schemas/features.schema.yaml")
+validate(samples, schema="schemas/samples.schema.yaml")
 
 
 # Generate useful variables
+HOST_NAME = features["name"]
 SAMPLES = samples["sample_id"].drop_duplicates().values.tolist()
 SAMPLE_LIBRARY = samples[["sample_id", "library_id"]].values.tolist()
-
-HOST_NAME = features["reference"]["name"]
-
-BAM_REPORTS = ["stats.tsv"]  # + ["flagstats.txt", "idxstats.tsv"]
-PICARD_REPORTS = BAM_REPORTS + ["metrics.tsv"]
-
 REGIONS_BED4 = pd.read_table(
-    features["reference"]["regions"],
+    features["regions"],
     dtype="str",
     comment="#",
     names=["chrom", "chromStart", "chromEnd", "name"],
 )
 REGIONS = REGIONS_BED4.name
 
-NON_AUTOSOMES = set(
-    features["reference"]["male_chromosomes"]
-    + features["reference"]["female_chromosomes"]
-    + features["reference"]["mitochondria"]
-)
 
-DIPLOID_REGIONS = REGIONS_BED4.query("chrom not in @NON_AUTOSOMES").name
+wildcard_constraints:
+    sample_id="[^/]+",
+    library_id="[^/]+",
+    region="[^/]+",
+    sample="[^/]+",
+    variant_type="SNP|INDEL",
 
 
 module helpers:
@@ -52,7 +47,6 @@ module helpers:
 use rule * from helpers exclude samtools__stats__bam as helpers__*
 
 
-# Import subworkflows
 include: "rules/folders.smk"
 include: "rules/helpers.smk"
 include: "rules/reference.smk"
@@ -73,6 +67,7 @@ rule all:
 
 
 rule cache:
+    """Generate only the cacheable elements: recompressed inputs and BWA-MEM2 indexes"""
     input:
         rules.reference__recompress__all.input,
         rules.align__bwamem2__index__all.input,

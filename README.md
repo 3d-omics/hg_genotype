@@ -14,7 +14,7 @@ A Snakemake workflow for  Short Variant Discovery in Host Genomes
 
 - Run it with your own data:
   - Edit `config/samples.tsv` and add your samples and where are they located.
-  - Edit `config/features.tsv` with information regarding the reference you are using.
+  - Edit `config/features.yml` with information regarding the reference you are using.
   - Run the pipeline: `snakemake --use-conda --profile profile/default --jobs 8 all`.
   - If you are in a cluster with slurm, add `--executor slurm`.
 
@@ -24,7 +24,7 @@ A Snakemake workflow for  Short Variant Discovery in Host Genomes
 - Mapping with `bwa-mem2`
 - SAM/BAM/CRAM processing with `samtools` and `GATK`.
 - SNP calling with `GATK4`.
-- SNP annotation with `SNPEff` and `VEP`
+- SNP annotation with `VEP`
 - Sample swap detection with `somalier`.
 - Reporting with `MultiQC`.
 
@@ -38,7 +38,6 @@ A Snakemake workflow for  Short Variant Discovery in Host Genomes
 - [`bwa-mem2`](https://github.com/bwa-mem2/bwa-mem2)
 - [`samtools`](https://github.com/samtools/samtools)
 - [`GATK`](https://github.com/broadinstitute/gatk)
-- [`SNPEff`](https://github.com/pcingola/SnpEff)
 - [`VEP`](https://github.com/Ensembl/ensembl-vep)
 - [`somalier`](https://github.com/brentp/somalier)
 - [`MultiQC`](https://github.com/MultiQC/MultiQC)

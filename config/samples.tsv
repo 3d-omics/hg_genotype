@@ -1,6 +1,8 @@
-sample_id	library_id	forward_filename	reverse_filename	sex
-sample1	lib1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	female
-sample1	lib2	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	female
-sample2	lib1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz	male
-#sample3	lib1	resources/reads/sample3_1.fq.gz	resources/reads/sample3_2.fq.gz	male
-#sample4	lib1	resources/reads/sample4_1.fq.gz	resources/reads/sample4_2.fq.gz	female
+sample_id	library_id	forward_filename	reverse_filename	sex	ploidy	pool_size
+sample1	lib1	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	female	2	1
+sample1	lib2	resources/reads/sample1_1.fq.gz	resources/reads/sample1_2.fq.gz	female	2	1
+sample2	lib1	resources/reads/sample2_1.fq.gz	resources/reads/sample2_2.fq.gz	male	2	1
+#sample3	lib1	resources/reads/sample3_1.fq.gz	resources/reads/sample3_2.fq.gz	male	2	1
+#sample4	lib1	resources/reads/sample4_1.fq.gz	resources/reads/sample4_2.fq.gz	female	2	1
+#sample5	lib1	resources/reads/sample5_1.fq.gz	resources/reads/sample5_2.fq.gz	male	1	1
+#sample6	lib1	resources/reads/sample6_1.fq.gz	resources/reads/sample6_2.fq.gz	female	2	10

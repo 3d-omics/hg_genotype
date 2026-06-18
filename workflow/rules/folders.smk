@@ -15,7 +15,6 @@ VARIANTS = RESULTS / "variants"
 CALL = VARIANTS / "call"
 GENOTYPE = VARIANTS / "genotype"
 FILTER = VARIANTS / "filter"
-POSTERIORS = VARIANTS / "posteriors"
 
 ANNOTATE = RESULTS / "annotate"
 VEP = ANNOTATE / "vep"

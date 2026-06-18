@@ -2,20 +2,23 @@ rule helpers__samtools__stats_cram:
     input:
         cram="{prefix}.cram",
         crai="{prefix}.cram.crai",
-        reference=REFERENCE / f"{HOST_NAME}.fa.gz",
+        reference=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
         fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
         gzi=REFERENCE / f"{HOST_NAME}.fa.gz.gzi",
     output:
         "{prefix}.stats",
     log:
-        "{prefix}.stats",
+        "{prefix}.stats.log",
     conda:
         "../../environments/samtools.yml"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     shell:
         """
         samtools stats \
             --reference {input.reference} \
             {input.cram} \
-        > {output} \
-        2> {log}
+            >{output} \
+            2>{log}
         """

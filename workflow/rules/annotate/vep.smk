@@ -6,17 +6,44 @@ rule annotate__vep__tmp_vcf:
         temp(VEP / "{sample}.bcf"),
     log:
         VEP / "{sample}.bcf.log",
+    threads: 2
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         extra=lambda w: f"--samples {w.sample} --trim-alt-alleles",
-    threads: 2
     wrapper:
         "v7.9.1/bio/bcftools/view"
+
+
+rule annotate__vep__download_cache:
+    """Download the VEP cache for the reference species and build"""
+    output:
+        directory(VEP / "cache"),
+    log:
+        VEP / "cache.log",
+    cache: "omit-software"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
+    params:
+        species=features["species"],
+        release=features["release"],
+        build=HOST_NAME,
+    wrapper:
+        "v7.9.1/bio/vep/cache"
 
 
 rule annotate__vep__download_plugins:
     """Download the VEP plugins"""
     output:
         directory(VEP / "plugins"),
+    log:
+        VEP / "plugins.log",
+    cache: "omit-software"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         release=100,
     wrapper:
@@ -27,21 +54,24 @@ rule annotate__vep:
     """Annotate the VCF file with VEP"""
     input:
         calls=VEP / "{sample}.bcf",
-        fasta=REFERENCE / f"{HOST_NAME}.fa.gz",
-        gff=REFERENCE / f"{HOST_NAME}.gff.gz",
-        gff_tbi=REFERENCE / f"{HOST_NAME}.gff.gz.tbi",
+        fasta=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
+        gtf=ancient(REFERENCE / f"{HOST_NAME}.gtf.gz"),
+        gtf_tbi=REFERENCE / f"{HOST_NAME}.gtf.gz.tbi",
+        cache=VEP / "cache",
         plugins=VEP / "plugins",
     output:
         calls=VEP / "{sample}.vcf.gz",
         stats=VEP / "{sample}.vep.html",
     log:
         VEP / "{sample}.log",
-    params:
-        extra="--buffer_size 500",
-        plugins=[],
+    benchmark:
+        VEP / "{sample}.benchmark.tsv"
     resources:
         mem_mb=16 * 1024,
         runtime=8 * 60,
+    params:
+        extra="--buffer_size 500 --everything --warning_file /dev/stderr",
+        plugins=[],
     wrapper:
         "v7.9.1/bio/vep/annotate"
 

@@ -2,28 +2,35 @@ include: "call_functions.smk"
 
 
 rule variants__call__haplotype_caller:
-    """Call variants for a single library and chromosome"""
+    """Call variants for a single sample and region
+
+    Note: if ploidy is correct, run it, if not (e.g. females have no Y chr) produce
+    a file genotyping an empty interval.
+    """
     input:
-        reference=REFERENCE / f"{HOST_NAME}.fa.gz",
+        reference=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
         cram=RECALIBRATE / "{sample_id}.cram",
         crai=RECALIBRATE / "{sample_id}.cram.crai",
         dict_=REFERENCE / f"{HOST_NAME}.dict",
     output:
-        gvcf_gz=CALL / "{sample_id}" / "{region}.gvcf.gz",
+        gvcf_gz=temp(CALL / "{sample_id}" / "{region}.gvcf.gz"),
     log:
         CALL / "{sample_id}" / "{region}.log",
+    benchmark:
+        CALL / "{sample_id}" / "{region}.benchmark.tsv"
+    retries: 5
     conda:
         "../../environments/gatk4.yml"
+    resources:
+        mem_mb=double_ram(8 * 1024),
+        runtime=24 * 60,
     params:
         ploidy=get_ploidy_of_sample_and_chromosome,
         interval=get_interval_for_haplotype_caller,
         mock_interval=generate_mock_interval,
-    resources:
-        mem_mb=8 * 1024,
-        runtime=24 * 60,
     shell:
         """
-        if [[ {params.ploidy} -eq 0 ]] ; then
+        if [[ {params.ploidy} -eq 0 ]]; then
             gatk HaplotypeCaller \
                 --emit-ref-confidence GVCF \
                 --input {input.cram} \
@@ -31,7 +38,7 @@ rule variants__call__haplotype_caller:
                 --output {output.gvcf_gz} \
                 --reference {input.reference} \
                 --sample-ploidy 1 \
-            2> {log} 1>&2
+                2>{log} 1>&2
         else
             gatk HaplotypeCaller \
                 --emit-ref-confidence GVCF \
@@ -40,7 +47,7 @@ rule variants__call__haplotype_caller:
                 --output {output.gvcf_gz} \
                 --reference {input.reference} \
                 --sample-ploidy {params.ploidy} \
-            2> {log} 1>&2
+                2>{log} 1>&2
         fi
         """
 
@@ -59,14 +66,13 @@ rule variants__call__combine_gvcfs:
     """Combine gVCFs from multiple samples and one region"""
     input:
         gvcfs=get_files_to_genotype,
-        ref=REFERENCE / f"{HOST_NAME}.fa.gz",
-        # dict_=REFERENCE / f"{HOST_NAME}.dict",
-        # fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
-        # gzi=REFERENCE / f"{HOST_NAME}.fa.gz.gzi",
+        ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
     output:
-        gvcf=CALL / "{region}.vcf.gz",
+        gvcf=temp(CALL / "{region}.vcf.gz"),
     log:
         CALL / "{region}.log",
+    benchmark:
+        CALL / "{region}.benchmark.tsv"
     resources:
         mem_mb=16 * 1024,
         runtime=24 * 60,

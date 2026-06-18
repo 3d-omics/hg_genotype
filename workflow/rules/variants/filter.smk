@@ -1,13 +1,16 @@
 rule variants__filter__select_variants:
-    """Select only snp/indes from VCF"""
+    """Select only SNPs/INDELs from VCF"""
     input:
         vcf=GENOTYPE / "all.vcf.gz",
         tbi=GENOTYPE / "all.vcf.gz.tbi",
-        ref=REFERENCE / f"{HOST_NAME}.fa.gz",
+        ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
     output:
-        vcf=FILTER / "{variant_type}.raw.vcf.gz",
+        vcf=temp(FILTER / "{variant_type}.raw.vcf.gz"),
     log:
         FILTER / "{variant_type}.raw.log",
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         extra=lambda w: f"--select-type-to-include {w.variant_type}",
     wrapper:
@@ -20,17 +23,20 @@ rule variants__filter__select_variants__all:
 
 
 rule variants__filter__variant_filtration:
-    """Filter variants for a single chromosome"""
+    """Filter variants for a single variant type"""
     input:
         vcf=FILTER / "{variant_type}.raw.vcf.gz",
-        ref=REFERENCE / f"{HOST_NAME}.fa.gz",
+        ref=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
         dict_=REFERENCE / f"{HOST_NAME}.dict",
         # fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
         gzi=REFERENCE / f"{HOST_NAME}.fa.gz.gzi",
     output:
-        vcf=FILTER / "{variant_type}.filtered.vcf.gz",
+        vcf=temp(FILTER / "{variant_type}.filtered.vcf.gz"),
     log:
         FILTER / "{variant_type}.log",
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     params:
         filters=lambda w: {w.variant_type: params["variants"]["filter"][w.variant_type]},
     wrapper:
@@ -56,13 +62,16 @@ rule variants__filter__merge_vcfs:
         FILTER / "all.filtered.log",
     conda:
         "../../environments/gatk4.yml"
+    resources:
+        mem_mb=1 * 1024,
+        runtime=1 * 60,
     shell:
         """
         gatk MergeVcfs \
             --INPUT {input.snps} \
             --INPUT {input.indels} \
             --OUTPUT {output} \
-        2> {log} 1>&2
+            2>{log} 1>&2
         """
 
 
