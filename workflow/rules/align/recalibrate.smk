@@ -44,3 +44,5 @@ rule align__recalibrate__all:
     """Compute recalibration for all samples"""
     input:
         [RECALIBRATE / f"{sample_id}.cram" for sample_id in SAMPLES],
+        [RECALIBRATE / f"{sample_id}.cram.crai" for sample_id in SAMPLES],
+        [RECALIBRATE / f"{sample_id}.stats" for sample_id in SAMPLES],
