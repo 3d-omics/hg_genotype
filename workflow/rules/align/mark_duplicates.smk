@@ -31,3 +31,5 @@ rule align__mark_duplicates__all:
     """Mark duplicates for all samples"""
     input:
         [MARK_DUPLICATES / f"{sample_id}.cram" for sample_id in SAMPLES],
+        [MARK_DUPLICATES / f"{sample_id}.cram.crai" for sample_id in SAMPLE_LIBRARY],
+        [MARK_DUPLICATES / f"{sample_id}.stats" for sample_id in SAMPLES],
