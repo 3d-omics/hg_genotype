@@ -68,3 +68,11 @@ rule align__bwamem2__all:
     input:
         rules.align__bwamem2__index__all.input,
         rules.align__bwamem2__map__all.input,
+        [
+            MAP / f"{sample_id}.{library_id}.cram.crai"
+            for sample_id, library_id in SAMPLE_LIBRARY
+        ],
+        [
+            MAP / f"{sample_id}.{library_id}.stats"
+            for sample_id, library_id in SAMPLE_LIBRARY
+        ],
