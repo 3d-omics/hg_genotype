@@ -33,6 +33,7 @@ wildcard_constraints:
     sample_id="[^/]+",
     library_id="[^/]+",
     region="[^/]+",
+    window="[^/]+",
     sample="[^/]+",
     variant_type="SNP|INDEL",
 

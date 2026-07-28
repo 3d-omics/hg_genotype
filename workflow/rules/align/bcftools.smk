@@ -1,3 +1,6 @@
+include: "bcftools_functions.smk"
+
+
 rule align__bcftools__call:
     input:
         crams=[MARK_DUPLICATES / f"{sample_id}.cram" for sample_id in SAMPLES],
@@ -5,20 +8,23 @@ rule align__bcftools__call:
         fasta=ancient(REFERENCE / f"{HOST_NAME}.fa.gz"),
         fai=REFERENCE / f"{HOST_NAME}.fa.gz.fai",
     output:
-        bcf=temp(BCFTOOLS / "{region}.bcf"),
+        bcf=temp(BCFTOOLS / "{window}.bcf"),
     log:
-        BCFTOOLS / "{region}.log",
+        BCFTOOLS / "{window}.log",
     conda:
         "../../environments/bcftools.yml"
     resources:
-        mem_mb=8 * 1024,
-        runtime=24 * 60,
+        mem_mb=2 * 1024,
+        runtime=2 * 60,
+    params:
+        padded=get_bcftools_window_padded,
+        core=get_bcftools_window_core,
     shell:
         """
         (
             bcftools mpileup \
                 --fasta-ref {input.fasta} \
-                --region {wildcards.region} \
+                --region {params.padded} \
                 --output-type u \
                 {input.crams} \
                 | bcftools call \
@@ -27,6 +33,8 @@ rule align__bcftools__call:
                     --output-type u \
                 | bcftools filter \
                     --include 'QUAL > 30' \
+                    --targets {params.core} \
+                    --targets-overlap 0 \
                     --output-type b \
                     --output {output.bcf}
         ) 2>{log}
@@ -35,7 +43,7 @@ rule align__bcftools__call:
 
 rule align__bcftools__concat:
     input:
-        [BCFTOOLS / f"{region}.bcf" for region in REGIONS],
+        [BCFTOOLS / f"{window}.bcf" for window in BCFTOOLS_WINDOW_NAMES],
     output:
         BCFTOOLS / "bcftools.vcf.gz",
     log:
